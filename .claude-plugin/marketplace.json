@@ -1,0 +1,15 @@
+{
+  "name": "promptos",
+  "description": "Stop hoarding AI links. Start owning them. Turn your saved-links flood into an organized, indexed, cross-referenced knowledge base.",
+  "owner": {
+    "name": "Qbyx",
+    "url": "https://github.com/QbyxStudio"
+  },
+  "plugins": [
+    {
+      "name": "promptos-curator",
+      "source": "./",
+      "description": "Materials inbox to organized knowledge base: research and verify every link, deep-break-down dense videos with timestamps and screenshots, file everything into topical categories with searchable indexes."
+    }
+  ]
+}
