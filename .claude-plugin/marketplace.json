@@ -1,6 +1,6 @@
 {
   "name": "promptos",
-  "description": "Stop hoarding AI links. Start owning them. Turn your saved-links flood into an organized, indexed, cross-referenced knowledge base.",
+  "description": "Own every link you save. A Claude/ChatGPT skill that turns your saved links into an organized, indexed, cross-referenced knowledge base.",
   "owner": {
     "name": "Qbyx",
     "url": "https://github.com/QbyxStudio"

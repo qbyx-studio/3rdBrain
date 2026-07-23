@@ -10,7 +10,7 @@
 
 > 🎬 *Launch trailer coming soon, made with [`/gloat`](https://github.com/QbyxStudio/gloat), of course.*
 
-`/promptos-curator` is a Claude skill that turns the stream of AI links you save,
+`/promptos-curator` is a Claude/ChatGPT skill that turns the stream of links you save,
 YouTube videos, shorts, GitHub repos, reels, articles, notes, into a
 **beautifully organized, deeply cross-referenced, searchable knowledge base**.
 Send links from your phone, say "process", and every tool gets its own page with
@@ -18,8 +18,8 @@ verified links, use-case tables, and its place in a living index. Dense tutorial
 videos get mined fully: transcripts, screenshots, step-by-steps, and timestamped
 deep links for every single demoed element.
 
-Your saved links become your personal AI tool library. The library answers one
-question extremely well: **"what do I use for this?"**
+Your saved links become your personal tool library and knowledge base. It answers
+one question extremely well: **"what do I use for this?"**
 
 ## Why I built this
 
