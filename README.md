@@ -2,13 +2,9 @@
 
 **Own every link you save.**
 
-<!-- ═══════════════════════════════════════════════════════════════════
-     GLOAT TRAILER, placeholder. Generated with /gloat, dropped in later:
-     [![PromptOS launch video preview, click to watch with sound](docs/assets/preview.gif)](https://qbyxstudio.github.io/PromptOS/)
-     > **▶ [Watch the full launch video (with sound)](https://qbyxstudio.github.io/PromptOS/)**
-     ═══════════════════════════════════════════════════════════════════ -->
+[![PromptOS launch video preview, click to watch with sound](docs/assets/preview.gif)](https://qbyxstudio.github.io/PromptOS/)
 
-> 🎬 *Launch trailer coming soon, made with [`/gloat`](https://github.com/QbyxStudio/gloat), of course.*
+> **▶ [Watch the full launch video (with sound)](https://qbyxstudio.github.io/PromptOS/)**, made with [`/gloat`](https://github.com/QbyxStudio/gloat), of course.
 
 `/promptos-curator` is a Claude/ChatGPT skill that turns the stream of links you save,
 YouTube videos, shorts, GitHub repos, reels, articles, notes, into a
