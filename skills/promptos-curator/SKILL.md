@@ -63,8 +63,11 @@ For platform-specific setup steps, read `references/platform-setup.md`.
 
 For each queued item:
 
-1. **Identify.** Fetch the title/metadata (web fetch the URL; for YouTube get the real title,
-   for GitHub read the repo description). Never file from the URL alone.
+1. **Identify AND mine.** Fetch the title/metadata, and for ANY video (shorts included)
+   pull the transcript (auto-subtitles) and read it before filing. A title is clickbait,
+   never content; filing from a title alone produces link-dumps and wrong categories
+   (a "money printer" short turned out to be a video-generation repo). The transcript of
+   a short costs seconds and yields the tool names, steps and claims the page exists for.
 2. **Research.** Find the canonical link for whatever the item points at (the actual repo,
    product page, docs). **Only include links you verified exist.** If a video mentions a tool
    with no link, search for it; if you cannot confidently identify it, the page says
