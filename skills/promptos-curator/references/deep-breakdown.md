@@ -1,5 +1,9 @@
 # Deep Breakdown Protocol (Depth L2/L3)
 
+Scope note: transcript mining alone (subtitles, seconds of work) is NOT this protocol;
+it is mandatory intake for every video at every depth level. This file is the FULL
+treatment: downloads, frames, per-element pages.
+
 Read this when a material earns the deep treatment: long/dense workflow content
 (tutorial videos, multi-demo streams, long articles with many sub-procedures), or the
 user explicitly asks to "break it down".

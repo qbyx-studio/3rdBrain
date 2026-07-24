@@ -69,9 +69,12 @@ For each queued item:
    (a "money printer" short turned out to be a video-generation repo). The transcript of
    a short costs seconds and yields the tool names, steps and claims the page exists for.
 2. **Research.** Find the canonical link for whatever the item points at (the actual repo,
-   product page, docs). **Only include links you verified exist.** If a video mentions a tool
-   with no link, search for it; if you cannot confidently identify it, the page says
-   "watch for details"; a confident wrong link is worse than an honest gap.
+   product page, docs). **Only include links you verified exist.** The mined content
+   (transcript/text) names the tools; search from those names, never from the title.
+   "Watch for details" is a FAILURE STATE, permitted only after mining was attempted and
+   the content itself was unobtainable; it is never a substitute for reading the source.
+   A confident wrong link is worse than an honest gap; an honest gap is worse than
+   doing the five-second transcript pull that removes it.
 3. **Dedupe / supersede check.** If the base already covers it, update the existing page
    (append the new source, refresh facts) instead of creating a near-duplicate.
 4. **Classify** (section 3) and **choose depth** (section 2).
@@ -90,7 +93,9 @@ Evaluate each material and pick the lowest level that captures ALL of its value.
 denser materials MUST go deeper; a 30-minute demo crushed into one summary page loses
 exactly the details the user saved it for.
 
-- **L0; single subject** (a repo, one tool, a short about one thing): one page.
+- **L0; single subject** (a repo, one tool, a short about one thing): one page,
+  built from the mined content. Content mining (reading the transcript/text) is NOT the
+  deep treatment; it is the floor at every level, L0 included.
 - **L1; listicle** (a "5 tools" video/article): one page **per item**; never one page for
   the list. Each page carries the shared source link. Dedupe items already in the base.
 - **L2; workflow material** (long video/tutorial demoing multiple use cases; user says
@@ -105,10 +110,11 @@ exactly the details the user saved it for.
   workflow page gets "**Tool page:** …", tool page gets "**See it used:** …".
 
 Escalate when: material length/density is high, the user flags it, or one page would need
-more than ~3 H2 sections to cover distinct things. Deep passes cost meaningfully more
-(download, transcript, frames); when the user did not explicitly ask, note the option
-("this one is dense; want the deep breakdown?") rather than silently going shallow OR
-silently burning the tokens.
+more than ~3 H2 sections to cover distinct things. What costs real money is the FULL deep
+pass (video download, frame extraction, per-element pages); when the user did not
+explicitly ask, note the option ("this one is dense; want the deep breakdown?") rather
+than silently going shallow OR silently burning the tokens. Subtitle-only transcript
+mining costs seconds and is never skipped on cost grounds.
 
 ## 3. Classification; no lazy grouping
 
@@ -167,6 +173,11 @@ and the user reasonably concluded it didn't exist):
 
 ## 6. Quality bar & verification
 
+- **The page must beat the click.** The test of every page: a reader learns what is
+  inside the source (the tool names, the steps, the numbers, the verdict) WITHOUT
+  opening it. A page that only restates the title plus a link is a link-dump, the
+  exact thing this pipeline exists to kill. "No wrong claims" is necessary and
+  insufficient; the bar is "the true claims are present".
 - **Every claim is auditable.** Facts from a video carry timestamps; facts from the web
   carry links; screenshots come from the actual source. The user must be able to verify
   any claim in under 30 seconds by clicking the link right next to it.
@@ -190,6 +201,11 @@ and the user reasonably concluded it didn't exist):
 - Conflating a tool with its underlying engine/model; label the relationship.
 - Splitting or paraphrasing an atomic prompt file.
 - Un-verified links or invented specifics; guessing which tool a vague title refers to.
+- Filing videos from their titles: a batch of shorts once shipped as title-plus-link pages
+  ("watch for details") when five-second transcript pulls would have named every tool;
+  one page even landed in the wrong category because the title hid what the thing was.
+- Treating the honesty fallback ("watch for details") as an acceptable terminal state
+  instead of a signal to mine harder.
 - Deleting (or offering to delete) user content yourself instead of user-triggered cleanup.
 - Processing silently: no confirmations to submitters, no cleanup reminder, no failure
   alerts on scheduled runs. Every automated run must be observable from the user's phone.
