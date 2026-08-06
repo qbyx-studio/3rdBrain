@@ -13,6 +13,7 @@ substitute the target platform's equivalents (plain links / callouts) when elsew
 6. Master Tool Index page
 7. Type labels
 8. Facet hub page
+9. Gold-standard mined page (the full shape; the bar)
 
 ---
 
@@ -215,3 +216,89 @@ On each member page, near the bottom:
 Image · Skill · Prompt · Agent/Automation · MCP · Voice/Audio. A page has ONE topical category
 but as many facets as truly apply. Register all facet hubs under a top-level **"Browse by facet"**
 group in the table of contents.
+
+## 9. Gold-standard mined page (the full shape; the bar)
+
+This is the shape a TRUE-mined workflow/technique/demo page must hit: every artifact verbatim
+at its timestamp, the reusable principle distilled, screenshots embedded. Copy it, fill the
+blanks, delete what doesn't apply. (Outer fence is 4 backticks so the inner ``` display literally.)
+
+````markdown
+---
+description: <one line — what it is + its single sharpest edge>
+---
+
+# <Title>
+
+> <📝 / 🧩 / 📦 / ⚙️ / 🤖 / ℹ️> **<Type>** (by <Creator>) — <one-line hook>
+
+**Use it when:**
+
+| You want to… | This delivers |
+| --- | --- |
+| <concrete job-to-be-done> | <what it concretely gives> |
+| <second job (max 3 rows)> | <…> |
+
+**Concise summary:**
+
+* <the claim + its proof: numbers, who validated it, the result>
+* <the REAL insight — e.g. "the power isn't the wording, it's the 3-part structure">
+* <where it comes from / why it works>
+
+## The <N>-part structure (copy this shape)
+
+1. **<Part 1 name>** — <what it is> (his: "<short verbatim example>")
+2. **<Part 2 name>** — <what it is>
+3. **<Part 3 name>** — <what it is / the stopping condition>
+
+{% prompt description="<DISTILLED REUSABLE META-PROMPT — the thing you paste for your OWN goal>" %}
+```markdown
+<The distilled, reusable template built from the principle. Clearly the reusable shape —
+separate from, never a replacement for, the verbatim examples below.>
+```
+{% endprompt %}
+
+#### <Example 1 name> (<m:ss>)
+
+<figure><img src="../.gitbook/assets/<topic>/<frame-1>.jpg" alt=""><figcaption></figcaption></figure>
+
+{% prompt description="Verbatim from video (<m:ss>)" %}
+```markdown
+<The EXACT prompt / command / config shown or spoken, word for word. Read it off the frame
+when the auto-caption garbles it. Do not paraphrase, trim, or "improve" it.>
+```
+{% endprompt %}
+
+#### <Example 2 name> (<m:ss>)
+
+<figure><img src="../.gitbook/assets/<topic>/<frame-2>.jpg" alt=""><figcaption></figcaption></figure>
+
+{% prompt description="Verbatim from video (<m:ss>)" %}
+```markdown
+<Second exact artifact, its own block, its own timestamp.>
+```
+{% endprompt %}
+
+<!-- …one #### section per demoed example. Miss nothing: the big use cases AND the
+     small sub-demos nested inside them. -->
+
+{% hint style="info" %}
+<caveat / where the creator shared the original article or skill / what to attach first>
+{% endhint %}
+
+**Get it:**   <!-- only if there's a tool/skill/repo to link; else delete -->
+
+{% embed url="<verified canonical link — confirmed to exist, found from the tool NAME not the title>" %}
+
+**Source video:**
+
+{% embed url="<original material link>" %}
+
+**Pairs well with:** [<Related A>](<a.md>) (<short disambiguation>) · [<Related B>](<b.md>)
+
+**Facets:** [<Facet1>](../facets/<facet1>.md) · [<Facet2>](../facets/<facet2>.md)
+````
+
+For long multi-use-case videos, use the hub (§3) + one child page (§2) per element instead of a
+single page, each child still following this shape. The registration rule (§6) and facet tagging
+(§8) apply to every page produced.
