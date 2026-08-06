@@ -93,6 +93,29 @@ Evaluate each material and pick the lowest level that captures ALL of its value.
 denser materials MUST go deeper; a 30-minute demo crushed into one summary page loses
 exactly the details the user saved it for.
 
+**The gold standard (this is the bar; hit it every time).** A page is TRUE-mined only when
+all four are on it:
+1. **Every on-screen or spoken artifact, verbatim, in its own block.** Every prompt, command,
+   config, or code snippet the creator shows or reads aloud gets transcribed word-for-word
+   into a fenced/prompt block, each tagged with the timestamp it appears (`(3:26)`). A video
+   that shows three example prompts yields three verbatim blocks, not one summarized "template".
+   Transcribe from the on-screen frame when the caption garbles it.
+2. **The reusable principle, distilled.** Name the transferable insight the creator is teaching,
+   not just the examples ("the power isn't the wording, it's the 3-part structure"; "the bar is
+   the whole trick"). Give the reader the shape they can reuse on their own goal.
+3. **Screenshots at the moments that carry information** (a full prompt on screen, a result, a
+   settings panel), extracted and embedded inline, not described.
+4. **Timestamps on everything**, so a reader can jump to any claim in seconds.
+The reference page for this bar is the Gauntlet Loop page: every demoed prompt pulled verbatim
+at its timestamp (FPS 3:26, apartment 7:22, landing page 10:41), screenshots embedded, the
+3-part structure distilled, plus a ready-to-reuse meta-prompt. Match that depth. A page that
+gives a summary + a link + one guessed template is a FAILURE even if nothing on it is wrong.
+
+**Standing depth preference.** If the user has said "always mine deep / do everything / don't
+give me basics" (this user has), treat deep mining as the DEFAULT for their base: do the full
+pass without asking, and never downgrade to a summary on cost grounds. The "surface the choice"
+option below applies only to users who have NOT set a standing preference.
+
 - **L0; single subject** (a repo, one tool, a short about one thing): one page,
   built from the mined content. Content mining (reading the transcript/text) is NOT the
   deep treatment; it is the floor at every level, L0 included.
@@ -111,10 +134,11 @@ exactly the details the user saved it for.
 
 Escalate when: material length/density is high, the user flags it, or one page would need
 more than ~3 H2 sections to cover distinct things. What costs real money is the FULL deep
-pass (video download, frame extraction, per-element pages); when the user did not
-explicitly ask, note the option ("this one is dense; want the deep breakdown?") rather
-than silently going shallow OR silently burning the tokens. Subtitle-only transcript
-mining costs seconds and is never skipped on cost grounds.
+pass (video download, frame extraction, per-element pages); when the user has NOT set a
+standing deep-mine preference and did not explicitly ask, note the option ("this one is
+dense; want the deep breakdown?") rather than silently going shallow OR silently burning
+the tokens. When the user HAS set a standing preference, skip the question and mine deep.
+Subtitle-only transcript mining costs seconds and is never skipped on cost grounds.
 
 ## 3. Classification; no lazy grouping
 
@@ -170,6 +194,17 @@ and the user reasonably concluded it didn't exist):
    (*I want to… → reach for A · B · C*) and per-category tables (tool | type | best-for).
    New scenario rows when a new job-to-be-done appears.
 3. **Cross-reference web**; the "Pairs well with"/"Related" links across pages.
+4. **Facet indexes**; the topical category is only ONE axis. The same page is often
+   findable by a cross-cutting *facet*: **Workflow, 3D, Game, Website, Video, Image, Skill,
+   Prompt, Agent/Automation, MCP**. A page belongs to exactly one topical category but to
+   as many facets as apply (the Gauntlet Loop is category=Coding, facets=Workflow · 3D ·
+   Game · Website). Maintain a **facet hub page per facet** (a curated table of every page
+   carrying that facet, with its hook), and tag each page with a **`Facets:` line** listing
+   its facets as links to those hubs. This is what lets the user browse "show me everything
+   3D" or "show me every workflow" independent of where the page is filed. When you add or
+   touch a page, add it to every facet hub it qualifies for, and register the hubs in the
+   sidebar under a top-level **"Browse by facet"** group. Prefer facet hubs (one source of
+   truth, listed under every facet) over physically duplicating page content, which diverges.
 
 ## 6. Quality bar & verification
 

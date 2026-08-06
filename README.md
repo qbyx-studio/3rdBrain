@@ -153,7 +153,8 @@ skills/promptos-curator/
 └── references/
     ├── platform-setup.md         ← output/input platform options + exact setup steps
     ├── deep-breakdown.md         ← video mining: transcript, frames, timed deep links
-    └── page-templates.md         ← copy-paste page anatomies + the registration rule
+    ├── mining-prompt.md          ← paste-ready "true-mine this" prompt (the gold standard)
+    └── page-templates.md         ← copy-paste page anatomies + facet hubs + registration rule
 ```
 
 ---

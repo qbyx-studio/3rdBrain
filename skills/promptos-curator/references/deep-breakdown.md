@@ -11,6 +11,14 @@ user explicitly asks to "break it down".
 The goal: someone who never watched the source can execute any demoed element from your
 pages; and someone who did watch can jump to any moment in seconds.
 
+**The bar (the Gauntlet Loop page is the reference).** A breakdown is done only when it has:
+every prompt/command/config the creator shows or says, transcribed **verbatim** into its own
+block at its timestamp (three demoed prompts → three blocks, never one merged "template");
+the **reusable principle** named in plain words (what shape the viewer can reuse, not just the
+specific examples); screenshots of the information-carrying moments extracted and **embedded**;
+and a timestamp on every claim. A hub-plus-summary with a link is NOT a breakdown, it is the
+failure this protocol exists to prevent, even when nothing on it is factually wrong.
+
 ## Table of contents
 
 1. Acquire the source
@@ -47,6 +55,20 @@ demonstrations nested inside them (a connector setup inside a use case, a sub-tr
 inside a setup). Do not skip the small ones; "he demoed so many things, don't miss any"
 is the standing requirement. For each element record: start time, what's demonstrated,
 exact steps, any verbatim prompt/command shown or spoken, tools involved.
+
+**Capture every artifact verbatim.** Every prompt, command, config, or code block that appears
+on screen or is read aloud is a first-class asset: transcribe it word-for-word (from the frame
+when the auto-caption garbles it) into its own fenced/prompt block on the relevant page, tagged
+with its timestamp. Never merge several distinct demoed prompts into one paraphrased template,
+and never replace a shown prompt with your own guess of what it "probably" said. If the creator
+also shares the artifact in a linked article/description, reconcile the two and keep the exact text.
+
+**Distill the reusable principle.** Alongside the verbatim examples, state the transferable shape
+in plain words, the thing the viewer is meant to reuse on their own goal (e.g. Gauntlet Loop's
+"task → build-method → bar-to-hit" structure and "a bar must be named, inspectable, decisive").
+The examples prove it; the principle is what makes the page useful beyond this one video. Where it
+helps, add a ready-to-reuse meta-prompt built from the principle, clearly marked as the distilled
+template (separate from the verbatim examples, never a substitute for them).
 
 **Screenshots:** extract 1–3 frames per element at the most informative moments:
 `ffmpeg -ss <seconds> -i src.ext -frames:v 1 -q:v 5 out.jpg`

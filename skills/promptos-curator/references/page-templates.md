@@ -12,6 +12,7 @@ substitute the target platform's equivalents (plain links / callouts) when elsew
 5. Subgroup index page
 6. Master Tool Index page
 7. Type labels
+8. Facet hub page
 
 ---
 
@@ -181,3 +182,36 @@ serves a new job, and (d) reciprocal cross-links on related pages.
 📝 prompt/technique · ⚙️ SaaS tool, MCP or connector · ℹ️ info/reference ·
 🛡️ security tool. One per page, first thing after the H1, relationships stated
 ("engine auto-selected by X", "ChatGPT-side equivalent of Y").
+
+## 8. Facet hub page
+
+A facet is a cross-cutting way to browse, independent of topical category. One hub per facet;
+it lists every page carrying that facet. On each member page, add a `**Facets:**` line (near
+"Pairs well with") linking to each hub the page belongs to.
+
+```markdown
+---
+description: Every <facet> page in the base — browse by capability, not category
+---
+
+# <Facet> · Browse
+
+> 🧭 **Facet hub** — every page that involves <facet>, wherever it's filed. One row per page.
+
+| Page | Type | Category | What it gives you |
+| --- | --- | --- | --- |
+| [Gauntlet Loop](../coding/gauntlet-loop.md) | 📝 | Coding | One-shot 3D worlds & games via sub-agent critics |
+| [3D prompts](../websites/3d.md) | 📝 | Websites | Prompt patterns for Three.js scenes |
+| …every page with this facet… |
+```
+
+On each member page, near the bottom:
+
+```markdown
+**Facets:** [Workflow](../facets/workflow.md) · [3D](../facets/3d.md) · [Game](../facets/game.md) · [Website](../facets/website.md)
+```
+
+**Facet vocabulary** (extend as the base grows): Workflow · 3D · Game · Website · Video ·
+Image · Skill · Prompt · Agent/Automation · MCP · Voice/Audio. A page has ONE topical category
+but as many facets as truly apply. Register all facet hubs under a top-level **"Browse by facet"**
+group in the table of contents.
