@@ -7,9 +7,9 @@
   },
   "plugins": [
     {
-      "name": "promptos-curator",
+      "name": "promptos",
       "source": "./",
-      "description": "Materials inbox to organized knowledge base: research and verify every link, deep-break-down dense videos with timestamps and screenshots, file everything into topical categories with searchable indexes."
+      "description": "Materials inbox to organized knowledge base. Setup with /promptos (connect GitBook + Telegram, both revokable); run with /promptos:process (self-heal, deep-mine videos with timestamps + screenshots, file into topical categories with searchable indexes, confirm to submitters)."
     }
   ]
 }

@@ -78,7 +78,14 @@ cross-link, confirm.
 
 ```bash
 /plugin marketplace add QbyxStudio/PromptOS
-/plugin install promptos-curator@promptos
+/plugin install promptos@promptos
+```
+
+Then two commands run the whole thing:
+
+```bash
+/promptos            # first-run setup: connect GitBook + Telegram (both revokable)
+/promptos:process    # process the inbox: self-heal → deep-mine → file → confirm
 ```
 
 <details>
@@ -99,20 +106,30 @@ Restart Claude Code after copying.
 
 ## Use it
 
-### First run, it sets up your pipeline
+### `/promptos` — first-run setup (revokable, works with any agent)
 
-On first use it asks two questions and requests exactly the credentials it needs,
-with links to where you get each token:
+`/promptos` connects two things and requests exactly the credentials each needs,
+with a link to get each token **and how to revoke it**. Nothing you paste is permanent.
 
-1. **Where should the knowledge base live?** If you have yet to decide, it
-   researches current options and recommends. The default is **GitBook + two-way
-   GitHub sync**: git history, a polished reading UI, and your manual edits kept
-   safe. Notion, Obsidian, Outline, and static-site routes are supported patterns
-   too.
-2. **How do materials reach it?** Default recommendation: a **Telegram bot** you
-   create in 60 seconds via @BotFather. It works from all your devices, replies
-   with confirmations, and supports owner-only `/cleanup`. Plain chat paste works
-   with zero setup.
+1. **Knowledge base** — where pages are filed. Default: **GitBook + two-way GitHub
+   sync** (git history, a polished reading UI, your manual edits kept safe). Needs a
+   **GitBook API token** (revoke at app.gitbook.com → Developer settings) and a
+   **GitHub PAT** (revoke at github.com/settings/tokens). Notion / Obsidian / MkDocs
+   are supported alternatives.
+2. **Materials inbox** — how links reach it. Default: a **Telegram bot** you create
+   in 60s via **@BotFather** (revoke the token anytime with BotFather `/revoke`),
+   plus an **approved-accounts allowlist** you can edit at any time. Plain chat paste
+   works with zero setup.
+
+### `/promptos:process` — run it
+
+```text
+you    → forward links to your bot from your phone, anytime
+you    → /promptos:process
+skill  → self-heals the inbox, deep-mines each item (transcript + timestamps +
+         screenshots + verbatim prompts), files + cross-links + indexes, pushes
+bot    → "✅ done: … Send /cleanup to tidy up."
+```
 
 ### Daily flow
 
@@ -145,9 +162,12 @@ your-knowledge-base/
 └── …categories grow from YOUR materials
 ```
 
-## Skill layout
+## Layout
 
 ```
+commands/
+├── promptos.md                   ← /promptos — first-run setup (connect GitBook + Telegram)
+└── process.md                    ← /promptos:process — the standing "process the inbox" contract
 skills/promptos-curator/
 ├── SKILL.md                      ← the pipeline: intake → depth ladder → filing → indexes
 └── references/

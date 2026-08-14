@@ -49,6 +49,14 @@ Never assume platforms or credentials. Check what exists; ask for what's missing
 
 For platform-specific setup steps, read `references/platform-setup.md`.
 
+**Two commands.** First-run setup is **`/promptos`** (connect the knowledge base + the
+materials inbox). Routine runs are **`/promptos:process`** (self-heal → pull → deep-mine →
+file → wire → confirm; full contract in `commands/process.md`). **Every credential is
+revokable, nothing you paste is permanent:** revoke the GitBook API token at
+app.gitbook.com → Developer settings; the GitHub PAT at github.com/settings/tokens; the
+Telegram bot token via @BotFather `/revoke` (issues a fresh token and kills the old one);
+and remove any account from the inbox allowlist at any time.
+
 **Two hard rules learned the expensive way:**
 1. **Never one-way force-sync over the user's edits.** If the platform supports manual
    editing (GitBook UI, Notion), the user WILL edit there. Configure two-way sync, always
@@ -82,6 +90,9 @@ For each queued item:
 6. **Close the loop**: mark the item processed, confirm to the submitter with what was
    created and where, and remind them of the cleanup command. If several people/accounts
    submitted, each gets informed about their items (or the full batch summary).
+7. **Housekeeping**: after the batch is pushed and confirmed, delete local scratch downloads
+   (videos, extracted frames you did not commit, temp transcripts) to avoid disk bloat.
+   Only committed assets stay; everything else is deleted.
 
 Non-material messages (chit-chat, personal files like invoices) stay untouched; say so
 in the batch report. When unsure whether something is material or how to file it, ask;
