@@ -37,6 +37,7 @@ look like whatever you feed it.
 | Ask "what tool do I use for X?" months later | The **Pick-by-scenario index** answers in one table |
 | Edit pages by hand | Two-way git sync keeps your edits and the AI's edits living side by side |
 | Want things gone from chat | `/cleanup`; the bot deletes exactly what has been filed, exactly when *you* say so |
+| Ask "is every skill in my base actually installed?" | `/promptos:skills` audits every agent runtime on the machine, installs what's missing, and verifies it landed |
 
 Every page follows one anatomy: type label (🧩 skill · 📦 repo · 🤖 model · ⚙️ SaaS ·
 📝 prompt), a "Use it when" table, a concise summary, the verified link, and the
@@ -81,11 +82,12 @@ cross-link, confirm.
 /plugin install promptos@promptos
 ```
 
-Then two commands run the whole thing:
+Then three commands run the whole thing:
 
 ```bash
 /promptos            # first-run setup: connect GitBook + Telegram (both revokable)
 /promptos:process    # process the inbox: self-heal → deep-mine → file → confirm
+/promptos:skills     # reconcile your catalogue against every agent runtime, install what's missing
 ```
 
 <details>
@@ -131,6 +133,43 @@ skill  → self-heals the inbox, deep-mines each item (transcript + timestamps +
 bot    → "✅ done: … Send /cleanup to tidy up."
 ```
 
+### `/promptos:skills` — make your machine match your catalogue
+
+Your base records which skills are worth having. `/promptos:skills` makes the machine match
+the record, on **every agent runtime installed**, and then proves it.
+
+It is **runtime-agnostic by construction**: it discovers which agent platforms exist rather
+than branching on platform identity, so Claude Code, Codex, Cursor, Windsurf, Copilot CLI and
+anything else that reads a skills directory all produce a complete report, including runtimes
+that did not exist when this was written.
+
+It audits **and repairs**. Anything catalogued but missing gets installed; anything installed
+but broken gets fixed; and both get re-verified afterwards.
+
+```text
+you    → /promptos:skills
+skill  → discovers every agent runtime on the machine
+       → audits three separate states: valid on disk / loaded in the live registry /
+         typeable as a slash command — these are not the same thing
+       → diffs your catalogue against what's installed
+       → installs what's missing, routing by what each source actually contains
+       → brings every runtime to parity, mirroring in what an installer skipped
+       → re-verifies, then reports what needs a restart and which surface it affects
+```
+
+It is built around two things that silently ruin skill installs:
+
+- **Installers lie.** They report success for work they did not do — a cross-agent installer
+  can print `copy → Codex ✓` and write nothing. Nothing here trusts an install log; every
+  claim is grounded in a command run after the fact.
+- **Installed ≠ loaded ≠ typeable.** A skill can be valid on disk, missing from the running
+  agent's registry, and missing again from the slash menu. Each state is checked separately,
+  which is what stops "everything installed ✅" from ending in an empty slash menu.
+
+Catalogues also list CLIs, MCP servers, libraries and manual downloads next to real skills.
+Those are reported as **NOT-A-SKILL** with what they actually are — never counted as
+installed.
+
 ### Daily flow
 
 ```text
@@ -167,7 +206,8 @@ your-knowledge-base/
 ```
 commands/
 ├── promptos.md                   ← /promptos — first-run setup (connect GitBook + Telegram)
-└── process.md                    ← /promptos:process — the standing "process the inbox" contract
+├── process.md                    ← /promptos:process — the standing "process the inbox" contract
+└── skills.md                     ← /promptos:skills — catalogue → machine: audit, install, verify
 skills/promptos-curator/
 ├── SKILL.md                      ← the pipeline: intake → depth ladder → filing → indexes
 └── references/
@@ -175,6 +215,11 @@ skills/promptos-curator/
     ├── deep-breakdown.md         ← video mining: transcript, frames, timed deep links
     ├── mining-prompt.md          ← paste-ready "true-mine this" prompt (the gold standard)
     └── page-templates.md         ← copy-paste page anatomies + facet hubs + registration rule
+skills/promptos-skillsync/
+├── SKILL.md                      ← the four phases: discover → audit → reconcile → install → re-verify
+└── references/
+    ├── audit-protocol.md         ← runtime-agnostic audit, paste-ready into any fresh session
+    └── install-playbook.md       ← source routing table, per-runtime mechanics, installer traps
 ```
 
 ---

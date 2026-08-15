@@ -9,7 +9,7 @@
     {
       "name": "promptos",
       "source": "./",
-      "description": "Materials inbox to organized knowledge base. Setup with /promptos (connect GitBook + Telegram, both revokable); run with /promptos:process (self-heal, deep-mine videos with timestamps + screenshots, file into topical categories with searchable indexes, confirm to submitters)."
+      "description": "Materials inbox to organized knowledge base. Setup with /promptos (connect GitBook + Telegram, both revokable); run with /promptos:process (self-heal, deep-mine videos with timestamps + screenshots, file into topical categories with searchable indexes, confirm to submitters); keep your machine in sync with /promptos:skills (runtime-agnostic audit of every agent platform against your catalogue, then install, repair and verify what's missing)."
     }
   ]
 }
