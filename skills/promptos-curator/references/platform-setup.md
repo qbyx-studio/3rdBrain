@@ -1,134 +1,172 @@
-# Platform Setup; Output & Input Pipelines
+# Platform setup
 
-Read this when establishing (or repairing) the pipeline. All steps are generic; substitute
-the user's own accounts, repos and tokens. Never hardcode a specific user's IDs or paths
-into pages; keep machine-specific ops notes on a dedicated ops page in their base.
+Where the base lives, how materials reach it, and how to put it online later.
 
 ## Table of contents
 
-1. Output platforms; comparison & recommendation
-2. GitBook + GitHub two-way sync (reference implementation)
-3. Other output platforms (notes)
-4. Input platforms; comparison & recommendation
-5. Telegram bot inbox (reference implementation)
-6. Other input channels (notes)
-7. Scheduled auto-processing
-8. Credential request checklist
+1. Where the base lives
+2. Local base, the reference implementation
+3. Other places a base can live
+4. Materials inbox, options and recommendation
+5. Telegram bot inbox, the reference implementation
+6. Other input channels
+7. Publishing
+8. Scheduled processing
+9. Credential checklist
 
 ---
 
-## 1. Output platforms; comparison & recommendation
+## 1. Where the base lives
 
-Recommend based on: does the user manually edit? need public sharing? like markdown?
+**Default: a folder on the user's own computer, rendered by MkDocs.**
 
-| Platform | Best when | Watch out |
+It wins on the thing that decides adoption. Setup finishes with zero accounts, zero tokens,
+zero cost, and nothing leaving the machine. The user sees their own base in a browser
+minutes after starting, and their notes stay private by construction.
+
+A local git repository comes with it, giving history and an undo button with no remote and
+no GitHub account.
+
+Going online is its own decision, made later, with its own warning. Section 7 covers it.
+
+## 2. Local base, the reference implementation
+
+```
+knowledge-base/
+├── README.md            ← landing page
+├── SUMMARY.md           ← the sidebar
+├── general/  coding/ …  ← content, one folder per topic
+├── .assets/             ← images
+└── _site/               ← the build, the theme, the tests
+```
+
+Steps:
+
+1. **Check Python 3.10+ and git.** Install what is missing, or hand the user one link and
+   wait. One sentence on why it is needed.
+2. **Create the folder and the starter files.** `SUMMARY.md` holds the sidebar as a Markdown
+   list with `## Headings` for sections.
+3. **Copy `_site/` from this repo.** Dependencies are pinned there.
+4. **`git init` and commit.** History from day one.
+5. **Build and open.** `cd _site && VAULT=.. bash build.sh`, then serve and open the browser.
+
+The build never writes to the content. Every transform runs against a throwaway copy, and a
+test enforces it. See `references/site-build.md`.
+
+## 3. Other places a base can live
+
+Offer these when the user asks for them. Each adds an account, so the local default stands
+unless the user chooses otherwise.
+
+| Option | What it adds | What it costs |
 | --- | --- | --- |
-| **GitBook + Git Sync** (recommended) | Wants polished docs UI + git history + AI edits and manual edits coexisting | MUST enable two-way Git Sync before mixing manual + automated edits |
-| Notion | User lives in Notion already | API blocks are fiddlier than markdown; no git history |
-| Obsidian (+ Git / Publish) | Local-first, markdown purist | Publishing costs extra; sync conflicts on mobile |
-| Outline / BookStack (self-hosted) | Privacy, own infra | User maintains a server |
-| Docusaurus / MkDocs + GitHub Pages | Developer user, public site | No WYSIWYG editing for the user |
+| **GitBook + two way git sync** | A polished editor, a hosted reading UI, comments | A GitBook account and a GitHub account, two tokens, and a paid plan for private team access |
+| **Notion** | Familiar editor, easy sharing | An account, a lossy import, and the loss of git as source of truth |
+| **Obsidian** | Local files, strong editing, graph view | Desktop app per person, and sharing needs git or a paid sync |
+| **Outline, BookStack, Wiki.js** | Team features, permissions | A server to run and maintain |
 
-The invariant that matters more than the brand: **a git repository as the source of truth**,
-with the rendering platform syncing from it. That gives history, rollback, and safe
-concurrent edits regardless of frontend.
+The page block syntax renders in both MkDocs and GitBook, so a base can move between them
+without rewriting pages.
 
-## 2. GitBook + GitHub two-way sync (reference implementation)
+## 4. Materials inbox, options and recommendation
 
-Needs: GitHub personal access token (`repo` scope), GitBook API token
-(app.gitbook.com → Developer settings), a GitBook organization.
+**Default: a Telegram bot.** Saving happens on a phone, in the moment, hours before any
+processing. An inbox that lives on the phone is the difference between a base that grows and
+a base that stalls.
 
-1. **Create a private GitHub repo** for content (`POST /user/repos` or `gh repo create`).
-2. Structure: markdown files in topical folders; `SUMMARY.md` = table of contents
-   (nesting via indentation; group headers via `## Section`); `.gitbook.yaml`:
-   ```yaml
-   root: ./
-   structure:
-     readme: README.md
-     summary: SUMMARY.md
-   ```
-   Images: commit under `.gitbook/assets/`, reference relatively; GitBook ingests them.
-3. **Initial import** (only while the space is empty / one-way is safe):
-   `POST https://api.gitbook.com/v1/spaces/{spaceId}/git/import` with
-   `{url: "https://USER:TOKEN@github.com/user/repo.git", ref: "refs/heads/main"}`.
-   Create the space first via `POST /v1/orgs/{orgId}/spaces` `{title}`.
-4. **Enable two-way Git Sync** (user does this in GitBook UI: space → Configure → Git Sync →
-   GitHub → pick repo/branch; initial-sync direction = whichever side currently holds the
-   truth). From that moment: **never call the import API again**; it fights the sync and
-   can destroy manual edits. The pipeline becomes plain git:
-   `pull --rebase` → edit → commit → push; GitBook auto-syncs both directions
-   (manual UI merges become `GITBOOK-*` commits you pull).
-5. **Verify** pages after each push: `GET /v1/spaces/{id}/content` (page tree) or
-   `/content/path/{path}` (rendered markdown). Note: GitBook builds URL slugs from group
-   names; look pages up via the content tree, don't guess slugs.
-6. GitBook markdown blocks that round-trip through git: `{% embed url="…" %}`,
-   `{% hint style="info" %}…{% endhint %}`, code fences, HTML tables.
-
-## 3. Other output platforms (notes)
-
-Same pipeline shape everywhere: keep a git repo of markdown as truth; adapt only the
-publish step (Notion API page upserts; Obsidian = the vault IS the repo; static-site =
-CI deploy). If the platform has no two-way sync, then the git repo is the ONLY write path,
-tell the user manual platform edits will be overwritten, and offer a "port my manual edit
-back" command instead.
-
-## 4. Input platforms; comparison & recommendation
-
-| Channel | Best when | Watch out |
+| Option | Setup | Best for |
 | --- | --- | --- |
-| **Telegram bot** (recommended) | User saves from phone, multiple devices/accounts | Bot API keeps unfetched updates only ~24h → need an always-on collector |
-| Plain chat paste | Zero setup, low volume | No queue; nothing persists between sessions |
-| Email address | Everything can send email | Parsing noise; needs mailbox access |
-| Notion/Sheet inbox page | User already lives there | Polling; no push |
-| WhatsApp (whatsmeow bridge) | User insists on WhatsApp | Unofficial client: linked-device pairing, ~20-day session expiry, ToS/ban risk |
+| **Telegram bot** | About 60 seconds through @BotFather | Everyone who saves from a phone |
+| **Plain chat paste** | None | Starting today, adding a bot later |
+| Email inbox | Mailbox plus credentials | People who forward by mail |
+| Notion or Sheet inbox page | An account | Teams already living there |
+| WhatsApp bridge | Unofficial client | Last resort; re-pairing and ban risk |
 
-## 5. Telegram bot inbox (reference implementation)
+Whatever the channel: capture into a durable local queue the moment a message arrives,
+because Telegram keeps unfetched updates for about 24 hours. Restrict it to an allowlist of
+the user's own accounts. Confirm each processed item back to whoever sent it.
 
-1. User creates the bot: **@BotFather → /newbot** → they paste the token to you.
-2. Build a small long-polling collector (any language; stdlib is enough) that:
-   - long-polls `getUpdates` and **persists every message to a local queue file
-     immediately** (survives the 24h server retention),
-   - **binds to an allowlist** of the user's account IDs; first-sender binding plus an
-     explicit enrollment window for additional accounts (confirm enrolled usernames with
-     the user afterwards); ignore everyone else,
-   - flags trigger phrases (e.g. any message mentioning the base's name) as "process now",
-   - handles `/cleanup`: deletes messages **already marked processed**; using each
-     message's own chat id (multi-account!); plus its own replies; Telegram only allows
-     bots to delete messages <48h old, so report the too-old remainder for manual deletion,
-   - handles `/help`,
-   - runs persistently (autostart at login) so capture never sleeps.
-3. Processing marks queue items `processed: true` and sends a confirmation to each
-   submitting chat: what was filed where + cleanup reminder. Failures message the user too,
-   silent scheduled failures destroy trust in the pipeline.
+## 5. Telegram bot inbox, the reference implementation
 
-## 6. Other input channels (notes)
+Working code ships in `inbox/`. Copy it, do not rewrite it. The hard parts are already
+solved and each one was learned in production.
 
-Whatever the channel: durable queue at capture time, allowlist, confirmations, and
-user-triggered cleanup. Those four properties are the spec; the transport is detail.
+```
+inbox/
+├── bot.py                 ← the collector daemon
+├── confirm.py             ← per account "done" replies after a run
+├── config.example.json    ← copy to config.json, add the token
+└── README.md              ← install and autostart, per platform
+```
 
-## 7. Scheduled auto-processing
+Setup:
 
-If the user wants hands-off processing (e.g. daily at a set hour):
-- The collector daemon can spawn a headless agent run (`claude -p "<pointer to a
-  PROCESS instructions file>"`) once per day when the queue is non-empty; skip when empty;
-  catch up after the hour if the machine was asleep (guard with a last-run date).
-- Requirements to state up front: the machine must be on; the CLI must be authenticated
-  once (`claude` → `/login`); unattended runs need permission bypass; say so explicitly;
-  tokens must persist locally, so agree on rotation policy with the user.
-- Make every run observable: "run started (N items)" and "run failed (reason)" messages to
-  the input channel. A PROCESS instructions file holds the full pipeline (this skill's
-  rules + the user's platform specifics) so unattended runs behave identically to
-  interactive ones.
+1. The user creates the bot with **@BotFather → /newbot** and pastes the token.
+2. Copy `bot.py`, `confirm.py` and `config.example.json` into the base folder.
+3. Write `config.json` with the token and `enroll_remaining` set to the number of accounts
+   to approve. Never commit this file.
+4. Start the bot, and set it to run at login so capture never sleeps.
+5. Each account sends one message during the enrolment window and is added to `owners`.
+   Confirm the enrolled accounts with the user afterwards.
+6. Have the user send a link from their phone and confirm it lands in `inbox.json`.
 
-## 8. Credential request checklist
+What the daemon already handles:
 
-When something's missing, ask once, precisely, with sources:
+- **Durable capture.** Every message is written to `inbox.json` immediately.
+- **Allowlist with an enrolment window.** Accounts outside the list are ignored silently.
+- **A trigger phrase.** A message mentioning the base name flags the queue for processing.
+- **`/cleanup`.** Deletes only items already marked processed, using each message's own chat
+  ID so multiple accounts work. Telegram allows bots to delete messages under 48 hours old,
+  so it reports the older remainder for manual deletion.
+- **`/help`.**
+- **Self healing.** An unhandled exception restarts the loop, so capture continues.
 
-- GitHub PAT (`repo` scope); github.com/settings/tokens
-- GitBook API token; app.gitbook.com → Developer settings (needs org admin/edit)
-- Telegram bot token; @BotFather /newbot (then the user sends the bot one message)
-- Platform-specific equivalents (Notion integration token + page share, etc.)
+After each filing run, `confirm.py` sends every submitting account a summary of what was
+filed. It is idempotent, so running it twice sends nothing twice. Silent failures destroy
+trust in a pipeline, so failures message the user too.
 
-Also remind: tokens pasted into chat should be treated as exposed; rotate after setup,
-or when the automation needs them long-term, store locally and agree that revocation now
-breaks the pipeline.
+## 6. Other input channels
+
+Plain chat paste needs nothing: the user pastes links into the conversation and processing
+begins. It is the right start for someone who wants to see value before creating anything.
+
+Email, Notion pages and spreadsheets all work as queues. Keep the same contract: durable
+capture, an allowlist, and a confirmation back to the sender.
+
+## 7. Publishing
+
+Local first, online by choice. `commands/publish.md` holds the full procedure. The shape:
+
+1. **Consent.** State plainly that the notes are going onto the internet, and wait.
+2. **Ask who gets in.** An email allowlist behind a sign in screen, or an open link.
+3. **Deploy** to Cloudflare Pages, free, with one API token.
+4. **Verify from outside** and report exactly what a stranger sees.
+
+One structural detail decides the whole design: Cloudflare cannot put a login wall on a
+Pages **production** address, and can on **preview** addresses. Setting the production branch
+to one that never exists leaves the public address empty and makes every deploy protectable.
+
+## 8. Scheduled processing
+
+Offer it, keep it off by default. A daily run that fires while the user sleeps is useful
+once the pipeline is trusted, and confusing before then.
+
+The bot supports it: set `auto_hour` in the config and it spawns a headless processing run
+after that hour, once a day, only when the queue has unprocessed items. It messages every
+submitting account when a run starts, and messages them again if the run fails.
+
+A publish hook can follow the same pattern, republishing after each filing run.
+
+## 9. Credential checklist
+
+Local setup asks for nothing. Everything below is optional, and every item is revokable.
+
+| Item | Where to get it | How to revoke |
+| --- | --- | --- |
+| Telegram bot token | @BotFather → `/newbot` | @BotFather → `/revoke` |
+| Cloudflare API token | dash.cloudflare.com → My Profile → API Tokens | Same page |
+| GitBook API token | app.gitbook.com → Developer settings | Same page |
+| GitHub PAT | github.com/settings/tokens | Same page |
+
+State the revocation path at the moment you ask for the credential, and keep every secret
+out of files that git tracks.

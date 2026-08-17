@@ -1,1 +1,6 @@
 gloat-output*/
+__pycache__/
+*.pyc
+inbox/config.json
+inbox/inbox.json
+inbox/*.log

@@ -1,0 +1,12 @@
+{
+  "token": "PASTE_YOUR_BOTFATHER_TOKEN_HERE",
+  "base_name": "PromptOS",
+  "owners": [],
+  "enroll_remaining": 1,
+  "offset": 0,
+
+  "auto_hour": 0,
+  "base_dir": "",
+  "agent_path": "claude",
+  "auto_prompt": "Run /promptos:process and follow it exactly."
+}

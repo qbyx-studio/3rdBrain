@@ -1,51 +1,84 @@
 ---
-description: Set up PromptOS — connect a knowledge base (GitBook) and a materials inbox (Telegram). Every credential is revokable.
+description: Set up PromptOS on this computer. Builds your knowledge base locally, connects a materials inbox, opens it in your browser. No accounts needed.
 ---
 
-# /promptos — first-run setup
+# /promptos, first run setup
 
-You are setting up **PromptOS** for this user with whatever agent is running you. Load the
-`promptos-curator` skill (`skills/promptos-curator/SKILL.md`) — it holds the full pipeline.
-Your only job in THIS command is to establish the two connections, using **revokable**
-credentials, then confirm the pipeline is ready. Do not process anything yet.
+You are setting up **PromptOS** for this user. Load the `promptos-curator` skill
+(`skills/promptos-curator/SKILL.md`); it holds the pipeline. This command builds the base
+and connects the inbox. Process nothing yet.
 
-Never assume platforms or credentials. Check what already exists; ask only for what's missing,
-in one message, with where to get each item and how to revoke it.
+**Assume the user has never opened a terminal.** You run every command. They answer
+questions, paste a token when asked, and click a link at the end. Explain what you are doing
+in plain words, and translate any error into plain words too.
 
-## 1. Knowledge base (where pages are filed)
+## 1. The base lives on this computer
 
-Default and recommendation: **a Git repo as source of truth + GitBook two-way Git Sync**
-(history, recoverability, safe concurrent human+AI editing). Notion / Obsidian / MkDocs are
-supported alternatives — offer them if the user is undecided.
+Default and recommendation: **a folder on their disk, rendered by MkDocs**. Setup finishes
+with zero accounts, zero tokens, zero cost, and nothing leaving the machine. Publishing is a
+separate, later choice covered by `/promptos:publish`.
 
-Request, with revocation stated up front:
-- **GitBook API token** — app.gitbook.com → Developer settings. **Revoke anytime** there.
-- **GitHub PAT** (`repo` scope) for the synced repo — github.com/settings/tokens.
-  **Revoke anytime** there. Prefer a fine-grained, short-lived token scoped to the one repo.
+Ask one question: **where should the base live?** Offer a sensible default such as
+`~/PromptOS` or `C:\PromptOS`. Then do the work:
 
-Configure **two-way sync** (never one-way force-import over the user's manual edits). Verify a
-test write renders on GitBook before moving on.
+1. **Check the tools.** Python 3.10 or newer, and git. If either is missing, install it, or
+   give the user the one link they need and wait. Say why it is needed in one sentence.
+2. **Create the folder** with `README.md`, `SUMMARY.md`, an `.assets/` folder, and the
+   `_site/` machinery from this repo.
+3. **Create a local git repository** and make the first commit. This gives history and an
+   undo button. No remote, no GitHub account.
+4. **Build and open it.** Run the build, start the local server, and open the browser at the
+   address. They should be looking at their own base before this command ends.
 
-## 2. Materials inbox (how links reach the base)
+Read `references/site-build.md` for the build, the transforms and the design system.
 
-Default and recommendation: **a Telegram bot** (official Bot API, token-only, multi-device,
-replies with confirmations, supports owner-only `/cleanup`). Plain chat-paste works with zero
-setup as a fallback.
+Offer alternatives only if the user asks: GitBook with two way git sync, Notion, Obsidian.
+Each of those adds an account, so let the local default stand unless they want otherwise.
 
-Request, with revocation stated up front:
-- **Telegram bot token** — create the bot in 60s via **@BotFather**. **Revoke anytime** with
-  BotFather `/revoke` (it issues a fresh token and kills the old one).
-- **Approved accounts allowlist** — each account the user will send from says "Hi" to the bot
-  once; you record their chat IDs. Only allowlisted accounts are accepted. **Remove any account
-  from the allowlist at any time.**
+## 2. Materials inbox
 
-Stand up a durable local queue that captures messages the moment they arrive (Telegram only
-retains unfetched updates ~24h), a watchdog that keeps the capture daemon alive and self-repairs
-its config, and a `confirm` step that replies "done" to each submitting account after a run.
+Default and recommendation: **a Telegram bot**. It is the piece that makes the whole thing
+worth using, because saving happens on a phone, hours before any processing.
+
+Ask whether they want it now or later. Plain chat paste works immediately and needs nothing,
+so a user in a hurry can start filing today and add the bot afterwards.
+
+If they want it now, request, with revocation stated up front:
+
+- **Telegram bot token**, created in about sixty seconds through **@BotFather** with
+  `/newbot`. Revoke at any time with BotFather `/revoke`, which issues a fresh token and
+  kills the old one.
+- **Approved accounts.** Each account they will send from messages the bot once during a
+  short enrolment window. Record the chat IDs. Accounts not on the list are ignored, and any
+  account can be removed later.
+
+Then install the collector from `inbox/`:
+
+1. Copy `inbox/bot.py` and `inbox/config.example.json` into the base folder.
+2. Write `config.json` with the token, and open an enrolment window.
+3. Start the bot, and set it to start again at login so capture never sleeps.
+4. Have the user send one message from their phone, and confirm it arrived in the queue.
+
+Never write the token into any file that git tracks.
 
 ## 3. Confirm ready
 
-Report back: knowledge base connected (repo + GitBook sync verified), inbox connected (bot live,
-N approved accounts), and that the user can now forward links anytime and run **`/promptos:process`**
-whenever they want them filed. Remind them: every token above is revokable, and nothing they
-pasted is permanent.
+Report back in plain words:
+
+- Where the base lives, and the address to read it.
+- Whether the inbox is connected, and how many accounts are approved.
+- That they can forward links any time and run **`/promptos:process`** to file them.
+- That **`/promptos:publish`** puts it online later, whenever they want it on a phone.
+
+Say plainly: everything is on their computer, nothing is shared, and every token they pasted
+can be revoked.
+
+## Hard rules
+
+1. **Never one way force-sync over the user's edits.** If they can edit by hand, they will.
+   Pull before editing, treat their version as authoritative, and adapt around it. A force
+   import once destroyed a user's manual page. That class of bug is unacceptable.
+2. **Never delete the user's messages or content yourself.** Mark items processed and give
+   them a one tap `/cleanup`. Deletion is user triggered, always.
+3. **Never publish without explicit consent.** Setup ends on the local machine. Going online
+   is its own command, with its own warning.

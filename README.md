@@ -1,93 +1,169 @@
 # PromptOS by Qbyx
 
-**Own every link you save.**
+**Saved links, made findable.**
 
 [![PromptOS launch video preview, click to watch with sound](docs/assets/preview.gif)](https://qbyxstudio.github.io/PromptOS/)
 
-> **▶ [Watch the full launch video (with sound)](https://qbyxstudio.github.io/PromptOS/)**, made with [`/gloat`](https://github.com/QbyxStudio/gloat), of course.
+> **▶ [Watch the launch video (with sound)](https://qbyxstudio.github.io/PromptOS/)**, made with [`/gloat`](https://github.com/QbyxStudio/gloat), of course.
 
-`/promptos-curator` is a Claude/ChatGPT skill that turns the stream of links you save,
-YouTube videos, shorts, GitHub repos, reels, articles, notes, into a
-**beautifully organized, deeply cross-referenced, searchable knowledge base**.
-Send links from your phone, say "process", and every tool gets its own page with
-verified links, use-case tables, and its place in a living index. Dense tutorial
-videos get mined fully: transcripts, screenshots, step-by-steps, and timestamped
-deep links for every single demoed element.
+You save a link because it matters. Six weeks later you need it, and it sits buried under
+four thousand other messages. The link still exists. Finding it costs more than
+rediscovering the tool from scratch.
 
-Your saved links become your personal tool library and knowledge base. It answers
-one question extremely well: **"what do I use for this?"**
+PromptOS closes that gap. You forward links from your phone. An AI researches each one,
+writes it a proper page, and files it into a library built around one question:
+**what do I use for this?**
 
-## Why I built this
+Findable is the whole product. Everything below serves it.
 
-I FOMO-ed. Hard. Every AI influencer post felt too important to lose, so I flooded
-my own WhatsApp and Telegram with forwarded link. "Saved" and never seen again. So
-I built this to solve my own problem. Easy to reference, and far less chance of
-missing out on good tools because it drowned in my chat history.
+## Built for the hoarders
 
-The knowledge base this skill maintains for me is the reason it exists. Yours will
-look like whatever you feed it.
+This is for people who collect AI tools, prompts, repos, and long tutorial videos faster
+than they can read them. If your bookmarks, your chat history, and three note apps each
+hold pieces of the same mess, you are the user.
 
-## What it actually does
+## Runs on your computer
 
-| You | The skill |
+Setup finishes on your own machine. No accounts. No tokens. No card. No cloud.
+
+```bash
+/promptos
+```
+
+That builds your knowledge base locally and opens it in your browser. Your notes stay on
+your disk, private by construction.
+
+When you want it on your phone, one more command publishes it. That step is opt in, it
+warns you clearly, and it asks who is allowed in. See [Publishing](#publishing-optional).
+
+## What actually happens
+
+| You | PromptOS |
 |---|---|
-| Forward a link from any device | Captures it into a durable queue (Telegram bot, or any inbox you pick) |
-| Say "process to promptos" | Researches each item, finds the **verified** canonical link, classifies it |
-| Send a dense 30-min tutorial | Downloads it, mines transcript + screenshots, builds a hub + one page per demoed element with `?t=` deep links |
-| Ask "what tool do I use for X?" months later | The **Pick-by-scenario index** answers in one table |
-| Edit pages by hand | Two-way git sync keeps your edits and the AI's edits living side by side |
-| Want things gone from chat | `/cleanup`; the bot deletes exactly what has been filed, exactly when *you* say so |
-| Ask "is every skill in my base actually installed?" | `/promptos:skills` audits every agent runtime on the machine, installs what's missing, and verifies it landed |
+| Forward a link from any device | Captures it into a durable local queue |
+| Say "process" | Researches each item, finds the verified canonical link, classifies it |
+| Send a dense 30 minute tutorial | Mines transcript and screenshots, builds a hub plus one page per demoed element, each with a timestamped deep link |
+| Ask "what do I use for X?" months later | The Tool Index answers in one table |
+| Edit a page by hand | Your edit wins; the AI works around it |
+| Want your chat tidy | `/cleanup` deletes only what has already been filed, only when you say so |
+| Ask "is every skill in my base actually installed?" | `/promptos:skills` checks every agent on the machine, installs what is missing, and verifies it landed |
 
-Every page follows one anatomy: type label (🧩 skill · 📦 repo · 🤖 model · ⚙️ SaaS ·
-📝 prompt), a "Use it when" table, a concise summary, the verified link, and the
-original source embedded. Every claim is auditable; facts from videos carry
-timestamps you can check in seconds.
+Every page follows one shape: a type label (🧩 skill · 📦 repo · 🤖 model · ⚙️ SaaS ·
+📝 prompt), a "Use it when" table, a short summary, the verified link, and the original
+source embedded. Facts pulled from videos carry timestamps, so any claim is checkable in
+seconds.
 
-Built-in guardrails, each learned from a real production failure: every tool lives
-in its true topical category, every link is verified before it lands on a page,
-full prompt files stay whole on a single page, your manual edits stay authoritative
-through two-way sync, deletion happens on your command alone, and a page counts as
-done once it appears in every index.
+## The four commands
 
-## The end product
+### `/promptos`
 
-A living library. Mine currently holds 150+ pages: every tool on its own page,
-14 topical sections with subgroups, a master index searchable by scenario, and
-deep-mined tutorial videos where every demoed element has its own step-by-step
-page with screenshots and timestamped jump links. When I ask "what do I use for
-lead scraping" or "which skill fixes my thumbnails", the answer is one search away,
-with the verified link sitting right there.
+First run. Builds the base on your computer, sets up your inbox, opens the site. Ask it
+questions in plain words; it does the terminal work for you.
 
-## Example pipelines
+### `/promptos:process`
 
-The skill is input-agnostic and output-agnostic. Pick any inbox, pick any base:
+The standing contract. Run it whenever you want your queue filed.
 
-| Inbox (where you save) | Base (where it's filed) | Who this fits |
-|---|---|---|
-| **Telegram bot ← YouTube + GitHub links** | **GitBook (two-way GitHub sync)** | **My own setup, the original PromptOS** |
-| Instagram reels & saves | Notion | Creators living in IG and Notion |
-| Facebook / LinkedIn saves | Google Docs / Drive | Teams that standardize on Google Workspace |
-| X bookmarks | Obsidian vault | Local-first markdown people |
-| Reddit saves + newsletters | MkDocs / GitHub Pages site | Developers who want a public tool wiki |
-| Plain chat paste | Any of the above | Zero-setup start, upgrade later |
+```text
+you    → forward 5 links to your bot from your phone
+you    → /promptos:process
+skill  → self-heals the inbox, deep-mines each item, files, cross-links, indexes
+bot    → "✅ Processed 5 items. Send /cleanup to tidy up."
+```
 
-Same pipeline every time: capture, research, verify, break down, file, index,
-cross-link, confirm.
+Steer it in plain language:
+
+```text
+process my queue
+this one is dense, break it down fully           ← forces the deep treatment
+break down by timing so I can jump around        ← timestamped element pages
+add this to the base: <link>                     ← single item, queue optional
+what do I use for lead scraping?                 ← searches your own base
+```
+
+### `/promptos:skills`
+
+Your base catalogues skills. This checks whether they are actually installed on the machine,
+across every agent runtime it finds, then installs and repairs what is missing.
+
+Installed, loaded and typeable are three separate states. It checks all three, because a
+skill can be valid on disk and still be missing from the menu you type into.
+
+### `/promptos:publish`
+
+Puts the base online. Covered below.
+
+## Your inbox
+
+Default is a **Telegram bot**, created in about sixty seconds through @BotFather. Forward
+anything to it from any device, at any hour, and it holds the item until you process it.
+The token is revokable at any time with BotFather `/revoke`, and only accounts on your
+allowlist are accepted.
+
+Plain chat paste works too, with zero setup, if you want to start before making a bot.
+
+## Publishing (optional)
+
+`/promptos:publish` hosts your base on Cloudflare Pages, free. Before anything uploads it
+states plainly that your notes are going onto the internet, then asks how you want it
+guarded:
+
+| Choice | Who gets in |
+|---|---|
+| **Email allowlist** | Only the addresses you name, through a sign in screen |
+| **Open link** | Anyone who has the address |
+
+After deploying it tests the site from outside and reports exactly what a stranger sees.
+A published base that quietly leaks is a failure, so that check is part of the command.
+
+## The look
+
+Every base ships with the same design system, tuned over a real library of 330+ pages.
+
+| | |
+|---|---|
+| Ground | Deep night, near black |
+| Accent | One electric colour, used sparingly |
+| Surfaces | Glass panels, hairline borders, soft glow on what matters |
+| Display type | Space Grotesk, tight tracking |
+| Body type | Glacial Indifference, self hosted |
+| Technical type | JetBrains Mono for labels and code |
+| Search | Instant, offline, section level results |
+
+Prompts render as collapsible blocks with a copy button. Videos render as players. Tags
+generate their own browse pages, with counts that stay correct on their own.
+
+Swap the logo, the palette, or the fonts in one file whenever you want.
+
+## What a filled base looks like
+
+```
+your-knowledge-base/
+├── Tool Index            ← "I want to… → reach for A · B · C"
+├── Browse by facet       ← generated: capability, price, platform
+├── Coding/               ← subgroups: Workflow, Quality, Frontend…
+├── Marketing/            ← Leads & Outreach, SEO, Ads…
+├── Videos/               ← Generation, Editing, Code→Video…
+├── Agents & Automation/  ← Inboxes, Scheduling, Multi-Agent…
+└── …categories grow from YOUR materials
+```
+
+## Guardrails
+
+Each one exists because it failed in production first.
+
+- Every tool lands in its true topical category, never a catch all bucket.
+- Every link is verified before it reaches a page.
+- Full prompt files stay whole on one page.
+- Your manual edits are authoritative, always.
+- Deletion happens on your command alone.
+- A page counts as done once it appears in every index.
 
 ## Install
 
 ```bash
 /plugin marketplace add QbyxStudio/PromptOS
 /plugin install promptos@promptos
-```
-
-Then three commands run the whole thing:
-
-```bash
-/promptos            # first-run setup: connect GitBook + Telegram (both revokable)
-/promptos:process    # process the inbox: self-heal → deep-mine → file → confirm
-/promptos:skills     # reconcile your catalogue against every agent runtime, install what's missing
 ```
 
 <details>
@@ -106,121 +182,46 @@ Copy-Item -Recurse -Force skills\promptos-curator "$env:USERPROFILE\.claude\skil
 Restart Claude Code after copying.
 </details>
 
-## Use it
-
-### `/promptos` — first-run setup (revokable, works with any agent)
-
-`/promptos` connects two things and requests exactly the credentials each needs,
-with a link to get each token **and how to revoke it**. Nothing you paste is permanent.
-
-1. **Knowledge base** — where pages are filed. Default: **GitBook + two-way GitHub
-   sync** (git history, a polished reading UI, your manual edits kept safe). Needs a
-   **GitBook API token** (revoke at app.gitbook.com → Developer settings) and a
-   **GitHub PAT** (revoke at github.com/settings/tokens). Notion / Obsidian / MkDocs
-   are supported alternatives.
-2. **Materials inbox** — how links reach it. Default: a **Telegram bot** you create
-   in 60s via **@BotFather** (revoke the token anytime with BotFather `/revoke`),
-   plus an **approved-accounts allowlist** you can edit at any time. Plain chat paste
-   works with zero setup.
-
-### `/promptos:process` — run it
-
-```text
-you    → forward links to your bot from your phone, anytime
-you    → /promptos:process
-skill  → self-heals the inbox, deep-mines each item (transcript + timestamps +
-         screenshots + verbatim prompts), files + cross-links + indexes, pushes
-bot    → "✅ done: … Send /cleanup to tidy up."
-```
-
-### `/promptos:skills` — make your machine match your catalogue
-
-Your base records which skills are worth having. `/promptos:skills` makes the machine match
-the record, on **every agent runtime installed**, and then proves it.
-
-It is **runtime-agnostic by construction**: it discovers which agent platforms exist rather
-than branching on platform identity, so Claude Code, Codex, Cursor, Windsurf, Copilot CLI and
-anything else that reads a skills directory all produce a complete report, including runtimes
-that did not exist when this was written.
-
-It audits **and repairs**. Anything catalogued but missing gets installed; anything installed
-but broken gets fixed; and both get re-verified afterwards.
-
-```text
-you    → /promptos:skills
-skill  → discovers every agent runtime on the machine
-       → audits three separate states: valid on disk / loaded in the live registry /
-         typeable as a slash command — these are not the same thing
-       → diffs your catalogue against what's installed
-       → installs what's missing, routing by what each source actually contains
-       → brings every runtime to parity, mirroring in what an installer skipped
-       → re-verifies, then reports what needs a restart and which surface it affects
-```
-
-It is built around two things that silently ruin skill installs:
-
-- **Installers lie.** They report success for work they did not do — a cross-agent installer
-  can print `copy → Codex ✓` and write nothing. Nothing here trusts an install log; every
-  claim is grounded in a command run after the fact.
-- **Installed ≠ loaded ≠ typeable.** A skill can be valid on disk, missing from the running
-  agent's registry, and missing again from the slash menu. Each state is checked separately,
-  which is what stops "everything installed ✅" from ending in an empty slash menu.
-
-Catalogues also list CLIs, MCP servers, libraries and manual downloads next to real skills.
-Those are reported as **NOT-A-SKILL** with what they actually are — never counted as
-installed.
-
-### Daily flow
-
-```text
-you    → forward 5 links to your bot from your phone
-you    → "process to promptos"
-skill  → researches, classifies, files, indexes, cross-links
-bot    → "✅ Processed 5 items: … Send /cleanup to tidy up."
-```
-
-Steer it:
-
-```text
-process my queue
-this one is dense, break it down fully           ← forces the deep treatment
-break down by timing so I can jump around        ← timestamped element pages
-add this to the base: <link>                     ← single item, queue optional
-what do I use for lead scraping?                 ← searches your own base
-```
-
-### What a filled base looks like
-
-```
-your-knowledge-base/
-├── Tool Index            ← "I want to… → reach for A · B · C"
-├── Coding/               ← subgroups: Workflow, Quality, Frontend…
-├── Marketing/            ← Leads & Outreach, SEO, Ads…
-├── Videos/               ← Generation, Editing, Code→Video…
-├── Agents & Automation/  ← Inboxes, Scheduling, Multi-Agent…
-└── …categories grow from YOUR materials
-```
-
 ## Layout
 
 ```
 commands/
-├── promptos.md                   ← /promptos — first-run setup (connect GitBook + Telegram)
-├── process.md                    ← /promptos:process — the standing "process the inbox" contract
-└── skills.md                     ← /promptos:skills — catalogue → machine: audit, install, verify
+├── promptos.md                   ← /promptos, first run setup on your computer
+├── process.md                    ← /promptos:process, the standing inbox contract
+├── skills.md                     ← /promptos:skills, catalogue against machine
+└── publish.md                    ← /promptos:publish, put the base online
+skills/promptos-skillsync/
+├── SKILL.md                      ← runtime discovery, install, verify
+└── references/
+    ├── audit-protocol.md         ← what counts as installed, loaded, typeable
+    └── install-playbook.md       ← per runtime mechanics and installer traps
 skills/promptos-curator/
 ├── SKILL.md                      ← the pipeline: intake → depth ladder → filing → indexes
 └── references/
-    ├── platform-setup.md         ← output/input platform options + exact setup steps
+    ├── site-build.md             ← the MkDocs build, theme, and design system
+    ├── platform-setup.md         ← inbox and hosting options, with exact steps
     ├── deep-breakdown.md         ← video mining: transcript, frames, timed deep links
-    ├── mining-prompt.md          ← paste-ready "true-mine this" prompt (the gold standard)
-    └── page-templates.md         ← copy-paste page anatomies + facet hubs + registration rule
-skills/promptos-skillsync/
-├── SKILL.md                      ← the four phases: discover → audit → reconcile → install → re-verify
-└── references/
-    ├── audit-protocol.md         ← runtime-agnostic audit, paste-ready into any fresh session
-    └── install-playbook.md       ← source routing table, per-runtime mechanics, installer traps
+    ├── mining-prompt.md          ← paste ready "true mine this" prompt
+    └── page-templates.md         ← page anatomies, facet hubs, registration rule
 ```
+
+## Why it exists
+
+I FOMO-ed. Hard. Every AI influencer post felt too important to lose, so I flooded my own
+WhatsApp and Telegram with forwarded links. Saved, then never seen again. So I built this
+to solve my own problem.
+
+My base runs 330+ pages today: every tool on its own page, fifteen topical sections,
+generated facet hubs, and deep mined tutorials where every demoed element has its own
+page with screenshots and jump links. When I ask "what do I use for lead scraping", the
+answer is one search away with the verified link sitting right there.
+
+Yours will look like whatever you feed it.
+
+## Licence
+
+MIT, see [LICENSE](LICENSE). The Qbyx name and logo stay the property of Qbyx Studio;
+swap them for your own if you fork this.
 
 ---
 

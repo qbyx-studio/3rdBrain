@@ -73,7 +73,7 @@ template (separate from the verbatim examples, never a substitute for them).
 **Screenshots:** extract 1–3 frames per element at the most informative moments:
 `ffmpeg -ss <seconds> -i src.ext -frames:v 1 -q:v 5 out.jpg`
 Spot-check a couple visually (not black/transition frames). Commit into the base's asset
-convention (e.g. `.gitbook/assets/<topic>/`). Frames showing a full prompt on screen are
+convention (`.assets/<topic>/`, or `.gitbook/assets/<topic>/` on a GitBook base). Frames showing a full prompt on screen are
 gold; transcribe the prompt verbatim into a prompt block on the page.
 
 ## 3. Design the page tree

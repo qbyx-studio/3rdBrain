@@ -1,6 +1,8 @@
 # Page Templates
 
-Copy these shapes. Syntax shown is GitBook-flavored markdown (`{% embed %}`, `{% hint %}`);
+Copy these shapes. The block syntax (`{% embed %}`, `{% prompt %}`, `{% hint %}`) is
+rendered by the site build, and the same files also render in GitBook, so a base can
+move between the two. See `references/site-build.md`;
 substitute the target platform's equivalents (plain links / callouts) when elsewhere.
 
 ## Table of contents
@@ -80,7 +82,7 @@ The verbatim prompt, untouched.
 ```
 {% endprompt %}
 
-![](../.gitbook/assets/topic/step-screenshot.jpg)
+![](../.assets/topic/step-screenshot.jpg)
 
 **Pairs well with:** [Our equivalent](…) (platform disambiguation)
 ```
@@ -260,7 +262,7 @@ separate from, never a replacement for, the verbatim examples below.>
 
 #### <Example 1 name> (<m:ss>)
 
-<figure><img src="../.gitbook/assets/<topic>/<frame-1>.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.assets/<topic>/<frame-1>.jpg" alt=""><figcaption></figcaption></figure>
 
 {% prompt description="Verbatim from video (<m:ss>)" %}
 ```markdown
@@ -271,7 +273,7 @@ when the auto-caption garbles it. Do not paraphrase, trim, or "improve" it.>
 
 #### <Example 2 name> (<m:ss>)
 
-<figure><img src="../.gitbook/assets/<topic>/<frame-2>.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.assets/<topic>/<frame-2>.jpg" alt=""><figcaption></figcaption></figure>
 
 {% prompt description="Verbatim from video (<m:ss>)" %}
 ```markdown

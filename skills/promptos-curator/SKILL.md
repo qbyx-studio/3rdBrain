@@ -23,18 +23,23 @@ that future search.
 
 Never assume platforms or credentials. Check what exists; ask for what's missing.
 
-**Output platform** (where the knowledge base lives):
-- If the user has chosen one, ask only for the credentials it needs.
-- If undecided: research the current options briefly, then present 3–5 with one clear
-  recommendation and why. Strong default: **a git repository as source of truth + a
-  rendering platform with two-way git sync** (e.g. GitBook Git Sync). Git gives you history,
-  recoverability, and safe concurrent editing between the user and you. Alternatives to
-  offer depending on the user: Notion, Obsidian (+ Publish), Outline, BookStack,
-  Docusaurus/MkDocs + GitHub Pages.
-- Then request exactly what's needed, in one message, with where to get each item
-  (e.g. "GitHub personal access token with `repo` scope: github.com/settings/tokens;
-  GitBook API token: app.gitbook.com → Developer settings"). Remind the user that tokens
-  pasted in chat should be rotated when the work is done, or scoped/short-lived.
+**Where the base lives.** Default: **a folder on the user's own computer, rendered by
+MkDocs**, with a local git repository for history. Setup finishes with zero accounts, zero
+tokens and zero cost, and nothing leaves the machine. Assume the user has never opened a
+terminal: you run every command, and you translate every error into plain words.
+
+Read `references/site-build.md` for the build, the transforms and the design system. The
+same build serves the local preview and any later publish, so the two never drift.
+
+Publishing is a separate, explicit choice. `commands/publish.md` hosts the base on
+Cloudflare Pages, free, and asks whether the user wants a login wall or an open link. It
+warns before anything uploads and verifies from outside afterwards. Never publish during
+setup, and never treat silence as consent.
+
+Offer alternatives only when the user asks for them: GitBook with two way git sync, Notion,
+Obsidian, Outline. Each adds an account, so the local default stands unless they choose
+otherwise. When they do choose one, request exactly what it needs in one message, with where
+to get each item and how to revoke it.
 
 **Input platform** (how materials reach you):
 - If chosen, set it up. If undecided, present options with a recommendation.
@@ -47,19 +52,21 @@ Never assume platforms or credentials. Check what exists; ask for what's missing
   allowlist of the user's own accounts, and confirm each processed item back to whoever
   submitted it.
 
-For platform-specific setup steps, read `references/platform-setup.md`.
+For inbox and hosting specifics, read `references/platform-setup.md`.
 
-**Two commands.** First-run setup is **`/promptos`** (connect the knowledge base + the
+**Three commands.** First-run setup is **`/promptos`** (build the base locally, connect the
 materials inbox). Routine runs are **`/promptos:process`** (self-heal → pull → deep-mine →
-file → wire → confirm; full contract in `commands/process.md`). **Every credential is
-revokable, nothing you paste is permanent:** revoke the GitBook API token at
-app.gitbook.com → Developer settings; the GitHub PAT at github.com/settings/tokens; the
-Telegram bot token via @BotFather `/revoke` (issues a fresh token and kills the old one);
-and remove any account from the inbox allowlist at any time.
+file → wire → confirm; full contract in `commands/process.md`). Going online is
+**`/promptos:publish`**, opt in and reversible.
+
+**Every credential is revokable, nothing you paste is permanent:** the Telegram bot token
+via @BotFather `/revoke` (issues a fresh token and kills the old one); any Cloudflare API
+token at dash.cloudflare.com → My Profile → API Tokens; and any account can be removed from
+the inbox allowlist at any time. Local setup asks for none of these.
 
 **Two hard rules learned the expensive way:**
 1. **Never one-way force-sync over the user's edits.** If the platform supports manual
-   editing (GitBook UI, Notion), the user WILL edit there. Configure two-way sync, always
+   editing (the GitBook UI, Notion, a text editor), the user WILL edit there. Configure two-way sync, always
    pull/refresh before editing, and treat the user's edits as authoritative; adapt yours
    around theirs. A force-import once silently destroyed a user's manual page; that class
    of bug is unacceptable.
@@ -181,7 +188,7 @@ Every page follows one shape so the user's eyes always know where to look
    📝 prompt · ⚙️ SaaS tool/MCP · ℹ️ info/reference · 🛡️ security. State relationships
    precisely; if a platform *uses* a model underneath, say "engine X auto-selected by Y",
    don't imply the user picks it directly.
-4. **"Use it when"** table (2–3 rows: *You want to… → This delivers*); this is what makes
+4. **"Use it when"** table (2 to 3 rows: *You want to… → This delivers*); this is what makes
    the base a brainstorming tool, not a link dump.
 5. **Pairs well with:** links to related pages, with a short disambiguation when two pages
    overlap ("same job, but for email"). Cross-references go **both directions**; when you
