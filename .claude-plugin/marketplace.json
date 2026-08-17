@@ -1,6 +1,6 @@
 {
   "name": "promptos",
-  "description": "Own every link you save. A Claude/ChatGPT skill that turns your saved links into an organized, indexed, cross-referenced knowledge base.",
+  "description": "Saved links, made findable. A Claude skill that files everything you save into an organized, indexed, searchable knowledge base on your own computer.",
   "owner": {
     "name": "Qbyx",
     "url": "https://github.com/QbyxStudio"
@@ -9,7 +9,7 @@
     {
       "name": "promptos",
       "source": "./",
-      "description": "Materials inbox to organized knowledge base. Setup with /promptos (connect GitBook + Telegram, both revokable); run with /promptos:process (self-heal, deep-mine videos with timestamps + screenshots, file into topical categories with searchable indexes, confirm to submitters); keep your machine in sync with /promptos:skills (runtime-agnostic audit of every agent platform against your catalogue, then install, repair and verify what's missing)."
+      "description": "Forward links from your phone; an AI researches each one, writes it a page, and files it. Set up with /promptos (builds the base on your computer, no accounts needed); run with /promptos:process (deep-mines videos with timestamps and screenshots, files into topical categories with searchable indexes, confirms to submitters); keep your machine in sync with /promptos:skills; put it online when you want with /promptos:publish."
     }
   ]
 }
