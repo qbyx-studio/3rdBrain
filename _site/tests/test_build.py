@@ -3,13 +3,19 @@
 Every assertion here corresponds to a bug that actually occurred while building
 this site. Run against a completed build:
 
-    PYTHON=.venv/Scripts/python.exe bash build.sh
-    .venv/Scripts/python.exe -m pytest tests -q
+    cd _site && VAULT=.. bash build.sh
+
+The build runs them for you. To run them alone, use the interpreter inside .venv
+(.venv/bin/python, or .venv/Scripts/python.exe on Windows):
+
+    .venv/bin/python -m pytest tests -q
 """
 
 from __future__ import annotations
 
 import json
+import sys
+import subprocess
 import re
 import urllib.parse
 from pathlib import Path
@@ -258,10 +264,8 @@ def test_no_new_broken_internal_links():
     written the target page yet. That must be reported, but it must never stop
     the site from publishing, so build.sh runs this separately.
     """
-    import subprocess
     out = subprocess.run(
-        [sys.executable if (sys := __import__("sys")) else "python",
-         str(ROOT / "tools" / "check_links.py"), str(SITE)],
+        [sys.executable, str(ROOT / "tools" / "check_links.py"), str(SITE)],
         capture_output=True, text=True).stdout
     found = set(re.findall(r"->\s+(\S+)$", out, re.M))
     unexpected = found - KNOWN_CONTENT_BREAKS
@@ -291,9 +295,8 @@ def test_headings_use_gitbook_slug_rules():
 def test_no_broken_in_page_anchors():
     """Anchors are content, so this reports rather than blocks a deploy."""
     import subprocess
-    import sys as _sys
     out = subprocess.run(
-        [_sys.executable, str(ROOT / "tools" / "check_links.py"), str(SITE)],
+        [sys.executable, str(ROOT / "tools" / "check_links.py"), str(SITE)],
         capture_output=True, text=True).stdout
     m = re.search(r"BROKEN anchors\s*:\s*(\d+)", out)
     assert m, "link checker produced no anchor count"

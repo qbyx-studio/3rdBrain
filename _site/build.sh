@@ -13,14 +13,54 @@
 #   PYTHON=.venv/Scripts/python.exe bash build.sh
 set -euo pipefail
 
-PYTHON="${PYTHON:-python}"
-VAULT="${VAULT:-vault}"
+# Find or create the virtual environment. The interpreter lives in a different
+# place on Windows than everywhere else, so detect it rather than assume.
+find_python() {
+  if [ -n "${PYTHON:-}" ] && [ -x "${PYTHON}" ]; then echo "$PYTHON"; return; fi
+  if [ -x ".venv/bin/python" ]; then echo ".venv/bin/python"; return; fi
+  if [ -x ".venv/Scripts/python.exe" ]; then echo ".venv/Scripts/python.exe"; return; fi
+  echo ""
+}
 
-# uv-created venvs ship without pip, so prefer uv when it is on PATH. CI has
-# pip and no uv, and takes the second branch.
+PYTHON="$(find_python)"
+
+if [ -z "$PYTHON" ]; then
+  echo "creating virtual environment..."
+  if command -v uv >/dev/null 2>&1; then
+    uv venv .venv >/dev/null
+  else
+    BASE_PY="$(command -v python3 || command -v python || true)"
+    if [ -z "$BASE_PY" ]; then
+      echo "Python 3.10 or newer is required. Install it, then run this again." >&2
+      exit 1
+    fi
+    "$BASE_PY" -m venv .venv 2>/dev/null || {
+      echo "Could not create a virtual environment." >&2
+      echo "On Debian or Ubuntu: sudo apt install python3-venv python3-pip" >&2
+      exit 1
+    }
+  fi
+  PYTHON="$(find_python)"
+fi
+
+if [ -z "$PYTHON" ]; then
+  echo "Virtual environment created but no interpreter found inside it." >&2
+  exit 1
+fi
+
+# Install dependencies. uv is fastest when present. Otherwise use pip, and
+# bootstrap it first if the distribution shipped a venv without one, which is
+# the default on Debian and Ubuntu.
 if command -v uv >/dev/null 2>&1; then
   uv pip install --quiet --python "$PYTHON" -r requirements.txt
 else
+  if ! "$PYTHON" -m pip --version >/dev/null 2>&1; then
+    "$PYTHON" -m ensurepip --upgrade >/dev/null 2>&1 || {
+      echo "This Python has no pip and cannot bootstrap one." >&2
+      echo "On Debian or Ubuntu: sudo apt install python3-pip python3-venv" >&2
+      exit 1
+    }
+  fi
   "$PYTHON" -m pip install --quiet --upgrade pip
   "$PYTHON" -m pip install --quiet -r requirements.txt
 fi

@@ -1,0 +1,23 @@
+# Shell scripts must reach Mac and Linux with LF endings. Checked out on
+# Windows with the default autocrlf they gain CR, and bash then reads
+# "set -euo pipefail\r", which fails with "pipefail: invalid option name".
+# Committing them as LF and forcing LF on checkout keeps the build portable.
+
+* text=auto eol=lf
+
+*.sh    text eol=lf
+*.py    text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.json  text eol=lf
+*.css   text eol=lf
+*.txt   text eol=lf
+
+# Hook scripts have no extension and are executed directly.
+git-hooks/*  text eol=lf
+
+*.png   binary
+*.gif   binary
+*.jpg   binary
+*.mp4   binary
+*.woff2 binary
