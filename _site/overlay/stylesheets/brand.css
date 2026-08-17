@@ -422,3 +422,44 @@
 .md-typeset .md-tags {
   margin-bottom: 1rem;
 }
+
+/* =========================================================================
+   Sidebar depth — three tiers must look like three tiers
+
+   Before: a sub-group parent ("Workflow & Planning") rendered in exactly the
+   same colour and weight as an ordinary page under it, so a group did not read
+   as a group; and pages nested inside a sub-group sat at 42% opacity, faint
+   enough to look disabled.
+
+   After, reading down the tree:
+     section   CODING              azure, uppercase, mono   (unchanged)
+     sub-group Workflow & Planning white, medium weight
+     page      Playwright          soft grey
+   ========================================================================= */
+
+/* Sub-group parents. Excludes top-level sections, which Material also marks
+   --nested and which already have their own azure treatment. */
+.md-nav--primary .md-nav__item--nested:not(.md-nav__item--section) > label.md-nav__link,
+.md-nav--primary .md-nav__item--nested:not(.md-nav__item--section)
+  > .md-nav__container > label.md-nav__link {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+/* The expand arrow should follow its label rather than stay grey. */
+.md-nav--primary .md-nav__item--nested:not(.md-nav__item--section)
+  > label.md-nav__link .md-nav__icon {
+  color: var(--fg);
+}
+
+/* Pages inside a sub-group: same legibility as any other page. Depth is
+   carried by indentation and by the brighter parent above them, so dimming
+   these as well only made them hard to read. */
+.md-nav--primary .md-nav .md-nav .md-nav__link {
+  color: var(--md-default-fg-color--light);
+}
+
+/* Active page still wins over both. */
+.md-nav--primary .md-nav .md-nav .md-nav__link--active {
+  color: var(--cyan-glow);
+}

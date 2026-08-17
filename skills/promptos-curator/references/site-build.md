@@ -190,9 +190,30 @@ Article measure is capped at `34rem`, near 750px, and centred in its column. Mat
 those margins with `[dir="ltr"]`-prefixed selectors, so an override has to match that
 selector shape or the article stays glued to the sidebar.
 
-Sidebar rhythm carries the hierarchy: section labels are small, uppercase, tracked and
-accent coloured; page links are larger, sentence case and quieter. Wrapped titles use a
-tighter line height than the gap between items, so a two line title reads as one entry.
+Sidebar rhythm carries the hierarchy, and each of the three levels gets its own treatment,
+brightest at the top:
+
+| Level | Example | Colour | Weight |
+| --- | --- | --- | --- |
+| Section | `CODING` | accent, uppercase, mono | 700 |
+| Sub-group | `Workflow & Planning` | foreground white | 500 |
+| Page | `Playwright` | soft grey | 400 |
+
+Pages nested inside a sub-group use the same grey as top level pages. Indentation and the
+brighter parent above already carry the depth, so dimming them as well only costs legibility.
+
+Two traps when changing this. Material marks top level sections with both `--section` and
+`--nested`, so a sub-group rule needs
+`.md-nav__item--nested:not(.md-nav__item--section)` or it restyles the section headings too.
+And sub-groups are `label` elements rather than links, so the `.md-nav__icon` colour has to be
+set alongside the label or the expand arrow stays grey and looks detached.
+
+Verify by reading the computed `color` of one element per level and confirming three distinct
+values. The bug this replaced was two levels rendering the same colour, which looks entirely
+plausible in a screenshot.
+
+Wrapped titles use a tighter line height than the gap between items, so a two line title reads
+as one entry.
 
 ## 6. Configuration
 
