@@ -4,7 +4,7 @@
   "owners": [],
   "enroll_remaining": 1,
   "offset": 0,
-
+  "lock_port": 47921,
   "auto_hour": 0,
   "base_dir": "",
   "agent_path": "claude",

@@ -37,6 +37,19 @@ the slots are used.
 
 **5. Test.** Send a link from your phone and confirm it appears in `inbox.json`.
 
+## Only one instance ever runs
+
+At startup the bot binds `127.0.0.1:47921` as a mutex. A second copy finds the port taken,
+logs `already running`, and exits.
+
+This matters more than it looks. Two pollers sharing one token make Telegram answer
+409 Conflict, the update offset races, and updates fetched by the losing copy are discarded
+before they reach `inbox.json`. Messages disappear with no error anywhere, which is how a
+user's follow-up remarks on a link went missing. With the lock in place, a watchdog relaunch
+or an accidental second start is harmless.
+
+Change the port with `lock_port` in the config if 47921 is taken on your machine.
+
 ## Keep it running at login
 
 **Windows.** Put a one line `.cmd` file in the Startup folder
@@ -91,6 +104,7 @@ items.
 | `base_dir` | Folder your knowledge base lives in |
 | `agent_path` | Path to your agent CLI |
 | `auto_prompt` | What to tell the agent |
+| `lock_port` | Single-instance mutex port, default 47921 |
 
 It messages every submitting account when a run starts, and messages them again if the run
 fails. A silent scheduled failure destroys trust in a pipeline.

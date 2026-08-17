@@ -18,6 +18,7 @@ change the theme or understand the pipeline.
 | `mkdocs.yml` | Theme, navigation, search and tag configuration |
 | `hooks/` | Renders the page block syntax |
 | `tools/` | The transforms: tags, navigation, search tuning, link audits |
+| `tools/stalecheck.py` | Age review, report only. Run by `/promptos:stalecheck` |
 | `overlay/` | Theme, fonts, logo, and the generated hub pages |
 | `tests/` | Regression checks, run on every build |
 | `deploy.sh` | Used by `/promptos:publish` |

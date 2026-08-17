@@ -47,13 +47,16 @@ warns you clearly, and it asks who is allowed in. See [Publishing](#publishing-o
 | Edit a page by hand | Your edit wins; the AI works around it |
 | Want your chat tidy | `/cleanup` deletes only what has already been filed, only when you say so |
 | Ask "is every skill in my base actually installed?" | `/promptos:skills` checks every agent on the machine, installs what is missing, and verifies it landed |
+| Wonder which pages have gone stale | `/promptos:stalecheck` prints a review queue by age and class, and changes nothing |
+| Send a link, then a note about how to file it | The note is read first, and it overrides the default page shape |
 
-Every page follows one shape: a type label (🧩 skill · 📦 repo · 🤖 model · ⚙️ SaaS ·
+Every page opens with the date it was added, `🗓️ Added 2026-08-17`, which doubles as the age
+signal `/promptos:stalecheck` reads. After that every page follows one shape: a type label (🧩 skill · 📦 repo · 🤖 model · ⚙️ SaaS ·
 📝 prompt), a "Use it when" table, a short summary, the verified link, and the original
 source embedded. Facts pulled from videos carry timestamps, so any claim is checkable in
 seconds.
 
-## The four commands
+## The five commands
 
 ### `/promptos`
 
@@ -88,6 +91,21 @@ across every agent runtime it finds, then installs and repairs what is missing.
 
 Installed, loaded and typeable are three separate states. It checks all three, because a
 skill can be valid on disk and still be missing from the menu you type into.
+
+### `/promptos:stalecheck`
+
+Your base ages. A model ranking from six months ago is a liability, and you will not notice
+on your own.
+
+This reads the `🗓️ Added` date on every page and prints a review queue in three parts: what is
+**overdue** against its class, a **watchlist** of what ages next, and heuristic
+**supersede** pairs where a newer version of the same product exists elsewhere in your base.
+
+Roundups and model pages age fastest at 75 days. Tool pages sit near 180. Prompts, workflows
+and techniques last 300 or more, because a recipe stays useful long after a ranking rots.
+
+It is **report only**. It never edits, banners, merges or deletes. It recommends, you decide.
+A stale ranking costs less than a lost recipe.
 
 ### `/promptos:publish`
 
@@ -189,6 +207,7 @@ commands/
 ├── promptos.md                   ← /promptos, first run setup on your computer
 ├── process.md                    ← /promptos:process, the standing inbox contract
 ├── skills.md                     ← /promptos:skills, catalogue against machine
+├── stalecheck.md                 ← /promptos:stalecheck, age review, report only
 └── publish.md                    ← /promptos:publish, put the base online
 skills/promptos-skillsync/
 ├── SKILL.md                      ← runtime discovery, install, verify

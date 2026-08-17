@@ -1,6 +1,7 @@
 ---
 description: A starter page so the base builds on day one
 ---
+<sub>🗓️ Added 2026-08-17</sub>
 
 # Welcome
 

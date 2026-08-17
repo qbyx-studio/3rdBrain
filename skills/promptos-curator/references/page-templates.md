@@ -25,6 +25,7 @@ substitute the target platform's equivalents (plain links / callouts) when elsew
 ---
 description: One line; what it is + its edge
 ---
+<sub>🗓️ Added YYYY-MM-DD</sub>
 
 # Tool Name
 
@@ -61,6 +62,7 @@ description: One line; what it is + its edge
 ---
 description: "Use Case N: outcome in plain words"
 ---
+<sub>🗓️ Added YYYY-MM-DD</sub>
 
 # UC-N; Outcome Name
 
@@ -93,6 +95,7 @@ The verbatim prompt, untouched.
 ---
 description: Source name; every demoed element, timed & broken down
 ---
+<sub>🗓️ Added YYYY-MM-DD</sub>
 
 # Source; Full Breakdown
 
@@ -121,6 +124,7 @@ description: Source name; every demoed element, timed & broken down
 ---
 description: What this prompt achieves
 ---
+<sub>🗓️ Added YYYY-MM-DD</sub>
 
 # Prompt Name
 
@@ -141,6 +145,7 @@ ENTIRE prompt, byte-for-byte. Never split, trim, or "improve".
 ---
 description: One line for the cluster
 ---
+<sub>🗓️ Added YYYY-MM-DD</sub>
 
 # Subgroup Name
 
@@ -156,6 +161,7 @@ Register in the table of contents as the parent with children nested beneath it.
 ---
 description: Every tool in this space; one searchable table for brainstorming
 ---
+<sub>🗓️ Added YYYY-MM-DD</sub>
 
 # Tool Index
 
@@ -196,6 +202,7 @@ it lists every page carrying that facet. On each member page, add a `**Facets:**
 ---
 description: Every <facet> page in the base — browse by capability, not category
 ---
+<sub>🗓️ Added YYYY-MM-DD</sub>
 
 # <Facet> · Browse
 
@@ -229,6 +236,7 @@ blanks, delete what doesn't apply. (Outer fence is 4 backticks so the inner ``` 
 ---
 description: <one line — what it is + its single sharpest edge>
 ---
+<sub>🗓️ Added YYYY-MM-DD</sub>
 
 # <Title>
 

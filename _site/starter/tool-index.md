@@ -1,6 +1,7 @@
 ---
 description: Every tool in one searchable table
 ---
+<sub>🗓️ Added 2026-08-17</sub>
 
 # Tool Index
 

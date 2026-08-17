@@ -1,6 +1,7 @@
 ---
 description: Everything I save, filed so I can find it again
 ---
+<sub>🗓️ Added 2026-08-17</sub>
 
 # PromptOS by Qbyx
 

@@ -9,7 +9,7 @@
     {
       "name": "promptos",
       "source": "./",
-      "description": "Forward links from your phone; an AI researches each one, writes it a page, and files it. Set up with /promptos (builds the base on your computer, no accounts needed); run with /promptos:process (deep-mines videos with timestamps and screenshots, files into topical categories with searchable indexes, confirms to submitters); keep your machine in sync with /promptos:skills; put it online when you want with /promptos:publish."
+      "description": "Forward links from your phone; an AI researches each one, writes it a page, and files it. Set up with /promptos (builds the base on your computer, no accounts needed); run with /promptos:process (deep-mines videos with timestamps and screenshots, files into topical categories with searchable indexes, confirms to submitters); keep your machine in sync with /promptos:skills; review what has aged with /promptos:stalecheck (report only); put it online when you want with /promptos:publish."
     }
   ]
 }

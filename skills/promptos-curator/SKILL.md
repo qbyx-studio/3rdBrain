@@ -78,26 +78,38 @@ the inbox allowlist at any time. Local setup asks for none of these.
 
 For each queued item:
 
-1. **Identify AND mine.** Fetch the title/metadata, and for ANY video (shorts included)
+1. **Read the remarks before mining.** A queued link is often followed by a separate
+   message carrying instructions for that item: how to break it down, what to emphasise, what
+   to warn about. **Per-item remarks override the default page shape.** A remark such as
+   "decompose by use case, one page each, categorised by what it is for, and disclaim what it
+   was actually tested on" replaces your filing plan for that item; follow it.
+
+   Look for the adjacent message in the queue, before and after the link, from the same
+   account. Also watch for a **gap in `message_id`**: consecutive submissions from one account
+   normally have near-consecutive ids, so a jump means a message was dropped and the remarks
+   for that link may be gone. When remarks may have been lost, **ask the user** rather than
+   guessing a shape. Filing a link the wrong way costs more than one question.
+
+2. **Identify AND mine.** Fetch the title/metadata, and for ANY video (shorts included)
    pull the transcript (auto-subtitles) and read it before filing. A title is clickbait,
    never content; filing from a title alone produces link-dumps and wrong categories
    (a "money printer" short turned out to be a video-generation repo). The transcript of
    a short costs seconds and yields the tool names, steps and claims the page exists for.
-2. **Research.** Find the canonical link for whatever the item points at (the actual repo,
+3. **Research.** Find the canonical link for whatever the item points at (the actual repo,
    product page, docs). **Only include links you verified exist.** The mined content
    (transcript/text) names the tools; search from those names, never from the title.
    "Watch for details" is a FAILURE STATE, permitted only after mining was attempted and
    the content itself was unobtainable; it is never a substitute for reading the source.
    A confident wrong link is worse than an honest gap; an honest gap is worse than
    doing the five-second transcript pull that removes it.
-3. **Dedupe / supersede check.** If the base already covers it, update the existing page
+4. **Dedupe / supersede check.** If the base already covers it, update the existing page
    (append the new source, refresh facts) instead of creating a near-duplicate.
-4. **Classify** (section 3) and **choose depth** (section 2).
-5. **File** the page(s), update every index, add cross-references.
-6. **Close the loop**: mark the item processed, confirm to the submitter with what was
+5. **Classify** (section 3) and **choose depth** (section 2).
+6. **File** the page(s), update every index, add cross-references.
+7. **Close the loop**: mark the item processed, confirm to the submitter with what was
    created and where, and remind them of the cleanup command. If several people/accounts
    submitted, each gets informed about their items (or the full batch summary).
-7. **Housekeeping**: after the batch is pushed and confirmed, delete local scratch downloads
+8. **Housekeeping**: after the batch is pushed and confirmed, delete local scratch downloads
    (videos, extracted frames you did not commit, temp transcripts) to avoid disk bloat.
    Only committed assets stay; everything else is deleted.
 
@@ -200,6 +212,24 @@ Every page follows one shape so the user's eyes always know where to look
 
 Preserve the user's own annotations ("Must do!!!", "Must Study") visibly on the page,
 they're the user's prioritization signal.
+
+### Date stamp (every page, first body line)
+
+Every content page carries a visible, subtle stamp as its **first body line**: immediately
+after the frontmatter block, or line 1 when a page has no frontmatter.
+
+```markdown
+<sub>🗓️ Added YYYY-MM-DD</sub>
+```
+
+New pages get today's date. It is the age signal `/promptos:stalecheck` reads, so a missing
+stamp means the page ages by its first commit date instead, which is close but coarser.
+
+To backfill a base that predates the convention, take each page's first-add date from git:
+
+```bash
+git log --diff-filter=A --reverse --format=%as --name-only
+```
 
 ## 5. Indexes; the base must be searchable three ways
 

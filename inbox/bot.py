@@ -250,6 +250,27 @@ def main():
 
 
 if __name__ == "__main__":
+    # Single-instance guard. Bind a fixed localhost port as a mutex; if another
+    # collector already holds it, exit at once.
+    #
+    # Without this, two pollers share one token, Telegram answers 409 Conflict,
+    # the update offset races, and updates fetched by the losing instance are
+    # dropped before they reach inbox.json. Messages vanish silently, which is
+    # how a user's follow-up remarks went missing. A watchdog relaunch or a
+    # second manual start is now harmless.
+    #
+    # The socket stays open for the life of the process.
+    import socket
+
+    _lock_port = int(load(CONFIG, {}).get("lock_port", 47921))
+    _singleton_lock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        _singleton_lock.bind(("127.0.0.1", _lock_port))
+        _singleton_lock.listen(1)
+    except OSError:
+        log("another collector instance is already running; exiting to avoid 409 races")
+        raise SystemExit(0)
+
     # Never let one unhandled exception end capture. A dead collector loses
     # messages permanently, because Telegram drops unfetched updates after ~24h.
     while True:

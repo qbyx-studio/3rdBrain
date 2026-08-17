@@ -16,6 +16,12 @@ PROCESS PROMPTOS with the following rules
 
 For EACH material (work from the CONTENT, never the title/thumbnail):
 
+0b. READ THE REMARKS FIRST: check the queue for a separate instructions message next to
+    this link, from the same account. Per-item remarks OVERRIDE the default page shape
+    (e.g. "decompose by use case, one page each, categorised by what it is for, disclaim
+    what it was tested on"). Watch for a gap in message_id, which means a message was
+    dropped and the remarks may be lost; ASK rather than guess the shape.
+
 1. ACQUIRE: download the video (~720p so on-screen text is legible) + pull the full
    auto-sub transcript; read the whole thing. Article/repo → full text / README.
 

@@ -108,6 +108,15 @@ Two fixes for a large base:
 - **Generated hub pages leave the index.** Pages that are lists of links match almost every
   query and bury the real answer.
 
+### `tools/stalecheck.py`
+
+Report only, and not part of the build. It reads each page's `🗓️ Added` date and its facet
+class, then prints a review queue: overdue pages, a watchlist of what ages next, and heuristic
+supersede pairs. It writes nothing. `/promptos:stalecheck` is the trigger.
+
+Pages with no stamp fall back to their first commit date from git, so it works on a base that
+predates the convention.
+
 ### `hooks/gitbook_compat.py`
 
 Render-time conversion of the block syntax below. Runs in memory; files on disk keep their
