@@ -1,0 +1,128 @@
+site_name: PromptOS by Qbyx
+site_description: Prompts, Claude Skills, repos & workflows — organized to be found fast
+site_url: https://main.promptos.pages.dev   # set by /promptos:publish
+
+exclude_docs: |
+  SUMMARY.md
+  NAV.md
+  NAV-EXTRA.md
+
+docs_dir: .build   # ephemeral staging dir built by build.sh; never edit
+site_dir: site
+
+# Relative links written for GitBook (../facets/x.md) resolve against a flat
+# file layout. Directory URLs are kept because the compat hook rewrites asset
+# paths to absolute, which is the only depth-sensitive case.
+use_directory_urls: true
+
+# Three links are broken in the source vault itself (see tests/test_build.py
+# KNOWN_CONTENT_BREAKS). tools/check_links.py is the real gate, so MkDocs's own
+# validation stays quiet rather than failing every build on content issues.
+validation:
+  links:
+    not_found: ignore
+    unrecognized_links: ignore
+    absolute_links: ignore
+
+theme:
+  name: material
+  language: en
+  font:
+    text: Inter          # guideline: body & UI
+    code: JetBrains Mono # guideline: technical labels
+  logo: assets/qbyx-logo.png
+  favicon: assets/favicon.png
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant          # SPA-style routing, no full reloads
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.sections         # top-level groups render as headed sections
+    - navigation.top
+    - navigation.indexes
+    - navigation.footer
+    - toc.follow
+    - search.suggest              # inline completion as you type
+    - search.highlight            # highlight hits on the target page
+    - search.share                # shareable search-result URLs
+    - content.code.copy           # copy button on every prompt block
+    - content.code.annotate
+    - content.tooltips
+  palette:
+    # Dark first: the brand's dominance is Night 68% / Azure 22% / Accent 10%.
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to light
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark
+
+plugins:
+  # Reads docs/SUMMARY.md as the navigation — the same file GitBook uses.
+  - literate-nav:
+      nav_file: NAV.md
+  # Client-side index. Works behind Cloudflare Access, unlike a hosted crawler.
+  - search:
+      separator: '[\s​\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - tags:
+      tags_hierarchy: true
+      tags_hierarchy_separator: /
+      listings_map:
+        capability:
+          include: [Capability, Type]
+        access:
+          include: [Access]
+        platform:
+          include: [Platform]
+
+hooks:
+  - hooks/gitbook_compat.py
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      permalink_title: Link to this section
+      # GitBook authored every in-page anchor in this base; match its slug rule
+      # rather than rewriting content that is correct at the source.
+      slugify: !!python/name:slugs.slugify
+  - pymdownx.details               # collapsible prompt blocks
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra_css:
+  - stylesheets/gitbook-compat.css
+  - stylesheets/brand.css
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/SeanQbyx
+      name: SeanQbyx

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Rebuild and publish the site after the repository's content changes.
+#
+# Installed as several hooks, because no single one covers how content arrives:
+#   post-commit   a commit made here (the content pipeline)
+#   post-merge    a pull that merges or fast-forwards (GitBook edits)
+#   post-rewrite  a rebase or amend (the pipeline pulls with --rebase, which
+#                 rewrites its own commit into a new one and fires nothing else)
+#
+# Runs in the background and never blocks git: a deploy failure must not look
+# like a commit or pull failure. Output goes to _site/deploy.log.
+SITE="$(git rev-parse --show-toplevel)/_site"
+[ -f "$SITE/deploy.sh" ] || exit 0
+(
+  cd "$SITE" || exit 0
+  echo "=== $(date '+%Y-%m-%d %H:%M:%S') $(basename "$0") $(git rev-parse --short HEAD) ==="
+  bash deploy.sh
+) >> "$SITE/deploy.log" 2>&1 &
+exit 0

@@ -23,12 +23,19 @@ Ask one question: **where should the base live?** Offer a sensible default such 
 
 1. **Check the tools.** Python 3.10 or newer, and git. If either is missing, install it, or
    give the user the one link they need and wait. Say why it is needed in one sentence.
-2. **Create the folder** with `README.md`, `SUMMARY.md`, an `.assets/` folder, and the
-   `_site/` machinery from this repo.
+2. **Copy the starter and the machinery.** `_site/starter/` holds a working base:
+   `README.md`, `SUMMARY.md`, `tool-index.md` and one example page. Copy its contents to the
+   base folder, add an `.assets/` folder, then copy `_site/` itself alongside them and delete
+   the nested `_site/starter`. Copy these files, do not improvise them; the starter's
+   `SUMMARY.md` already wires up the generated facet hubs.
 3. **Create a local git repository** and make the first commit. This gives history and an
    undo button. No remote, no GitHub account.
-4. **Build and open it.** Run the build, start the local server, and open the browser at the
-   address. They should be looking at their own base before this command ends.
+4. **Build it.** `cd _site && VAULT=.. bash build.sh`. The first run creates the virtual
+   environment and installs the pinned dependencies.
+5. **Serve and open it.** Start `mkdocs serve` and open the browser at the address. If the
+   port is refused with a permissions error, Windows has reserved it; try another port
+   rather than reporting a failure. They should be looking at their own base before this
+   command ends.
 
 Read `references/site-build.md` for the build, the transforms and the design system.
 

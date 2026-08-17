@@ -1,0 +1,10 @@
+.venv/
+site/
+.build/
+.pytest_cache/
+__pycache__/
+vault/
+node_modules/
+.env
+.deploy.lock/
+deploy.log

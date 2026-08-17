@@ -1,0 +1,7 @@
+# Pinned deliberately. Material for MkDocs is in maintenance mode and MkDocs
+# upstream plans a v2 that removes the plugin system, so a floating range is a
+# liability. A pinned build keeps working indefinitely; upgrade on purpose.
+mkdocs==1.6.1
+mkdocs-material==9.7.7
+mkdocs-literate-nav==0.6.3
+pytest==8.4.2

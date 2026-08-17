@@ -4,3 +4,10 @@ __pycache__/
 inbox/config.json
 inbox/inbox.json
 inbox/*.log
+_site/.venv/
+_site/site/
+_site/.build/
+_site/.env
+_site/node_modules/
+_site/deploy.log
+_site/.pytest_cache/

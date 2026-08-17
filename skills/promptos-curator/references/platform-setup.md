@@ -44,8 +44,10 @@ Steps:
 
 1. **Check Python 3.10+ and git.** Install what is missing, or hand the user one link and
    wait. One sentence on why it is needed.
-2. **Create the folder and the starter files.** `SUMMARY.md` holds the sidebar as a Markdown
-   list with `## Headings` for sections.
+2. **Copy `_site/starter/`.** It holds a working `README.md`, `SUMMARY.md`, `tool-index.md`
+   and one example page, with the facet hubs already wired into the sidebar. Copying beats
+   improvising: a hand written `SUMMARY.md` usually forgets the generated hubs, which then
+   build but never appear in the navigation.
 3. **Copy `_site/` from this repo.** Dependencies are pinned there.
 4. **`git init` and commit.** History from day one.
 5. **Build and open.** `cd _site && VAULT=.. bash build.sh`, then serve and open the browser.

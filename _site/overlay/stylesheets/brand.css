@@ -1,0 +1,424 @@
+/* ==========================================================================
+   Nightfall — PromptOS 2
+   Palette, gradients, glass and type taken from the HushOwl brand guidelines
+   (sections 06-08). Dark-first: the guideline's dominance is Night 68%,
+   Azure 22%, Accent 10%, so the dark scheme is the default and light is the
+   fallback for anyone who forces it.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap");
+
+:root {
+  /* Nightfall palette */
+  --night-950: #04060c;
+  --night-900: #070b16;
+  --night-800: #0b1120;
+  --azure-deep: #0b5bd3;
+  --azure: #2e8bff;
+  --azure-glow: #4aa3ff;
+  --cyan-glow: #3ce1ff;
+  --violet: #8b5cf6;
+  --emerald: #34d399;
+  --fg: #f8fafc;
+
+  /* Signature gradients */
+  --grad-headline: linear-gradient(100deg, #fff, #8fd0ff, var(--azure), var(--cyan-glow));
+  --grad-accent: linear-gradient(120deg, var(--cyan-glow), var(--azure), var(--violet));
+
+  /* Glow + glass */
+  --glow-azure: 0 0 40px -8px rgba(46, 139, 255, 0.6);
+  --glass-bg: rgba(13, 20, 36, 0.55);
+  --glass-border: rgba(140, 170, 220, 0.14);
+
+  --md-primary-fg-color: var(--azure);
+  --md-accent-fg-color: var(--cyan-glow);
+}
+
+/* -------------------------------------------------------------------------
+   Dark scheme — the intended look
+   ------------------------------------------------------------------------- */
+
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: var(--night-950);
+  --md-default-fg-color: var(--fg);
+  --md-default-fg-color--light: #b9c4d6;
+  --md-default-fg-color--lighter: rgba(184, 196, 214, 0.42);
+  --md-default-fg-color--lightest: rgba(140, 170, 220, 0.14);
+
+  --md-primary-fg-color: var(--night-900);
+  --md-primary-bg-color: var(--fg);
+  --md-accent-fg-color: var(--cyan-glow);
+
+  --md-typeset-color: var(--fg);
+  --md-typeset-a-color: var(--azure-glow);
+
+  --md-code-bg-color: var(--night-800);
+  --md-code-fg-color: #dbe6f5;
+
+  --md-footer-bg-color: var(--night-900);
+  --md-footer-bg-color--dark: var(--night-950);
+}
+
+/* Light scheme kept usable rather than designed — the brand is a dark one. */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: var(--azure-deep);
+  --md-accent-fg-color: var(--azure);
+  --md-typeset-a-color: var(--azure-deep);
+}
+
+/* -------------------------------------------------------------------------
+   Typography — Space Grotesk display, Inter body, JetBrains Mono technical
+   ------------------------------------------------------------------------- */
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-header__topic:first-child {
+  font-family: "Space Grotesk", var(--md-text-font-family), sans-serif;
+  letter-spacing: -0.02em;   /* guideline: tight tracking -2% */
+  font-weight: 600;
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+  background: var(--grad-headline);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Light scheme cannot use a white-led gradient on a white page. */
+[data-md-color-scheme="default"] .md-typeset h1 {
+  background: none;
+  color: var(--night-900);
+}
+
+/* Kickers and labels: uppercase, wide tracking, mono */
+.md-typeset .md-tag,
+.md-nav__title {
+  font-family: var(--md-code-font-family), monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.62rem;
+}
+
+/* -------------------------------------------------------------------------
+   Glass surfaces — cards, nav, converted embeds
+   ------------------------------------------------------------------------- */
+
+[data-md-color-scheme="slate"] .md-header,
+[data-md-color-scheme="slate"] .md-tabs {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+[data-md-color-scheme="slate"] .gb-card,
+[data-md-color-scheme="slate"] .md-typeset details,
+[data-md-color-scheme="slate"] .md-typeset .admonition {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+}
+
+/* Accent gradient on the left edge of prompt blocks and link cards */
+.md-typeset details.note,
+.gb-card {
+  border-left: 2px solid transparent;
+  border-image: var(--grad-accent) 1;
+}
+
+/* Azure bloom behind the things that matter */
+.gb-video,
+.md-typeset figure img {
+  box-shadow: var(--glow-azure);
+}
+
+.md-typeset .md-tag:hover {
+  box-shadow: var(--glow-azure);
+  color: var(--cyan-glow);
+}
+
+/* -------------------------------------------------------------------------
+   Logo
+   ------------------------------------------------------------------------- */
+
+.md-header__button.md-logo img {
+  height: 1.6rem;
+  width: auto;
+}
+
+/* Search: give the field the glass treatment too */
+[data-md-color-scheme="slate"] .md-search__form {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+}
+
+[data-md-color-scheme="slate"] .md-search__form:hover {
+  background: rgba(13, 20, 36, 0.75);
+  box-shadow: var(--glow-azure);
+}
+
+/* -------------------------------------------------------------------------
+   Sidebar hierarchy
+
+   Material renders section headings at almost the same size and colour as the
+   page links under them, so the groups do not read as groups. GitBook solves
+   this with a hard contrast between the two: the section becomes a small,
+   uppercase, tracked-out label; the pages stay sentence case and larger. Same
+   approach here, using the brand's mono face for the label.
+   ------------------------------------------------------------------------- */
+
+.md-nav--primary .md-nav__item--section > label.md-nav__link,
+.md-nav--primary .md-nav__item--section > .md-nav__container > label.md-nav__link {
+  font-family: var(--md-code-font-family), monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--azure-glow);
+  opacity: 0.95;
+  margin: 1.5rem 0 0.35rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--glass-border);
+  cursor: default;
+}
+
+/* First section should not be pushed down the page. */
+.md-nav--primary .md-nav__list > .md-nav__item--section:first-of-type > label.md-nav__link {
+  margin-top: 0.5rem;
+}
+
+/* Sections are always open, so the expand arrow is noise. */
+.md-nav--primary .md-nav__item--section > label.md-nav__link .md-nav__icon {
+  display: none;
+}
+
+/* Page links: quieter than the label, larger, sentence case. */
+.md-nav--primary .md-nav__item .md-nav__link {
+  font-size: 0.72rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-nav--primary .md-nav__item .md-nav__link:hover {
+  color: var(--cyan-glow);
+}
+
+/* Current page: azure, bolder, with an accent bar so position is obvious. */
+.md-nav--primary .md-nav__link--active,
+.md-nav--primary .md-nav__link--active > span {
+  color: var(--cyan-glow) !important;
+  font-weight: 600;
+}
+
+.md-nav--primary a.md-nav__link--active {
+  border-left: 2px solid var(--cyan-glow);
+  margin-left: -0.6rem;
+  padding-left: 0.5rem;
+}
+
+/* Nested children sit slightly dimmer again, so depth reads at a glance. */
+.md-nav--primary .md-nav .md-nav .md-nav__link {
+  font-size: 0.68rem;
+  color: var(--md-default-fg-color--lighter);
+}
+
+/* -------------------------------------------------------------------------
+   Video fallback link
+   ------------------------------------------------------------------------- */
+
+.gb-video-link {
+  margin-top: -0.7rem;
+  font-size: 0.68rem;
+  font-family: var(--md-code-font-family), monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+/* =========================================================================
+   Typography scale & measure
+
+   Two problems against GitBook: the body text ran a size too large, and the
+   article hugged the left sidebar instead of sitting centred in its column.
+   Both are fixed here rather than by fighting Material's defaults elsewhere.
+   ========================================================================= */
+
+/* Glacial Indifference — self-hosted (SIL OFL). Self-hosting also means the
+   private site makes no font request to a third party. */
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("../assets/fonts/GlacialIndifference-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("../assets/fonts/GlacialIndifference-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("../assets/fonts/GlacialIndifference-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("../assets/fonts/GlacialIndifference-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Material composes the body stack from --md-text-font (the family name
+     only); --md-text-font-family is the already-composed stack. Both are set
+     so the override wins wherever Material reads it. */
+  --md-text-font: "Glacial Indifference";
+  --md-text-font-family: "Glacial Indifference", Inter, -apple-system,
+    BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+}
+
+/* Body copy down a step, closer to GitBook's measure. Note Material scales the
+   root to 137.5% above 1220px, so 1rem is 22px there, not 16px. */
+.md-typeset {
+  font-size: 0.70rem;
+  line-height: 1.7;
+}
+
+.md-typeset h1 {
+  font-size: 1.45rem;
+  line-height: 1.22;
+  margin-bottom: 1.1rem;
+}
+
+.md-typeset h2 {
+  font-size: 1.05rem;
+  margin-top: 1.9rem;
+}
+
+.md-typeset h3 {
+  font-size: 0.88rem;
+}
+
+/* Tables were the worst offender — oversized text in cramped cells. */
+.md-typeset table:not([class]) {
+  font-size: 0.635rem;
+  line-height: 1.55;
+}
+
+.md-typeset table:not([class]) th {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.md-typeset table:not([class]) td,
+.md-typeset table:not([class]) th {
+  padding: 0.62rem 0.9rem;
+}
+
+.md-typeset code {
+  font-size: 0.86em;
+}
+
+/* -------------------------------------------------------------------------
+   Measure and centring
+
+   Material caps the whole grid narrow, which pushes the article hard against
+   the sidebar. Widen the grid, then centre the article inside its own column
+   so there is breathing room on both sides, as GitBook does.
+   ------------------------------------------------------------------------- */
+
+.md-grid {
+  max-width: 80rem;
+}
+
+.md-content__inner {
+  /* ~750px at the scaled root: GitBook's measure, and enough slack either
+     side that the article reads as centred rather than pinned to the nav. */
+  max-width: 34rem;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+}
+
+/* Material pins these margins with [dir="ltr"]-prefixed sibling selectors,
+   which score 0,5,0. The override has to match that selector shape exactly or
+   the article stays glued to the sidebar. */
+[dir="ltr"] .md-sidebar--primary:not([hidden]) ~ .md-content > .md-content__inner,
+[dir="ltr"] .md-sidebar--secondary:not([hidden]) ~ .md-content > .md-content__inner,
+[dir="rtl"] .md-sidebar--primary:not([hidden]) ~ .md-content > .md-content__inner,
+[dir="rtl"] .md-sidebar--secondary:not([hidden]) ~ .md-content > .md-content__inner {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Give the sidebars a little separation from the article. */
+.md-sidebar--primary {
+  padding-right: 0.6rem;
+}
+
+.md-sidebar--secondary {
+  padding-left: 0.6rem;
+}
+
+@media screen and (max-width: 76.1875em) {
+  .md-content__inner {
+    max-width: none;
+  }
+}
+
+/* =========================================================================
+   Sidebar rhythm & tag chips — second pass
+
+   The nav was legible but dense: 15.8px text on a ~9px gap. GitBook runs
+   smaller text on a noticeably larger gap, which is what makes a long list
+   scannable. Size comes down, breathing room goes up.
+   ========================================================================= */
+
+.md-nav--primary .md-nav__item .md-nav__link {
+  font-size: 0.63rem;
+  line-height: 1.5;
+  padding-top: 0.22rem;
+  padding-bottom: 0.22rem;
+  margin-top: 0.46rem;
+}
+
+/* Nested pages: one more step down, so depth is legible without indentation
+   alone carrying it. */
+.md-nav--primary .md-nav .md-nav .md-nav__link {
+  font-size: 0.6rem;
+}
+
+/* Section labels shrink to match, and keep their generous space above. */
+.md-nav--primary .md-nav__item--section > label.md-nav__link,
+.md-nav--primary .md-nav__item--section > .md-nav__container > label.md-nav__link {
+  font-size: 0.53rem;
+  margin-top: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Wrapped titles ("RuView (WiFi Radar — camera-free sensing)") need the lines
+   tighter than the gap between separate items, or the two read the same. */
+.md-nav--primary .md-nav__link > .md-ellipsis {
+  line-height: 1.42;
+}
+
+/* Facet chips were nearly button-sized above the title. */
+.md-typeset .md-tag {
+  font-size: 0.5rem;
+  padding: 0.18rem 0.5rem;
+  letter-spacing: 0.06em;
+}
+
+.md-typeset .md-tags {
+  margin-bottom: 1rem;
+}
