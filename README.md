@@ -49,6 +49,7 @@ warns you clearly, and it asks who is allowed in. See [Publishing](#publishing-o
 | Ask "is every skill in my base actually installed?" | `/promptos:skills` checks every agent on the machine, installs what is missing, and verifies it landed |
 | Wonder which pages have gone stale | `/promptos:stalecheck` prints a review queue by age and class, and changes nothing |
 | Send a link, then a note about how to file it | The note is read first, and it overrides the default page shape |
+| Send a thought with no link at all | It is filed as a note or idea page. Text-only items are first class |
 
 Every page opens with the date it was added, `🗓️ Added 2026-08-17`, which doubles as the age
 signal `/promptos:stalecheck` reads. After that every page follows one shape: a type label (🧩 skill · 📦 repo · 🤖 model · ⚙️ SaaS ·

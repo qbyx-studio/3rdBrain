@@ -12,6 +12,7 @@ then marks them confirmed. Running it twice sends nothing twice.
 
 import datetime
 import json
+import re
 import os
 import urllib.parse
 import urllib.request
@@ -44,7 +45,19 @@ def send(chat_id, text):
 
 
 # Group everything filed but not yet acknowledged, by the account that sent it.
+COMMAND_RE = re.compile(r"^/?(process|cleanup|help|start)\b", re.I)
+
+
+def is_command(text):
+    return bool(COMMAND_RE.match((text or "").strip()))
+
+
+# Anything marked processed with no filed_as is a SILENT SKIP: it left the queue,
+# no page exists, and no confirmation goes out, so nobody learns it vanished.
+# Passing over those quietly is what let notes disappear when a pipeline drifted
+# URL-only, so they are collected and reported loudly instead.
 by_chat = {}
+silent_skips = []
 for x in items:
     if not isinstance(x, dict):
         continue
@@ -52,6 +65,8 @@ for x in items:
         filed = x.get("filed_as")
         if filed and filed != "command":
             by_chat.setdefault(x.get("chat_id"), []).append((x, filed))
+        elif not filed and not is_command(x.get("text")):
+            silent_skips.append(x)
 
 today = datetime.datetime.now().strftime("%Y-%m-%d")
 report = []
@@ -86,3 +101,16 @@ for cid in OWNERS:
 
 json.dump(raw, open(INBOX, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print("\n".join(report))
+
+if silent_skips:
+    print(
+        "\nWARNING: %d item(s) are marked processed with no filed_as. Each one left "
+        "the queue without a page and without a confirmation:" % len(silent_skips)
+    )
+    for x in silent_skips[:20]:
+        preview = (x.get("text") or "").strip().replace("\n", " ")[:70]
+        print("  id=%s  %s" % (x.get("message_id"), preview))
+    print(
+        "Fix by filing them, or by recording in filed_as why they could not be filed. "
+        "Never leave it empty: that is how items disappear unnoticed."
+    )

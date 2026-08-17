@@ -76,6 +76,30 @@ the inbox allowlist at any time. Local setup asks for none of these.
 
 ## 1. Intake; one item at a time
 
+### Every item gets an outcome
+
+The queue holds three kinds of item, and all three are first class. A queue is not a list of
+URLs.
+
+| Item | What to do |
+| --- | --- |
+| **A command** (`process`, `/cleanup`, `/help`) | Trigger it. This is the only kind that files nothing. |
+| **A link**, with or without remarks | Mine it and file it, per the steps below. |
+| **Text only**, no link at all | **Read it and act.** It is a note, an idea, or an instruction. |
+
+Text-only items are where pipelines quietly rot. Handle one of three ways:
+
+- **A note or idea** becomes a page of its own, filed by topic like anything else.
+- **An instruction about another item** applies to that item, and overrides its default shape.
+- **Ambiguous** means ask the user. One question costs less than a lost thought.
+
+**Never mark an item `processed` without a filing action.** A `processed: true` carrying an
+empty `filed_as` is a silent skip: the item leaves the queue, no page exists, and no
+confirmation is sent, so nobody learns it vanished. That is exactly the drift that dropped
+notes when a pipeline drifted URL-only, and it is the same period in which the "done"
+confirmations lapsed. If an item genuinely cannot be filed, record the reason in `filed_as`
+and say so in the confirmation. Commands are the only exception.
+
 For each queued item:
 
 1. **Read the remarks before mining.** A queued link is often followed by a separate

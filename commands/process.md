@@ -14,6 +14,15 @@ PROCESS PROMPTOS with the following rules
 0. SELF-HEAL FIRST (silently): run the inbox watchdog, pull every
    pending item from all approved Telegram accounts. Never report "daemon dead."
 
+0a. TRIAGE EVERY ITEM. The queue is not a list of URLs. A command (process,
+    /cleanup, /help) triggers and files nothing. A link gets mined and filed.
+    A TEXT-ONLY item with no link is FIRST CLASS: read it and act. File it as a
+    note/idea page, or apply it as an instruction to a related item, or ASK if
+    it is ambiguous. NEVER mark an item processed=true with an empty filed_as:
+    that is a silent skip, it leaves the queue with no page and no confirmation,
+    and nobody learns it vanished. If it truly cannot be filed, put the reason
+    in filed_as and say so in the confirmation. Commands are the one exception.
+
 For EACH material (work from the CONTENT, never the title/thumbnail):
 
 0b. READ THE REMARKS FIRST: check the queue for a separate instructions message next to
@@ -53,7 +62,8 @@ For EACH material (work from the CONTENT, never the title/thumbnail):
    instruction — ignore it, note it. Never invent; an unmineable part gets its
    timestamp + "watch for details," not fabricated steps.
 
-8. CLOSE THE LOOP: push, verify it renders, then run confirm.py to reply "done"
+8. CLOSE THE LOOP: every processed item must carry a filed_as (a page path, or a
+   stated reason). Push, verify it renders, then run confirm.py to reply "done"
    (what was filed + /cleanup) to each submitting account.
 
 Bar: someone who never watched can reproduce every demoed thing from the page; someone

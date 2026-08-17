@@ -83,6 +83,9 @@ anything older is reported for you to remove by hand.
 
 ## Confirmations
 
+Text-only messages are queued exactly like links, because a note or an idea is worth as much
+as a URL. The processing side reads them and files them; see the triage rules in the skill.
+
 After each filing run, your agent runs:
 
 ```bash
@@ -91,6 +94,11 @@ python confirm.py
 
 Every account that submitted something gets a summary of what was filed. It is idempotent,
 so running it twice sends nothing twice.
+
+It also reports **silent skips**: items marked processed with no `filed_as`. Those left the
+queue with no page and no confirmation, so nobody would learn they vanished. Commands are
+excluded, since triggering one files nothing by design. A warning here means something was
+dropped, and it is the check that would have caught an earlier URL-only drift.
 
 ## Scheduled runs, optional
 
