@@ -91,10 +91,24 @@ def test_every_prompt_block_became_a_collapsible():
     assert got == want, f"source asks for {want} prompt blocks, rendered {got}"
 
 
-def test_youtube_embeds_became_players():
-    want = source_count(r"^\{%\s*embed\s+url=\"[^\"]*(?:youtube\.com|youtu\.be)")
+def test_embeddable_sources_became_players():
+    """Every source the host table can embed must render a player, not a card.
+
+    Host-agnostic on purpose. This asserted YouTube specifically, which is the
+    blind spot that let Instagram sources render as link cards while the suite
+    stayed green.
+    """
+    sys.path.insert(0, str(ROOT / "hooks"))
+    import embed_hosts
+
+    embed_line = re.compile(r'^\{%\s*embed\s+url="([^"]+)"\s*%\}\s*$', re.M)
+    want = 0
+    for path in source_files():
+        text = re.sub(r"^(`{3,}|~{3,}).*?^", "", read(path), flags=re.S | re.M)
+        want += sum(1 for u in embed_line.findall(text) if embed_hosts.is_embeddable(u))
+
     got = sum(read(f).count('class="gb-video"') for f in html_files())
-    assert got == want, f"source asks for {want} video players, rendered {got}"
+    assert got == want, f"source asks for {want} players, rendered {got}"
 
 
 # --- assets --------------------------------------------------------------

@@ -20,8 +20,13 @@ from __future__ import annotations
 import posixpath
 import re
 import shutil
+import sys
 from pathlib import Path
 from urllib.parse import quote
+
+# MkDocs loads hooks by file path, not as a package, so a relative import fails.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import embed_hosts  # noqa: E402
 
 from mkdocs.utils import get_relative_url
 
@@ -68,41 +73,39 @@ _EMBED_RE = re.compile(r"^\{%\s*embed\s+url=\"([^\"]+)\"\s*%\}\s*$", re.MULTILIN
 # break the surrounding paragraph, so these degrade to a plain link.
 _EMBED_INLINE_RE = re.compile(r"\{%\s*embed\s+url=\"([^\"]+)\"\s*%\}")
 
-_YT_RE = re.compile(
-    r"(?:youtube\.com/(?:watch\?v=|shorts/|embed/)|youtu\.be/)([A-Za-z0-9_-]{6,})"
-)
-_YT_T_RE = re.compile(r"[?&]t=(\d+)")
-
-
 def _embed(m: re.Match[str]) -> str:
+    """Block-level embed: a player when the host is known, a link card otherwise."""
     url = m.group(1)
-    yt = _YT_RE.search(url)
-    if yt:
-        src = f"https://www.youtube-nocookie.com/embed/{yt.group(1)}"
-        t = _YT_T_RE.search(url)
-        if t:
-            src += f"?start={t.group(1)}"
-        return (
-            '<div class="gb-video">'
-            f'<iframe src="{src}" loading="lazy" allowfullscreen '
-            'allow="accelerometer; encrypted-media; picture-in-picture"></iframe>'
-            "</div>"
-            # Fallback: an embed can still fail (region blocks, owner settings,
-            # or a localhost origin during preview), and a dead grey box with no
-            # way out is worse than a link.
-            f'<p class="gb-video-link" markdown="1">:material-youtube: '
-            f'[Watch on YouTube]({url})</p>'
-        )
+    target = embed_hosts.resolve(url)
 
-    label = re.sub(r"^https?://(www\.)?", "", url).rstrip("/")
-    icon = ":material-github:" if "github.com" in url else ":material-link-variant:"
-    return f'<div class="gb-card" markdown="1">{icon} [{label}]({url})</div>'
+    if target is None:
+        label = re.sub(r"^https?://(www\.)?", "", url).rstrip("/")
+        icon = ":material-github:" if "github.com" in url else ":material-link-variant:"
+        return f'<div class="gb-card" markdown="1">{icon} [{label}]({url})</div>'
+
+    src, aspect, name = target
+    return (
+        f'<div class="gb-video" style="--gb-aspect: {aspect}">'
+        f'<iframe src="{src}" loading="lazy" allowfullscreen '
+        'allow="accelerometer; encrypted-media; picture-in-picture"></iframe>'
+        "</div>"
+        # Fallback: an embed can still fail (region blocks, owner settings, a
+        # private post, or a localhost origin during preview), and a dead grey
+        # box with no way out is worse than a link.
+        f'<p class="gb-video-link" markdown="1">:material-play-circle: '
+        f'[Watch on {name}]({url})</p>'
+    )
 
 
 def _embed_inline(m: re.Match[str]) -> str:
+    """Inline embed: always a link, since a block element would break the line."""
     url = m.group(1)
     label = re.sub(r"^https?://(www\.)?", "", url).rstrip("/")
-    icon = ":material-play-circle:" if _YT_RE.search(url) else ":material-link-variant:"
+    icon = (
+        ":material-play-circle:"
+        if embed_hosts.is_embeddable(url)
+        else ":material-link-variant:"
+    )
     return f"{icon} [{label}]({url})"
 
 

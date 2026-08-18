@@ -4,12 +4,21 @@
 .gb-video {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  /* The renderer sets --gb-aspect per host: 16/9 for landscape platforms,
+     9/16 for portrait ones like Instagram reels and TikTok. A single shared
+     ratio letterboxes half the internet. */
+  aspect-ratio: var(--gb-aspect, 16 / 9);
   margin: 1.2rem 0;
   border-radius: .35rem;
   overflow: hidden;
   background: var(--md-default-fg-color--lightest);
   box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
+}
+
+.gb-video[style*="9/16"] {
+  max-width: 22rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .gb-video iframe {
