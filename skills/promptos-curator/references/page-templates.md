@@ -1,5 +1,10 @@
 # Page Templates
 
+**Section labels adapt to your domain; the blocks inside them do not.** A recipe base
+will rename "Get it" to "## Source", and that is correct. Keep the `{% embed %}` block
+for the source link regardless of what the heading ends up being. Renaming a heading and
+dropping the block with it is the single most common way a base loses its video players.
+
 Copy these shapes. The block syntax (`{% embed %}`, `{% prompt %}`, `{% hint %}`) is
 rendered by the site build, and the same files also render in GitBook, so a base can
 move between the two. See `references/site-build.md`;

@@ -237,6 +237,28 @@ Every page follows one shape so the user's eyes always know where to look
 Preserve the user's own annotations ("Must do!!!", "Must Study") visibly on the page,
 they're the user's prioritization signal.
 
+### Source links are embed blocks, whatever the section is called
+
+Any link that **is** a source, a canonical destination, or a video gets its own line as an
+embed block:
+
+```markdown
+{% embed url="https://the-link" %}
+```
+
+This is a rule about the link's role, never about the heading above it. Section labels are
+expected to change from base to base; a recipe base has no "Get it" section and will call it
+"## Source", a legal base may call it "## Authority". The heading adapts. The block does not.
+
+A bare markdown link is correct for an **inline reference**: a timestamped step inside a
+method list, a mention mid-sentence, a row in a table. Those should stay plain, because a
+list of eleven players is unreadable.
+
+The failure this prevents, seen in production: a base renamed the section for its own domain,
+the embed convention was attached to the old label rather than to the link, and 17 pages of
+deep-mined video work rendered as flat text links with no player. Prompts and callouts
+survived in the same base, because those attach to a content type rather than a heading.
+
 ### Date stamp (every page, first body line)
 
 Every content page carries a visible, subtle stamp as its **first body line**: immediately
