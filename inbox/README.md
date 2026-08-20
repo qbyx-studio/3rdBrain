@@ -9,7 +9,14 @@ Standard library Python. No pip install, no dependencies, no build step.
 
 The Telegram Bot API cannot read history, and it drops unfetched updates after roughly 24
 hours. A collector that is asleep when you send something loses it permanently. So this runs
-continuously and writes every message to disk the moment it arrives.
+continuously and writes every message to disk the moment it arrives. Telegram sends a later
+edit as `edited_message`, not `message`; the collector requests both update types and treats
+the latest edited text or media caption as authoritative.
+
+Edits update the matching queue item by both chat ID and message ID, so they do not create
+duplicates. Editing an item that was already filed reopens it for review: the curator updates
+the existing page and sends a fresh confirmation. If the collector missed the original while
+offline but receives its edit, it saves that edit as a new pending item.
 
 ## Setup
 
@@ -52,14 +59,25 @@ Change the port with `lock_port` in the config if 47921 is taken on your machine
 
 ## Keep it running at login
 
-**Windows.** Put a one line `.cmd` file in the Startup folder
-(`Win+R` → `shell:startup`):
+**Windows Task Scheduler (recommended).** Create a task that runs at logon and repeats every
+five minutes. Use `powershell.exe` as the program and these arguments, replacing the example
+folder with your inbox folder:
 
-```bat
-pythonw "C:\path\to\inbox\bot.py"
+```text
+-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\path\to\inbox\watchdog.ps1"
 ```
 
-`pythonw` runs it without a console window.
+Set **Start in** to that same inbox folder. The watchdog resolves `bot.py` and `bot.log`
+relative to its own location, reads `lock_port` from `config.json`, and defaults to `47921`.
+It exits successfully when the Python collector owns the port. If another program owns the
+port, it records the conflict and refuses to start a competing collector. Otherwise it starts
+`bot.py` through `pythonw.exe` with a hidden window.
+
+For the simpler Startup-folder option, open `shell:startup` and place a `.cmd` file there:
+
+```bat
+powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\path\to\inbox\watchdog.ps1"
+```
 
 **macOS.** Create `~/Library/LaunchAgents/com.promptos.inbox.plist` with a `ProgramArguments`
 array of your python path and the script path, `RunAtLoad` set to true, then
@@ -122,6 +140,7 @@ fails. A silent scheduled failure destroys trust in a pipeline.
 | File | Purpose |
 | --- | --- |
 | `bot.py` | The collector daemon |
+| `watchdog.ps1` | Windows single-instance health check and hidden relaunch |
 | `confirm.py` | Per account replies after a run |
 | `config.json` | Your token and settings. **Never commit this.** |
 | `inbox.json` | The queue |

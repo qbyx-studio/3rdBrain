@@ -25,11 +25,14 @@ PROCESS PROMPTOS with the following rules
 
 For EACH material (work from the CONTENT, never the title/thumbnail):
 
-0b. READ THE REMARKS FIRST: check the queue for a separate instructions message next to
-    this link, from the same account. Per-item remarks OVERRIDE the default page shape
+0b. READ THE REMARKS FIRST: read the latest version of every queued message, including
+    edits made after initial capture. Check the queue for a separate instructions message
+    next to this link, from the same account. Per-item remarks OVERRIDE the default page shape
     (e.g. "decompose by use case, one page each, categorised by what it is for, disclaim
     what it was tested on"). Watch for a gap in message_id, which means a message was
-    dropped and the remarks may be lost; ASK rather than guess the shape.
+    dropped and the remarks may be lost; ASK rather than guess the shape. An item carrying
+    needs_review=true was edited after filing: use previous_filed_as to refresh the existing
+    page, then file and confirm it again rather than creating a duplicate page.
 
 1. ACQUIRE: download the video (~720p so on-screen text is legible) + pull the full
    auto-sub transcript; read the whole thing. Article/repo → full text / README.

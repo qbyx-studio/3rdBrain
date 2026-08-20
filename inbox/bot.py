@@ -23,6 +23,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG = os.path.join(BASE_DIR, "config.json")
 INBOX = os.path.join(BASE_DIR, "inbox.json")
 LOG = os.path.join(BASE_DIR, "bot.log")
+ALLOWED_UPDATES = ("message", "edited_message")
 
 
 def load(path, default):
@@ -171,6 +172,80 @@ def maybe_auto_process(cfg):
     threading.Thread(target=waiter, daemon=True).start()
 
 
+def extract_message_text(msg):
+    """Return Telegram message text, with media captions treated as text."""
+    return (msg.get("text") or msg.get("caption") or "").strip()
+
+
+def has_trigger(text):
+    """Use the configured base name, so forks do not inherit PromptOS wording."""
+    return BASE_NAME.casefold() in text.casefold()
+
+
+def apply_edit(chat_id, message_id, text, edit_date=None, message_date=None):
+    """Fold the latest Telegram edit into the existing queue item.
+
+    Telegram keeps both chat_id and message_id stable across edits. Pending items
+    are refreshed in place. Filed items are reopened so the curator updates the
+    existing page and sends a new confirmation. An edit whose original message
+    was missed is retained as a new pending item.
+    """
+    inbox = load(INBOX, [])
+    for item in inbox:
+        if item.get("chat_id") != chat_id or item.get("message_id") != message_id:
+            continue
+
+        previous_edit_date = item.get("edit_date")
+        if (
+            edit_date is not None
+            and previous_edit_date is not None
+            and edit_date < previous_edit_date
+        ):
+            log("stale edit ignored for msg %s" % message_id)
+            return False
+
+        # Telegram may redeliver an update. Avoid reopening or rewriting an item
+        # when both the authoritative content and edit event are unchanged.
+        if item.get("text") == text and (
+            edit_date is None or previous_edit_date == edit_date
+        ):
+            return False
+
+        was_processed = bool(item.get("processed"))
+        if was_processed:
+            item["previous_filed_as"] = item.get("filed_as", "")
+            item["filed_as"] = ""
+            item["processed"] = False
+            item["confirmed"] = False
+            item["needs_review"] = True
+
+        item["text"] = text
+        item["edit_date"] = edit_date or int(time.time())
+        item["trigger"] = has_trigger(text)
+        save(INBOX, inbox)
+        if was_processed:
+            log("edit reopened filed msg %s for page refresh" % message_id)
+        else:
+            log("edit applied to pending msg %s" % message_id)
+        return True
+
+    inbox.append(
+        {
+            "message_id": message_id,
+            "date": message_date or int(time.time()),
+            "edit_date": edit_date or int(time.time()),
+            "text": text,
+            "chat_id": chat_id,
+            "processed": False,
+            "trigger": has_trigger(text),
+            "captured_via": "edit",
+        }
+    )
+    save(INBOX, inbox)
+    log("edit of unseen msg %s captured as new" % message_id)
+    return True
+
+
 def main():
     log("bot started")
     while True:
@@ -178,7 +253,12 @@ def main():
         offset = cfg.get("offset", 0)
         maybe_auto_process(cfg)
 
-        resp = api("getUpdates", offset=offset, timeout=50)
+        resp = api(
+            "getUpdates",
+            offset=offset,
+            timeout=50,
+            allowed_updates=json.dumps(ALLOWED_UPDATES),
+        )
         if not resp.get("ok"):
             time.sleep(5)
             continue
@@ -186,6 +266,10 @@ def main():
         for upd in resp["result"]:
             offset = upd["update_id"] + 1
             msg = upd.get("message")
+            is_edit = False
+            if msg is None:
+                msg = upd.get("edited_message")
+                is_edit = msg is not None
             if not msg or msg["chat"].get("type") != "private":
                 continue
 
@@ -216,15 +300,25 @@ def main():
                 # Everyone else is ignored in silence, giving nothing away.
                 continue
 
-            text = (msg.get("text") or msg.get("caption") or "").strip()
+            text = extract_message_text(msg)
             cmd = text.lower().split("@")[0]
 
-            if cmd == "/cleanup":
+            # An edit is content reconciliation, never a newly issued command.
+            # Handle it first so even an unseen edited message is captured.
+            if text and is_edit:
+                apply_edit(
+                    chat_id,
+                    msg["message_id"],
+                    text,
+                    edit_date=msg.get("edit_date"),
+                    message_date=msg.get("date"),
+                )
+            elif cmd == "/cleanup":
                 handle_cleanup(chat_id, msg["message_id"])
             elif cmd in ("/start", "/help"):
                 api("sendMessage", chat_id=chat_id, text=HELP)
             elif text:
-                trigger = BASE_NAME.lower() in text.lower()
+                trigger = has_trigger(text)
                 inbox = load(INBOX, [])
                 inbox.append(
                     {

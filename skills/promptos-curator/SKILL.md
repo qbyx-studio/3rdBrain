@@ -102,9 +102,12 @@ and say so in the confirmation. Commands are the only exception.
 
 For each queued item:
 
-1. **Read the remarks before mining.** A queued link is often followed by a separate
-   message carrying instructions for that item: how to break it down, what to emphasise, what
-   to warn about. **Per-item remarks override the default page shape.** A remark such as
+1. **Read the latest remarks before mining.** Read the current text or caption of every
+   queued message, including edits made after initial capture. Telegram delivers an edit as
+   `edited_message`, not `message`; the queue's latest version is authoritative. A queued
+   link is often followed by a separate message carrying instructions for that item: how to
+   break it down, what to emphasise, what to warn about. **Per-item remarks override the
+   default page shape.** A remark such as
    "decompose by use case, one page each, categorised by what it is for, and disclaim what it
    was actually tested on" replaces your filing plan for that item; follow it.
 
@@ -113,6 +116,10 @@ For each queued item:
    normally have near-consecutive ids, so a jump means a message was dropped and the remarks
    for that link may be gone. When remarks may have been lost, **ask the user** rather than
    guessing a shape. Filing a link the wrong way costs more than one question.
+
+   An item with `needs_review: true` was edited after it had already been filed. Use
+   `previous_filed_as` to update the existing page, then mark and confirm the refreshed item
+   through the normal close-the-loop step. Never create a second page for the edit.
 
 2. **Identify AND mine.** Fetch the title/metadata, and for ANY video (shorts included)
    pull the transcript (auto-subtitles) and read it before filing. A title is clickbait,
