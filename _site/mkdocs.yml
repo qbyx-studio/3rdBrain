@@ -3,9 +3,12 @@ site_description: Prompts, Claude Skills, repos & workflows — organized to be 
 site_url: https://main.promptos.pages.dev   # set by /promptos:publish
 
 exclude_docs: |
+  AGENTS.md
+  CLAUDE.md
   SUMMARY.md
   NAV.md
   NAV-EXTRA.md
+  NAV-TOP.md
 
 docs_dir: .build   # ephemeral staging dir built by build.sh; never edit
 site_dir: site
