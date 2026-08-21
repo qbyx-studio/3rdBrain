@@ -78,17 +78,20 @@ gold; transcribe the prompt verbatim into a prompt block on the page.
 
 ## 3. Design the page tree
 
-- **Hub page**: what the material is, "Use it when" table, and the **element map**; a
+- **Hub page**: one page for the source video or article, with what the material is, a
+  "Use it when" table, and the **timed element map**; a
   table of every element: `[m:ss](deep link) | element | link to its page`. Deep links:
   YouTube `https://youtu.be/<id>?t=<seconds>`; articles `#anchor`; repos permalinks.
-- **One child page per element.** Nest sub-elements under their use case. Elements whose
-  true topic belongs elsewhere in the base get filed in their topical category
-  (see the classification rules in SKILL.md); the hub's map links across categories;
-  a hub is a lens, not a silo.
+- **One child page per distinct use case.** Nest true sub-elements within that use case's
+  page. Every child declares its own `primary_section` and is filed in the topical category
+  matching what it is for, even when that differs from the source hub's category. The hub's
+  map links across categories; a source, creator, product, or vendor hub is a lens and
+  cross-linking page, not a sidebar silo.
 
 ## 4. Build the pages
 
 Each element page (template in `page-templates.md`):
+- `primary_section` matching its actual top-level `SUMMARY.md` section.
 - Standard anatomy (type label, "Use it when", pairs).
 - **Step-by-step exactly as demonstrated**; numbered, each step carrying its own
   `[▶ m:ss](…?t=…)` deep link where it happens.

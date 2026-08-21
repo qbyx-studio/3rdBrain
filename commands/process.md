@@ -44,9 +44,10 @@ For EACH material (work from the CONTENT, never the title/thumbnail):
    embed it inline at the step it illustrates.
 
 3. STRUCTURE BY DEPTH: a method → a timestamped step-by-step (every step + claim carries
-   a ?t= deep link). A multi-demo video → a HUB (timed element map) + one child page per
-   element + a standalone TOOL page for each distinct tool, cross-linked both ways.
-   Miss nothing — the small sub-demos and the final step included.
+   a ?t= deep link). A multi-demo source → one HUB (timed element map) + one child page per
+   distinct use case + a standalone TOOL page for each distinct tool, cross-linked both ways.
+   The source/vendor hub links across topical categories; it does not own every child in the
+   sidebar. Miss nothing, including the small sub-demos and the final step.
 
 4. VERIFY LINKS: only canonical links you confirmed exist, found by searching the tool
    NAME (not the title). Distill the reusable principle, not just the examples.
@@ -55,8 +56,10 @@ For EACH material (work from the CONTENT, never the title/thumbnail):
    never a near-duplicate). Different angle = a new page cross-linked to the old.
    If several links in the batch are the SAME product, merge them into ONE hub.
 
-6. FILE + WIRE: true topical category (what it's FOR). Tag EVERY facet that applies
-   (incl. ones only in the body). Register in the sidebar, add a Tool Index
+6. FILE + WIRE: true topical category (what it's FOR, never where it came from). Give every
+   new page exactly one primary topical sidebar location and declare its exact top-level
+   heading as primary_section. Tag EVERY facet that applies (incl. ones only in the body).
+   Register in the sidebar, add a Tool Index
    "I want to…" row, add it to every facet hub, and add reciprocal "Pairs well with"
    links. Where natural add an "Example for your setup:" tied to my world
    (PromptOS; Myros/YveChat/1FNXAI; Hermes on GX10; content marketing).

@@ -41,12 +41,16 @@ Do all of this:
 6. VERIFY EVERY LINK. Only include canonical links you confirmed exist (the real repo/product/
    docs), found by searching the tool NAMES from the content, never guessed from the title.
 
-7. FILE IT to the right topical category (what it's FOR, never which app it came from), at the
-   right depth (hub + one child page per element if it's a multi-demo workflow; standalone tool
-   pages for each distinct tool demoed inside it, linked both ways). Tag every FACET it carries
-   (Workflow / 3D / Game / Website / Video / Image / Skill / Prompt / Agent / MCP) and add it to
-   each facet hub. Register it in the sidebar, the master index (scenario row + category table),
-   and add reciprocal cross-links on related pages.
+7. FILE IT to the right topical category (what it's FOR, never which app, vendor, creator, or
+   source it came from), at the right depth (one source hub + one child page per distinct use
+   case if it's a multi-demo workflow; standalone tool pages for each distinct tool demoed
+   inside it, linked both ways). A source/vendor hub is a cross-linking lens, not the children's
+   sidebar owner. Give every new page exactly one purpose-based primary location, declare its
+   exact top-level sidebar heading as `primary_section`, and allow children to live in categories
+   different from the hub. Tag every FACET it carries (Workflow / 3D / Game / Website / Video /
+   Image / Skill / Prompt / Agent / MCP) and add it to each facet hub. Register it in the sidebar,
+   the master index (scenario row + category table), and add reciprocal cross-links on related
+   pages.
 
 8. TIMESTAMP EVERY CLAIM and embed the original source at the bottom.
 

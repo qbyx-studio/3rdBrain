@@ -17,7 +17,7 @@ change the theme or understand the pipeline.
 | `build.sh` | The only entry point, used locally and when publishing |
 | `mkdocs.yml` | Theme, navigation, search and tag configuration |
 | `hooks/` | Renders the page block syntax |
-| `tools/` | The transforms: tags, navigation, search tuning, link audits |
+| `tools/` | Transforms and checks: tags, navigation, taxonomy, search tuning, link audits |
 | `tools/stalecheck.py` | Age review, report only. Run by `/promptos:stalecheck` |
 | `overlay/` | Theme, fonts, logo, and the generated hub pages |
 | `tests/` | Regression checks, run on every build |
@@ -25,5 +25,10 @@ change the theme or understand the pipeline.
 
 The content beside this folder is never written to. Every transform runs against a
 throwaway copy in `.build`, and a test enforces it.
+
+Pages may declare `primary_section` in frontmatter. The build checks each declaration against
+the page's actual top-level section in staged `SUMMARY.md`, preventing a source or vendor hub
+from silently becoming the primary category for unrelated extracted workflows. Legacy pages
+without the field remain valid.
 
 Full detail lives in `skills/promptos-curator/references/site-build.md`.

@@ -140,6 +140,19 @@ def test_admin_page_is_last_in_nav():
     assert "admin.md" in nav[-1], f"admin should be last, got: {nav[-1]!r}"
 
 
+def test_declared_primary_sections_match_summary_navigation():
+    """A source or vendor hub must not replace purpose-based filing."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    from check_primary_sections import find_mismatches
+
+    summary = BUILD / "SUMMARY.md"
+    assert summary.exists(), "staged SUMMARY.md is missing"
+    mismatches = find_mismatches(BUILD, summary)
+    assert not mismatches, "primary navigation section mismatch:\n" + "\n".join(
+        mismatch.describe() for mismatch in mismatches
+    )
+
+
 # --- search --------------------------------------------------------------
 
 def index_docs() -> list[dict]:

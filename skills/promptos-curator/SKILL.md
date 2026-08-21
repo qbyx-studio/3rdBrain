@@ -208,6 +208,13 @@ A lead-scraping connector belongs in Marketing → Leads, even if it was demoed 
 ChatGPT video. Catch-all buckets ("AI Apps", "Misc", "Tools") are the failure mode,
 if you are about to drop something into a generic bucket, look harder for its real topic.
 
+**A source, creator, product, or vendor hub is a lens and cross-linking page, never a
+substitute for purpose-based filing.** Give the source one hub with an element map, then file
+each extracted workflow or use case under the top-level section matching what that page helps
+the reader do. Email, engineering, marketing, research, and local-compute workflows can all
+come from one source and still belong in different primary sections. The source hub links
+across those sections; it does not own the children in the sidebar.
+
 - Categories are **topical** (Coding, Marketing, Videos, Websites, Agents & Automation,
   Finance, Design, …) and emerge from the user's actual materials; don't impose a fixed
   taxonomy; grow one.
@@ -215,6 +222,10 @@ if you are about to drop something into a generic bucket, look harder for its re
   Leads & Outreach / SEO / Ads). Subgroups get a small parent index page listing children
   with one-line blurbs. Sub-sub-groups when clusters cluster. Every level is registered
   in the table of contents; nothing floats unindexed.
+- **One primary location, many facets.** Every curated content page has exactly one primary
+  topical location in the sidebar and may carry every cross-cutting facet that truly applies.
+  Every page created by the curator from this release onward declares its exact top-level
+  sidebar heading as `primary_section` in frontmatter. The build validates every declaration.
 - **Two-layer model**: tool pages (what it is) vs workflow pages (how a task gets done
   with several of them). Both are first-class and both are indexed.
 - **Full prompt files are atomic.** A prompt meant to be copy-pasted as one piece lives
@@ -226,6 +237,7 @@ Every page follows one shape so the user's eyes always know where to look
 (templates with examples in `references/page-templates.md`):
 
 1. Frontmatter `description:` (one line; shows in previews/search)
+   plus `primary_section:` (the exact top-level sidebar heading for this page)
 2. `# Title`
 3. **Type label** blockquote: 🧩 skill/plugin · 📦 open-source repo · 🤖 model ·
    📝 prompt · ⚙️ SaaS tool/MCP · ℹ️ info/reference · 🛡️ security. State relationships
@@ -306,6 +318,15 @@ and the user reasonably concluded it didn't exist):
    touch a page, add it to every facet hub it qualifies for, and register the hubs in the
    sidebar under a top-level **"Browse by facet"** group. Prefer facet hubs (one source of
    truth, listed under every facet) over physically duplicating page content, which diverges.
+
+### Backward-compatible adoption
+
+Legacy pages without `primary_section` remain valid; this release does not force a breaking
+all-pages migration. Every page that declares the field is validated, and every newly
+extracted page must declare it. Backfill older pages incrementally when they are touched:
+choose the one purpose-based top-level section, add `primary_section`, and move or confirm its
+`SUMMARY.md` entry in the same change. Once a base has complete coverage, it may add a separate
+coverage test that requires the field on every content page.
 
 ## 6. Quality bar & verification
 
