@@ -285,7 +285,7 @@
       } else if (event.key === "Escape") close();
     });
     panel.addEventListener("click", (event) => {
-      if (event.target.closest(".po-quick-search__all")) resetGlobalSearch();
+      if (event.target.closest(".po-quick-result, .po-quick-search__all")) resetGlobalSearch();
     });
     inner.querySelector("form")?.addEventListener("reset", () => setTimeout(close));
   }
@@ -440,8 +440,10 @@
     try {
       await loadAssets();
       wireGlobalSearch();
-      if (!root || root.dataset.ready === "true") return;
+      // Material swaps article content without reloading the header. Clear any
+      // query and quick-results panel left behind by the previous page.
       resetGlobalSearch();
+      if (!root || root.dataset.ready === "true") return;
       root.dataset.ready = "true";
       const initialQuery = new URLSearchParams(window.location.search).get("q") || "";
       state.query = initialQuery;
