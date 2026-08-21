@@ -603,9 +603,23 @@ def evaluate_search_cases(
 
 def _facet_groups(root: Path) -> dict[str, str]:
     try:
-        from facets_to_tags import load_groups
+        import facets_to_tags
     except ImportError:
         return {}
+
+    # Older PromptOS bases keep a static label -> "Group/Label" mapping. Keep
+    # their domain language (Protein/Method/Role, for example) instead of
+    # flattening every facet into the generic Capability group.
+    load_groups = getattr(facets_to_tags, "load_groups", None)
+    if not callable(load_groups):
+        labels: dict[str, str] = {}
+        for grouped in getattr(facets_to_tags, "GROUPS", {}).values():
+            if not isinstance(grouped, str) or "/" not in grouped:
+                continue
+            group, label = grouped.split("/", 1)
+            labels[label] = group
+        return labels
+
     by_slug = load_groups(root)
     labels: dict[str, str] = {}
     hub = root / "facets" / "README.md"
