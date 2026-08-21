@@ -59,7 +59,8 @@ For EACH material (work from the CONTENT, never the title/thumbnail):
 6. FILE + WIRE: true topical category (what it's FOR, never where it came from). Give every
    new page exactly one primary topical sidebar location and declare its exact top-level
    heading as primary_section. Tag EVERY facet that applies (incl. ones only in the body).
-   Register in the sidebar, add a Tool Index
+   Register in the sidebar. Use a plain, label-only list item for an organizing subgroup;
+   make the subgroup clickable only when a deliberate standalone hub page exists. Add a Tool Index
    "I want to…" row, add it to every facet hub, and add reciprocal "Pairs well with"
    links. Where natural add an "Example for your setup:" tied to my world
    (PromptOS; Myros/YveChat/1FNXAI; Hermes on GX10; content marketing).

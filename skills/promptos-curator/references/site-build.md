@@ -76,6 +76,11 @@ each heading into a parent list item and re-indents children from two spaces to 
 
 `SUMMARY.md` is left untouched, so it stays valid for any other tool reading it.
 
+Organizing groups are plain bullets (`* Group name`) with linked children beneath them.
+They render as expanders, not invented pages. Only use a linked group label when an intentional
+standalone hub exists. The blocking route-contract test verifies that every clickable sidebar
+entry has both a staged Markdown source and a published HTML target.
+
 ### `tools/facets_to_tags.py`
 
 Every page already ends with a facet footer:

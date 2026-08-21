@@ -140,6 +140,14 @@ def test_admin_page_is_last_in_nav():
     assert "admin.md" in nav[-1], f"admin should be last, got: {nav[-1]!r}"
 
 
+def test_every_sidebar_page_link_has_a_published_html_target():
+    """Labels may expand, but every clickable sidebar item must resolve."""
+    from tools.summary_to_nav import find_missing_published_targets
+
+    missing = find_missing_published_targets(read(BUILD / "NAV.md"), BUILD, SITE)
+    assert not missing, "sidebar links without published targets:\n" + "\n".join(missing[:10])
+
+
 def test_declared_primary_sections_match_summary_navigation():
     """A source or vendor hub must not replace purpose-based filing."""
     sys.path.insert(0, str(ROOT / "tools"))

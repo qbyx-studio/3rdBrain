@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import re
 import sys
+import urllib.parse
 from pathlib import Path
 
 import yaml
@@ -32,6 +33,30 @@ BULLET_RE = re.compile(r"^(?P<indent>\s*)\*\s+(?P<rest>.*)$")
 # nested list as nested at 4 spaces. Depth is renormalized rather than copied.
 GITBOOK_INDENT = 2
 NAV_INDENT = "    "
+NAV_LINK_RE = re.compile(r"\]\((?P<href>[^)#?]+\.md)\)")
+
+
+def find_missing_published_targets(nav: str, build: Path, site: Path) -> list[str]:
+    """Return sidebar links whose source or rendered route is absent.
+
+    Plain list items are intentional label-only expanders and are ignored.
+    Linked Markdown pages must exist in staging and map to the directory URL
+    MkDocs publishes, including README.md directory indexes.
+    """
+    missing: list[str] = []
+    for match in NAV_LINK_RE.finditer(nav):
+        href = urllib.parse.unquote(match.group("href"))
+        source = build / href
+        if not source.exists():
+            missing.append(f"{href} (source missing)")
+            continue
+        relative = source.relative_to(build)
+        target = site / relative.parent / relative.stem / "index.html"
+        if relative.name.lower() == "readme.md":
+            target = site / relative.parent / "index.html"
+        if not target.exists():
+            missing.append(f"{href} -> {target.relative_to(site).as_posix()}")
+    return missing
 
 
 def project_name(src: Path) -> str:

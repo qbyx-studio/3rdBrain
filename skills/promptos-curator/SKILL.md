@@ -219,9 +219,12 @@ across those sections; it does not own the children in the sidebar.
   Finance, Design, …) and emerge from the user's actual materials; don't impose a fixed
   taxonomy; grow one.
 - **Create a subgroup when ~3 related items cluster** inside a category (e.g. Marketing →
-  Leads & Outreach / SEO / Ads). Subgroups get a small parent index page listing children
-  with one-line blurbs. Sub-sub-groups when clusters cluster. Every level is registered
-  in the table of contents; nothing floats unindexed. Review the generated
+  Leads & Outreach / SEO / Ads). A subgroup is a **label-only expander by default**: write
+  a plain `* Group name` item in `SUMMARY.md`, with its linked children nested below it.
+  Link the group itself only when it has a deliberately authored, standalone index page
+  that gives readers value beyond repeating the child list. Sub-sub-groups follow the same
+  rule when clusters cluster. Every level is registered in the table of contents; nothing
+  floats unindexed. Review the generated
   `assets/discovery/taxonomy-audit.json` after every batch: it proposes 3+ item clusters,
   flags groups above 12 direct pages, paths deeper than four levels, and catch-all names.
   The audit proposes; the curator creates and names meaningful groups in `SUMMARY.md`.
