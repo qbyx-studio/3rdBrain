@@ -45,4 +45,6 @@ VAULT=.. PYTHON="${PYTHON:-.venv/Scripts/python.exe}" SITE_PASSWORD="${SITE_PASS
   --branch "$BRANCH" \
   --commit-dirty=true
 
+"$PYTHON" tools/verify_deployment_manifest.py site "$PROJECT" "$BRANCH"
+
 echo "deploy: done -> https://${BRANCH}.${PROJECT}.pages.dev"
