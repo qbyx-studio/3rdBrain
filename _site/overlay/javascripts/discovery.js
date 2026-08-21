@@ -184,9 +184,8 @@
       `<details class="po-filter-group"${open ? " open" : ""}><summary>${title}</summary><div>${body}</div></details>`;
     let html = section("Categories", [...categoryCounts.entries()].sort((a, b) => b[1] - a[1])
       .map(([value, count]) => filterButton("categories", value, count)).join(""), !compact);
-    ["Capability", "Access", "Platform", "Type"].forEach((group) => {
-      const values = facetGroups[group] || [];
-      if (values.length) html += section(group, values.map(([value, count]) => filterButton("facets", value, count)).join(""), !compact && group === "Capability");
+    Object.entries(facetGroups).forEach(([group, values], index) => {
+      if (values.length) html += section(group, values.map(([value, count]) => filterButton("facets", value, count)).join(""), !compact && index === 0);
     });
     html += section("Page type", [...typeCounts.entries()].sort((a, b) => b[1] - a[1])
       .map(([value, count]) => filterButton("page_types", value, count)).join(""));
