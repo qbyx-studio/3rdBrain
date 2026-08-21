@@ -2,8 +2,11 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import sys
+from types import ModuleType
 
 import pytest
+import tools.knowledge_index as knowledge_index
 
 from tools.knowledge_index import (
     audit_navigation_shape,
@@ -405,3 +408,18 @@ concepts:
     with pytest.raises(ValueError, match="related concept 'missing' does not exist"):
         build_discovery_assets(tmp_path, tmp_path / "out")
 
+
+def test_legacy_static_facet_maps_keep_their_domain_group_names(monkeypatch, tmp_path: Path):
+    legacy = ModuleType("facets_to_tags")
+    legacy.GROUPS = {
+        "tofu": "Protein/Tofu",
+        "airfry": "Method/AirFry",
+        "main": "Role/Main",
+    }
+    monkeypatch.setitem(sys.modules, "facets_to_tags", legacy)
+
+    assert knowledge_index._facet_groups(tmp_path) == {
+        "Tofu": "Protein",
+        "AirFry": "Method",
+        "Main": "Role",
+    }
