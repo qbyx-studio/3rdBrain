@@ -83,7 +83,7 @@ gold; transcribe the prompt verbatim into a prompt block on the page.
   table of every element: `[m:ss](deep link) | element | link to its page`. Deep links:
   YouTube `https://youtu.be/<id>?t=<seconds>`; articles `#anchor`; repos permalinks.
 - **One child page per distinct use case.** Nest true sub-elements within that use case's
-  page. Every child declares its own `primary_section` and is filed in the topical category
+  page. Every child declares its own full `taxonomy_path` and is filed in the topical category
   matching what it is for, even when that differs from the source hub's category. The hub's
   map links across categories; a source, creator, product, or vendor hub is a lens and
   cross-linking page, not a sidebar silo.
@@ -91,13 +91,17 @@ gold; transcribe the prompt verbatim into a prompt block on the page.
 ## 4. Build the pages
 
 Each element page (template in `page-templates.md`):
-- `primary_section` matching its actual top-level `SUMMARY.md` section.
+- `taxonomy_path` matching every level of its actual `SUMMARY.md` ancestry.
 - Standard anatomy (type label, "Use it when", pairs).
 - **Step-by-step exactly as demonstrated**; numbered, each step carrying its own
   `[▶ m:ss](…?t=…)` deep link where it happens.
 - Screenshots inline at the relevant steps.
 - Verbatim prompts/commands in fenced blocks, never paraphrased.
 - Source embed at the bottom.
+
+Create `breakdowns/<source-id>.yml` with one uniquely identified/timestamped element per child,
+including its `page`, `page_type`, and `taxonomy_path`. The build verifies every child exists
+and that hub and child link to each other.
 
 ## 5. Extract standalone tools (L3)
 

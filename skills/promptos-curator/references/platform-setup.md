@@ -44,13 +44,22 @@ Steps:
 
 1. **Check Python 3.10+ and git.** Install what is missing, or hand the user one link and
    wait. One sentence on why it is needed.
-2. **Copy `_site/starter/`.** It holds a working `README.md`, `SUMMARY.md`, `tool-index.md`
-   and one example page, with the facet hubs already wired into the sidebar. Copying beats
+2. **Copy `_site/starter/`.** It holds a working `README.md`, `SUMMARY.md`, `tool-index.md`,
+   `taxonomy.yml`, `search-cases.yml`, and one example page, with Discover and the facet hubs
+   already wired into the build. Set `project.name` in `taxonomy.yml` to the user's chosen
+   base name during this first initiation. Copying beats
    improvising: a hand written `SUMMARY.md` usually forgets the generated hubs, which then
    build but never appear in the navigation.
 3. **Copy `_site/` from this repo.** Dependencies are pinned there.
 4. **`git init` and commit.** History from day one.
 5. **Build and open.** `cd _site && VAULT=.. bash build.sh`, then serve and open the browser.
+   Confirm the first sidebar action is `Discover <project name>`, the header search returns
+   the same first result as Discover for one sample query, and the generated relevance report
+   clears its configured floors. This verification is part of initiation, not an optional polish.
+
+For an existing base upgraded to this release, missing `taxonomy.yml` and `search-cases.yml`
+must not block the first build or be written into user content. The build derives a safe catalog
+in staging; the curator then adds the two files deliberately and grows them from actual material.
 
 The build never writes to the content. Every transform runs against a throwaway copy, and a
 test enforces it. See `references/site-build.md`.

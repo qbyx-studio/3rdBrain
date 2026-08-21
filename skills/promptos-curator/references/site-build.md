@@ -236,18 +236,19 @@ Each test exists because the thing it checks broke in production.
 | Syntax template stays literal | The page template was corrupted by its own converter |
 | Every asset resolves | Filenames with spaces and brackets were truncated |
 | Nav covers every entry | The sidebar silently emptied |
-| Declared primary section matches `SUMMARY.md` | Source/vendor hubs swallowed unrelated workflows |
+| Declared full taxonomy path matches `SUMMARY.md` | Category/subgroup mismatches and source silos |
+| Dense-source manifest covers real, reciprocally linked children | Long videos silently lost individual use cases |
+| Search benchmark clears Recall@5 and MRR floors | Search changes buried known relevant pages |
+| Discover is the first action and shares the header engine | Two search boxes disagreed with each other |
 | Link cards render anchors | 130 cards showed raw markdown |
 | Players send a referrer | Every video showed an error box |
 | The content is never written to | A transform edited the user's files in place |
 
 Split them: build integrity blocks a publish, content quality reports and continues.
 
-`primary_section` is opt-in for legacy content and mandatory for pages created by the curator
-from this release onward. The integrity test checks every declaration against the staged
-`SUMMARY.md`. Older pages can be migrated safely when touched by adding the field and confirming
-their purpose-based sidebar placement in the same change. A base can require universal coverage
-later, after all legacy pages have been backfilled.
+`primary_section` remains a legacy-compatible declaration. Pages created by the curator from
+this release onward use the complete `taxonomy_path`; the integrity test checks every declared
+level against staged `SUMMARY.md`. Older pages migrate safely when touched.
 
 ## 8. Pinning and the long term
 

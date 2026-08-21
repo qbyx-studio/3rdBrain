@@ -29,7 +29,8 @@ substitute the target platform's equivalents (plain links / callouts) when elsew
 ```markdown
 ---
 description: One line; what it is + its edge
-primary_section: <Exact top-level sidebar heading>
+taxonomy_path:
+  - <Exact top-level sidebar heading>
 ---
 <sub>🗓️ Added YYYY-MM-DD</sub>
 
@@ -67,7 +68,8 @@ primary_section: <Exact top-level sidebar heading>
 ```markdown
 ---
 description: "Use Case N: outcome in plain words"
-primary_section: <Exact top-level sidebar heading for this use case>
+taxonomy_path:
+  - <Exact top-level sidebar heading for this use case>
 ---
 <sub>🗓️ Added YYYY-MM-DD</sub>
 
@@ -101,7 +103,8 @@ The verbatim prompt, untouched.
 ```markdown
 ---
 description: Source name; every demoed element, timed & broken down
-primary_section: <Exact top-level sidebar heading for the source hub>
+taxonomy_path:
+  - <Exact top-level sidebar heading for the source hub>
 ---
 <sub>🗓️ Added YYYY-MM-DD</sub>
 
@@ -122,7 +125,7 @@ primary_section: <Exact top-level sidebar heading for the source hub>
 | …every element, including cross-category ones… |
 
 The linked children keep their own purpose-based sidebar locations and their own
-`primary_section` values. This hub links across categories; it does not become their sidebar
+`taxonomy_path` values. This hub links across categories; it does not become their sidebar
 parent merely because it is their source.
 
 **Source video:**
@@ -135,7 +138,8 @@ parent merely because it is their source.
 ```markdown
 ---
 description: What this prompt achieves
-primary_section: <Exact top-level sidebar heading>
+taxonomy_path:
+  - <Exact top-level sidebar heading>
 ---
 <sub>🗓️ Added YYYY-MM-DD</sub>
 
@@ -157,7 +161,8 @@ ENTIRE prompt, byte-for-byte. Never split, trim, or "improve".
 ```markdown
 ---
 description: One line for the cluster
-primary_section: <Exact top-level sidebar heading>
+taxonomy_path:
+  - <Exact top-level sidebar heading>
 ---
 <sub>🗓️ Added YYYY-MM-DD</sub>
 
@@ -249,7 +254,8 @@ blanks, delete what doesn't apply. (Outer fence is 4 backticks so the inner ``` 
 ````markdown
 ---
 description: <one line — what it is + its single sharpest edge>
-primary_section: <Exact top-level sidebar heading>
+taxonomy_path:
+  - <Exact top-level sidebar heading>
 ---
 <sub>🗓️ Added YYYY-MM-DD</sub>
 
@@ -326,6 +332,6 @@ when the auto-caption garbles it. Do not paraphrase, trim, or "improve" it.>
 
 For long multi-use-case videos or articles, use the hub (§3) + one child page (§2) per distinct
 use case instead of a single page, each child still following this shape and declaring its own
-`primary_section`. Children may belong to different categories from the source hub. The hub's
+`taxonomy_path`. Children may belong to different categories from the source hub. The hub's
 element map links across those categories instead of owning the children in the sidebar. The
 registration rule (§6) and facet tagging (§8) apply to every page produced.
