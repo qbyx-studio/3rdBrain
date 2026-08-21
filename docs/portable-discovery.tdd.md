@@ -19,6 +19,13 @@ Journeys were derived from the approved 2026-08-21 PromptOS search/layout rollou
 - GREEN build: a clean `_site/starter` produced 7 indexed pages at Recall@5 1.00 / MRR 1.00.
 - GREEN integrity: 43 passed, 3 skipped, 4 content tests deselected against the starter build.
 - GREEN E2E: 2 Chromium journeys passed for shared header handoff, project naming, sizing and axe.
+- Polish RED checkpoint: `1bc8dc3` — a clean starter reproduced the lingering header query,
+  open Material overlay, oversized result hierarchy and narrow 42rem desktop canvas.
+- Polish GREEN checkpoint: `53dd5d8` — the generic package now closes and clears the header
+  during Discover handoff, keeps the query in Discover, uses the compact 11–18 px catalog
+  hierarchy and expands the desktop canvas to 50rem.
+- Final portable verification: 18 coverage tests at 88.71%, 43 integrity tests passing
+  (3 environment-dependent skips), and 2/2 Chromium journeys including serious/critical axe.
 
 ## Test specification
 
@@ -28,8 +35,8 @@ Journeys were derived from the approved 2026-08-21 PromptOS search/layout rollou
 | Fresh starter emits named records/taxonomy/suggestions | Integration | `tests/test_portable_discovery.py` |
 | Legacy base upgrades only in staging | Integration | `tests/test_portable_discovery.py` |
 | Ranking, taxonomy, manifests and audits | Unit | `tests/test_knowledge_index.py` |
-| Header and Discover return the same top result | E2E | `e2e/portable-discovery.spec.js` |
-| First nav action, prompt scale, width and serious axe findings | E2E | `e2e/portable-discovery.spec.js` |
+| Header and Discover return the same top result; handoff closes the header overlay | E2E | `e2e/portable-discovery.spec.js` |
+| First nav action, compact typography, 50rem width and serious axe findings | E2E | `e2e/portable-discovery.spec.js` |
 
 ## Coverage and limits
 
