@@ -148,6 +148,14 @@ def test_every_sidebar_page_link_has_a_published_html_target():
     assert not missing, "sidebar links without published targets:\n" + "\n".join(missing[:10])
 
 
+def test_session_instruction_files_cannot_collide_with_content_routes():
+    """Windows hides AGENTS.md versus agents/; Cloudflare does not."""
+    config = read(ROOT / "mkdocs.yml")
+    excluded = config.split("exclude_docs:", 1)[1].split("docs_dir:", 1)[0]
+    for name in ("AGENTS.md", "CLAUDE.md", "NAV-TOP.md"):
+        assert name in excluded, f"{name} must never become a published route"
+
+
 def test_declared_primary_sections_match_summary_navigation():
     """A source or vendor hub must not replace purpose-based filing."""
     sys.path.insert(0, str(ROOT / "tools"))
