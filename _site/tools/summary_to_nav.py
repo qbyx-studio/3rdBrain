@@ -22,6 +22,8 @@ import re
 import sys
 from pathlib import Path
 
+import yaml
+
 HEADING_RE = re.compile(r"^##\s+(?P<title>.+?)\s*$")
 TITLE_RE = re.compile(r"^#\s+")
 BULLET_RE = re.compile(r"^(?P<indent>\s*)\*\s+(?P<rest>.*)$")
@@ -30,6 +32,21 @@ BULLET_RE = re.compile(r"^(?P<indent>\s*)\*\s+(?P<rest>.*)$")
 # nested list as nested at 4 spaces. Depth is renormalized rather than copied.
 GITBOOK_INDENT = 2
 NAV_INDENT = "    "
+
+
+def project_name(src: Path) -> str:
+    taxonomy = src.parent / "taxonomy.yml"
+    if taxonomy.exists():
+        loaded = yaml.safe_load(taxonomy.read_text(encoding="utf-8")) or {}
+        configured = loaded.get("project", {}).get("name")
+        if isinstance(configured, str) and configured.strip():
+            return configured.strip()
+    readme = src.parent / "README.md"
+    if readme.exists():
+        heading = re.search(r"^#\s+(.+?)\s*$", readme.read_text(encoding="utf-8"), re.M)
+        if heading:
+            return heading.group(1).strip()
+    return "your knowledge base"
 
 
 def convert(text: str) -> tuple[str, int, int]:
@@ -85,6 +102,17 @@ def main() -> int:
         nav = nav.rstrip("\n") + "\n" + tail
         print(f"  + appended {extra.name}")
 
+    # A generated Discover front door belongs before every authored page. The
+    # user's SUMMARY remains untouched and GitBook stays authoritative.
+    top = src.parent / "NAV-TOP.md"
+    if top.exists():
+        lines = nav.rstrip("\n").splitlines()
+        top_text = top.read_text(encoding="utf-8").replace("{{ project_name }}", project_name(src))
+        top_lines = top_text.strip().splitlines()
+        lines[0:0] = top_lines
+        nav = "\n".join(lines) + "\n"
+        print(f"  + inserted {top.name}")
+
     dst.write_text(nav, encoding="utf-8")
     print(f"  {src.name} -> {dst.name}: {sections} sections, {pages} entries")
     return 0
@@ -92,4 +120,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

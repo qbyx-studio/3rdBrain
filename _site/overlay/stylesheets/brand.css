@@ -6,8 +6,6 @@
    fallback for anyone who forces it.
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap");
-
 :root {
   /* Nightfall palette */
   --night-950: #04060c;
@@ -62,8 +60,27 @@
 /* Light scheme kept usable rather than designed — the brand is a dark one. */
 [data-md-color-scheme="default"] {
   --md-primary-fg-color: var(--azure-deep);
-  --md-accent-fg-color: var(--azure);
+  --md-accent-fg-color: var(--azure-deep);
   --md-typeset-a-color: var(--azure-deep);
+}
+
+/* Cyan is a luminous dark-mode accent, but it does not meet text contrast on
+   white. Keep the same hue family and use the deep token for readable text. */
+[data-md-color-scheme="default"] .md-nav--primary .md-nav__item--section > label.md-nav__link,
+[data-md-color-scheme="default"] .md-nav--primary .md-nav__link:hover,
+[data-md-color-scheme="default"] .md-nav--primary .md-nav__link--active,
+[data-md-color-scheme="default"] .md-nav--primary .md-nav__link--active > span,
+[data-md-color-scheme="default"] .md-nav--primary .md-nav .md-nav .md-nav__link--active {
+  color: var(--azure-deep) !important;
+}
+
+[data-md-color-scheme="default"] .md-nav--primary
+  .md-nav__item--nested:not(.md-nav__item--section) > label.md-nav__link,
+[data-md-color-scheme="default"] .md-nav--primary
+  .md-nav__item--nested:not(.md-nav__item--section) > .md-nav__container > label.md-nav__link,
+[data-md-color-scheme="default"] .md-nav--primary
+  .md-nav__item--nested:not(.md-nav__item--section) > label.md-nav__link .md-nav__icon {
+  color: var(--night-900);
 }
 
 /* -------------------------------------------------------------------------
@@ -343,9 +360,9 @@
 }
 
 .md-content__inner {
-  /* ~750px at the scaled root: GitBook's measure, and enough slack either
-     side that the article reads as centred rather than pinned to the nav. */
-  max-width: 34rem;
+  /* A wider documentation canvas uses the space between both sidebars while
+     retaining a readable line length and deliberate breathing room. */
+  max-width: 50rem;
   padding-left: 1.2rem;
   padding-right: 1.2rem;
 }

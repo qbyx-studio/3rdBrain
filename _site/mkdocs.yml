@@ -119,6 +119,10 @@ markdown_extensions:
 extra_css:
   - stylesheets/gitbook-compat.css
   - stylesheets/brand.css
+  - stylesheets/discovery.css
+
+extra_javascript:
+  - javascripts/discovery.js
 
 extra:
   generator: false

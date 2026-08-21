@@ -89,6 +89,10 @@ shutil.copytree(here / "overlay", here / ".build", dirs_exist_ok=True)
 print(f"  staged from {vault}")
 STAGE
 
+# One private catalog powers both the global quick search and the full
+# Discover page. Missing config is handled as a non-destructive legacy upgrade.
+"$PYTHON" tools/knowledge_index.py .build
+
 # Derived, not authored: tags come from each page's **Facets:** footer, so no
 # page has to be hand-tagged and the vault keeps its existing convention.
 "$PYTHON" tools/facets_to_tags.py .build | tail -1

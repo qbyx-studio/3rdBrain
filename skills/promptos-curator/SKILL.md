@@ -221,11 +221,14 @@ across those sections; it does not own the children in the sidebar.
 - **Create a subgroup when ~3 related items cluster** inside a category (e.g. Marketing →
   Leads & Outreach / SEO / Ads). Subgroups get a small parent index page listing children
   with one-line blurbs. Sub-sub-groups when clusters cluster. Every level is registered
-  in the table of contents; nothing floats unindexed.
+  in the table of contents; nothing floats unindexed. Review the generated
+  `assets/discovery/taxonomy-audit.json` after every batch: it proposes 3+ item clusters,
+  flags groups above 12 direct pages, paths deeper than four levels, and catch-all names.
+  The audit proposes; the curator creates and names meaningful groups in `SUMMARY.md`.
 - **One primary location, many facets.** Every curated content page has exactly one primary
   topical location in the sidebar and may carry every cross-cutting facet that truly applies.
-  Every page created by the curator from this release onward declares its exact top-level
-  sidebar heading as `primary_section` in frontmatter. The build validates every declaration.
+  Every page created by the curator declares its complete sidebar ancestry as a
+  `taxonomy_path` list in frontmatter. The build validates every level, not only the section.
 - **Two-layer model**: tool pages (what it is) vs workflow pages (how a task gets done
   with several of them). Both are first-class and both are indexed.
 - **Full prompt files are atomic.** A prompt meant to be copy-pasted as one piece lives
@@ -236,8 +239,8 @@ across those sections; it does not own the children in the sidebar.
 Every page follows one shape so the user's eyes always know where to look
 (templates with examples in `references/page-templates.md`):
 
-1. Frontmatter `description:` (one line; shows in previews/search)
-   plus `primary_section:` (the exact top-level sidebar heading for this page)
+1. Frontmatter `description:` (one line; shows in previews/search), `page_type:`, useful
+   `aliases:`, and `taxonomy_path:` (every sidebar level from section through subgroup)
 2. `# Title`
 3. **Type label** blockquote: 🧩 skill/plugin · 📦 open-source repo · 🤖 model ·
    📝 prompt · ⚙️ SaaS tool/MCP · ℹ️ info/reference · 🛡️ security. State relationships
@@ -296,7 +299,7 @@ To backfill a base that predates the convention, take each page's first-add date
 git log --diff-filter=A --reverse --format=%as --name-only
 ```
 
-## 5. Indexes; the base must be searchable three ways
+## 5. Indexes; the base must be searchable five ways
 
 Maintain all three on every batch; a page that exists but can't be found is a bug
 (this exact bug shipped once; a page existed but was missing from the master index,
@@ -318,15 +321,17 @@ and the user reasonably concluded it didn't exist):
    touch a page, add it to every facet hub it qualifies for, and register the hubs in the
    sidebar under a top-level **"Browse by facet"** group. Prefer facet hubs (one source of
    truth, listed under every facet) over physically duplicating page content, which diverges.
+5. **Unified search**; the header quick search and full `Discover <project name>` page use
+   the same generated catalog, aliases, controlled vocabulary and ranking. Add ordinary
+   phrases readers will type to `aliases`; add representative jobs to `search-cases.yml`.
+   A batch is incomplete if the committed Recall@5/MRR floors regress.
 
 ### Backward-compatible adoption
 
-Legacy pages without `primary_section` remain valid; this release does not force a breaking
-all-pages migration. Every page that declares the field is validated, and every newly
-extracted page must declare it. Backfill older pages incrementally when they are touched:
-choose the one purpose-based top-level section, add `primary_section`, and move or confirm its
-`SUMMARY.md` entry in the same change. Once a base has complete coverage, it may add a separate
-coverage test that requires the field on every content page.
+Legacy pages without declarations remain valid, and legacy `primary_section` declarations
+continue to be read. Every newly extracted page must use the complete `taxonomy_path`.
+Backfill older pages incrementally when touched: record their full purpose-based ancestry and
+move or confirm the `SUMMARY.md` entry in the same change.
 
 ## 6. Quality bar & verification
 

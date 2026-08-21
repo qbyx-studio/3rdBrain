@@ -46,7 +46,7 @@ Do all of this:
    case if it's a multi-demo workflow; standalone tool pages for each distinct tool demoed
    inside it, linked both ways). A source/vendor hub is a cross-linking lens, not the children's
    sidebar owner. Give every new page exactly one purpose-based primary location, declare its
-   exact top-level sidebar heading as `primary_section`, and allow children to live in categories
+   complete sidebar ancestry as `taxonomy_path`, and allow children to live in categories
    different from the hub. Tag every FACET it carries (Workflow / 3D / Game / Website / Video /
    Image / Skill / Prompt / Agent / MCP) and add it to each facet hub. Register it in the sidebar,
    the master index (scenario row + category table), and add reciprocal cross-links on related
