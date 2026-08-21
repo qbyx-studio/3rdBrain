@@ -22,3 +22,13 @@ blocking build suite. The build exercised the seven-page starter base at Recall@
 MRR 1.00. No separate line-coverage threshold is configured; the existing public suite's
 repository coverage baseline remains above 80%, and the new function is covered on its
 successful, missing-source, missing-output, nested-route, and label-only paths.
+
+## Windows-to-Cloudflare path casing
+
+Portable builds now exclude `AGENTS.md`, `CLAUDE.md`, and generated `NAV-TOP.md` from web
+routes. This prevents a Windows-only collision between `AGENTS.md` and an `agents/` content
+directory from publishing uppercase `/AGENTS/...` files behind lowercase navigation links.
+The config contract was RED in `78446b2` and GREEN in `aa96489` (49 build tests). The
+Cloudflare manifest comparator was RED in `a233784` and GREEN in `8bec607` (2 focused tests);
+portable deploys compare every path against Cloudflare's manifest with exact casing before
+announcing success.
