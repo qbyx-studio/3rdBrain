@@ -51,3 +51,9 @@ def test_existing_base_without_new_config_gets_a_non_destructive_upgrade(tmp_pat
     assert taxonomy["project"]["name"] == "RecipeOS"
     assert not (vault / "taxonomy.yml").exists(), "upgrade must not rewrite user content"
     assert not (vault / "search-cases.yml").exists(), "upgrade must not rewrite user content"
+
+
+def test_discover_renders_domain_facet_groups_without_fixed_promptos_vocabulary():
+    script = (ROOT / "overlay" / "javascripts" / "discovery.js").read_text(encoding="utf-8")
+    assert '["Capability", "Access", "Platform", "Type"]' not in script
+    assert "Object.entries(facetGroups)" in script
