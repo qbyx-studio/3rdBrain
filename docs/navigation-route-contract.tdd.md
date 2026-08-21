@@ -32,3 +32,6 @@ The config contract was RED in `78446b2` and GREEN in `aa96489` (49 build tests)
 Cloudflare manifest comparator was RED in `a233784` and GREEN in `8bec607` (2 focused tests);
 portable deploys compare every path against Cloudflare's manifest with exact casing before
 announcing success.
+
+The verifier runner's shell scope is separately guarded: RED `ef9151d`, GREEN `4c3f627`,
+with the deploy-script and manifest suites passing 3/3.
