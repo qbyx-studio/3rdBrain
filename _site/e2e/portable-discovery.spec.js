@@ -22,6 +22,31 @@ test("fresh PromptOS uses one engine in the header and full Discover page", asyn
   await expect(page.locator("[data-testid='result-card']").first()).toContainText("Tool Index");
 });
 
+test("opening a quick result clears and closes header search on the destination", async ({ page }) => {
+  await page.goto("/");
+  const globalSearch = page.locator(".md-search__input");
+  await globalSearch.fill("Tool Index");
+
+  const result = page.locator("[data-testid='quick-result']").first();
+  await expect(result).toContainText("Tool Index");
+  await result.evaluate((link) =>
+    link.addEventListener("click", (event) => event.preventDefault(), { once: true })
+  );
+  await result.click();
+
+  await expect(globalSearch).toHaveValue("");
+  await expect(page.locator("#__search")).not.toBeChecked();
+  await expect(page.locator(".po-quick-search")).toBeHidden();
+
+  await globalSearch.fill("Tool Index");
+  await page.locator("[data-testid='quick-result']").first().click();
+
+  await expect(page).toHaveURL(/\/tool-index\/$/);
+  await expect(globalSearch).toHaveValue("");
+  await expect(page.locator("#__search")).not.toBeChecked();
+  await expect(page.locator(".po-quick-search")).toBeHidden();
+});
+
 test("fresh Discover is readable, wide, and free of serious automated a11y findings", async ({ page }) => {
   await page.setViewportSize({ width: 1848, height: 1000 });
   await page.goto("/discover/");
