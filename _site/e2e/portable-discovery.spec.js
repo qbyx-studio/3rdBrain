@@ -16,21 +16,34 @@ test("fresh PromptOS uses one engine in the header and full Discover page", asyn
   await expect(page.getByRole("searchbox", { name: "Search this knowledge base" })).toHaveValue(
     "Tool Index"
   );
+  await expect(page.locator(".md-search__input")).toHaveValue("");
+  await expect(page.locator("#__search")).not.toBeChecked();
+  await expect(page.locator(".po-quick-search")).toBeHidden();
   await expect(page.locator("[data-testid='result-card']").first()).toContainText("Tool Index");
 });
 
 test("fresh Discover is readable, wide, and free of serious automated a11y findings", async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.setViewportSize({ width: 1848, height: 1000 });
   await page.goto("/discover/");
   await expect(page.locator("[data-testid='result-card']").first()).toBeVisible();
 
   const scale = await page.evaluate(() => ({
     input: parseFloat(getComputedStyle(document.querySelector("#po-discovery-query")).fontSize),
     label: parseFloat(getComputedStyle(document.querySelector(".po-discovery__label")).fontSize),
+    title: parseFloat(getComputedStyle(document.querySelector(".po-discovery-title")).fontSize),
+    resultTitle: parseFloat(getComputedStyle(document.querySelector(".po-result h2")).fontSize),
+    resultBody: parseFloat(getComputedStyle(document.querySelector(".po-result__job")).fontSize),
+    resultMeta: parseFloat(getComputedStyle(document.querySelector(".po-result__meta")).fontSize),
     canvas: document.querySelector(".md-content__inner").getBoundingClientRect().width,
   }));
   expect(Math.abs(scale.input - scale.label)).toBeLessThanOrEqual(1);
-  expect(scale.canvas).toBeGreaterThanOrEqual(820);
+  expect(scale.title).toBeLessThanOrEqual(28);
+  expect(scale.input).toBeLessThanOrEqual(15);
+  expect(scale.resultTitle).toBeLessThanOrEqual(19);
+  expect(scale.resultBody).toBeLessThanOrEqual(15);
+  expect(scale.resultMeta).toBeLessThanOrEqual(12.5);
+  expect(scale.canvas).toBeGreaterThanOrEqual(1050);
+  expect(scale.canvas).toBeLessThanOrEqual(1200);
 
   const accessibility = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
