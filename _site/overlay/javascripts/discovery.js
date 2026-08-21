@@ -229,6 +229,19 @@
       `<span>${escapeHtml(record.breadcrumb)} · ${escapeHtml(record.matchReason)}</span></a></li>`;
   }
 
+  function resetGlobalSearch() {
+    const input = document.querySelector(".md-search__input");
+    const toggle = document.getElementById("__search");
+    const panel = document.querySelector(".po-quick-search");
+    if (input) {
+      input.value = "";
+      input.blur();
+    }
+    if (toggle) toggle.checked = false;
+    if (panel) panel.hidden = true;
+    state.quickIndex = -1;
+  }
+
   function wireGlobalSearch() {
     const input = document.querySelector(".md-search__input");
     const inner = document.querySelector(".md-search__inner");
@@ -267,8 +280,13 @@
         links[state.quickIndex].focus();
       } else if (event.key === "Enter" && input.value.trim()) {
         event.preventDefault();
-        window.location.href = discoveryUrl(input.value);
+        const target = discoveryUrl(input.value);
+        resetGlobalSearch();
+        window.location.href = target;
       } else if (event.key === "Escape") close();
+    });
+    panel.addEventListener("click", (event) => {
+      if (event.target.closest(".po-quick-search__all")) resetGlobalSearch();
     });
     inner.querySelector("form")?.addEventListener("reset", () => setTimeout(close));
   }
@@ -424,6 +442,7 @@
       await loadAssets();
       wireGlobalSearch();
       if (!root || root.dataset.ready === "true") return;
+      resetGlobalSearch();
       root.dataset.ready = "true";
       const initialQuery = new URLSearchParams(window.location.search).get("q") || "";
       state.query = initialQuery;

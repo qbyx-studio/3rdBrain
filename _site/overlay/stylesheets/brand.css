@@ -362,7 +362,7 @@
 .md-content__inner {
   /* A wider documentation canvas uses the space between both sidebars while
      retaining a readable line length and deliberate breathing room. */
-  max-width: 42rem;
+  max-width: 50rem;
   padding-left: 1.2rem;
   padding-right: 1.2rem;
 }

@@ -32,7 +32,7 @@ test("fresh Discover is readable, wide, and free of serious automated a11y findi
     label: parseFloat(getComputedStyle(document.querySelector(".po-discovery__label")).fontSize),
     title: parseFloat(getComputedStyle(document.querySelector(".po-discovery-title")).fontSize),
     resultTitle: parseFloat(getComputedStyle(document.querySelector(".po-result h2")).fontSize),
-    resultBody: parseFloat(getComputedStyle(document.querySelector(".po-result__job")).fontSize),
+    resultBody: parseFloat(getComputedStyle(document.querySelector(".po-result p:not(.po-result__breadcrumb)")).fontSize),
     resultMeta: parseFloat(getComputedStyle(document.querySelector(".po-result__meta")).fontSize),
     canvas: document.querySelector(".md-content__inner").getBoundingClientRect().width,
   }));

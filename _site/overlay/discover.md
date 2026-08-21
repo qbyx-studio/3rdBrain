@@ -4,10 +4,11 @@ search:
   exclude: true
 ---
 
-# Discover <span id="po-project-name">your knowledge base</span>
+# Discover <span id="po-project-name">your knowledge base</span> { .po-discovery-title }
 
 Find material the way you remember it: describe the job, then narrow by capability,
 category, access or platform. Exact names and natural-language intent are ranked together.
+{ .po-discovery-intro }
 
 <div id="promptos-discovery" class="po-discovery" aria-busy="true">
   <div class="po-discovery__search-shell">
