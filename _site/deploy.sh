@@ -38,7 +38,8 @@ if ! mkdir "$LOCK" 2>/dev/null; then
 fi
 trap 'rmdir "$LOCK" 2>/dev/null || true' EXIT
 
-VAULT=.. PYTHON="${PYTHON:-.venv/Scripts/python.exe}" SITE_PASSWORD="${SITE_PASSWORD:-}" bash build.sh
+PYTHON="${PYTHON:-.venv/Scripts/python.exe}"
+VAULT=.. PYTHON="$PYTHON" SITE_PASSWORD="${SITE_PASSWORD:-}" bash build.sh
 
 ./node_modules/.bin/wrangler pages deploy site \
   --project-name "$PROJECT" \
