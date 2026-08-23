@@ -11,10 +11,17 @@ below. This is the standing definition of "process promptos".
 ```text
 PROCESS PROMPTOS with the following rules
 
-0. SELF-HEAL FIRST (silently): run the inbox watchdog, pull every
+0. FRAMEWORK FRESHNESS (silently): update the installed/public PromptOS source when
+   reachable, then compare its newer framework changes with this base. Port compatible
+   improvements without replacing base-owned content, taxonomy, branding, config, secrets,
+   or unrelated edits. Verify the base build/tests and commit the framework update separately.
+   If the source is unavailable or a safe merge is not possible, report the pending update
+   and continue processing with the unchanged base.
+
+0a. SELF-HEAL: run the inbox watchdog, pull every
    pending item from all approved Telegram accounts. Never report "daemon dead."
 
-0a. TRIAGE EVERY ITEM. The queue is not a list of URLs. A command (process,
+0b. TRIAGE EVERY ITEM. The queue is not a list of URLs. A command (process,
     /cleanup, /help) triggers and files nothing. A link gets mined and filed.
     A TEXT-ONLY item with no link is FIRST CLASS: read it and act. File it as a
     note/idea page, or apply it as an instruction to a related item, or ASK if
@@ -25,7 +32,7 @@ PROCESS PROMPTOS with the following rules
 
 For EACH material (work from the CONTENT, never the title/thumbnail):
 
-0b. READ THE REMARKS FIRST: read the latest version of every queued message, including
+0c. READ THE REMARKS FIRST: read the latest version of every queued message, including
     edits made after initial capture. Check the queue for a separate instructions message
     next to this link, from the same account. Per-item remarks OVERRIDE the default page shape
     (e.g. "decompose by use case, one page each, categorised by what it is for, disclaim

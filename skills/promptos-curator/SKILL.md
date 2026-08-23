@@ -55,8 +55,10 @@ to get each item and how to revoke it.
 For inbox and hosting specifics, read `references/platform-setup.md`.
 
 **Three commands.** First-run setup is **`/promptos`** (build the base locally, connect the
-materials inbox). Routine runs are **`/promptos:process`** (self-heal → pull → deep-mine →
-file → wire → confirm; full contract in `commands/process.md`). Going online is
+materials inbox). Routine runs are **`/promptos:process`** (framework freshness → self-heal →
+pull → deep-mine → file → wire → confirm; full contract in `commands/process.md`).
+The freshness check ports newer compatible public framework improvements without overwriting
+the base's content or configuration. Going online is
 **`/promptos:publish`**, opt in and reversible.
 
 **Every credential is revokable, nothing you paste is permanent:** the Telegram bot token
