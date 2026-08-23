@@ -30,6 +30,8 @@ Two failure modes drive the whole design:
 So: every claim is grounded in a command run now, or in your own live registry. Nothing is
 inferred from an install log.
 
+Before any audit or repair, follow `../promptos-curator/references/framework-freshness.md` once.
+
 ## Run order
 
 **Phase 0 — Discover.** Never assume a platform. Probe for skill roots and command roots and

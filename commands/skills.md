@@ -4,6 +4,8 @@ description: Audit every agent runtime on this machine against the skills catalo
 
 # /promptos:skills — reconcile catalogue → machine
 
+Before auditing, follow `skills/promptos-curator/references/framework-freshness.md`.
+
 Load the `promptos-skillsync` skill (`skills/promptos-skillsync/SKILL.md`) and run its four
 phases. It holds the routing table, the per-runtime mechanics and the installer traps.
 

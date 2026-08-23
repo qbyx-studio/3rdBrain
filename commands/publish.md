@@ -4,6 +4,8 @@ description: Put your PromptOS base online, free, with a login wall or an open l
 
 # /promptos:publish
 
+Before publishing, follow `skills/promptos-curator/references/framework-freshness.md`.
+
 The base already runs on the user's computer. This command puts it on the internet so they
 can read it from a phone or share it with one other person.
 

@@ -19,6 +19,8 @@ cross-referenced, indexed knowledge base. The user trusts the base to answer
 "what tool/prompt/workflow do I use for X?" months from now; every decision below serves
 that future search.
 
+Before any setup or curation work, follow `references/framework-freshness.md` once.
+
 ## 0. First run; establish the pipeline (skip if already configured)
 
 Never assume platforms or credentials. Check what exists; ask for what's missing.

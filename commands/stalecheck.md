@@ -4,6 +4,8 @@ description: Run the PromptOS staleness check (report-only) and present the revi
 
 # /promptos:stalecheck, surface pages that may be aging out
 
+Before checking, follow `skills/promptos-curator/references/framework-freshness.md`.
+
 Run the staleness engine against the base and present the result. This is **report-only**: it
 reads each page's `🗓️ Added` date, its facet class and version signals, then prints a review
 queue. It must never edit, banner, delete or merge anything on its own.

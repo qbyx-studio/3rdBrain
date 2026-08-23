@@ -4,6 +4,8 @@ description: Set up PromptOS on this computer. Builds your knowledge base locall
 
 # /promptos, first run setup
 
+Before setup, follow `skills/promptos-curator/references/framework-freshness.md`.
+
 You are setting up **PromptOS** for this user. Load the `promptos-curator` skill
 (`skills/promptos-curator/SKILL.md`); it holds the pipeline. This command builds the base
 and connects the inbox. Process nothing yet.

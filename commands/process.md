@@ -11,12 +11,8 @@ below. This is the standing definition of "process promptos".
 ```text
 PROCESS PROMPTOS with the following rules
 
-0. FRAMEWORK FRESHNESS (silently): update the installed/public PromptOS source when
-   reachable, then compare its newer framework changes with this base. Port compatible
-   improvements without replacing base-owned content, taxonomy, branding, config, secrets,
-   or unrelated edits. Verify the base build/tests and commit the framework update separately.
-   If the source is unavailable or a safe merge is not possible, report the pending update
-   and continue processing with the unchanged base.
+0. FRAMEWORK FRESHNESS: follow
+   `skills/promptos-curator/references/framework-freshness.md` before inbox work.
 
 0a. SELF-HEAL: run the inbox watchdog, pull every
    pending item from all approved Telegram accounts. Never report "daemon dead."
