@@ -1,6 +1,6 @@
 {
   "name": "promptos",
-  "description": "Saved links, made findable. A Claude skill that files everything you save into an organized, indexed, searchable knowledge base on your own computer.",
+  "description": "Saved links, made findable. Cross-runtime skills for Claude Code and Codex that file everything you save into an organized, indexed, searchable knowledge base on your own computer.",
   "owner": {
     "name": "Qbyx",
     "url": "https://github.com/QbyxStudio"

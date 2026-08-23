@@ -57,7 +57,17 @@ signal `/promptos:stalecheck` reads. After that every page follows one shape: a 
 source embedded. Facts pulled from videos carry timestamps, so any claim is checkable in
 seconds.
 
-## The five commands
+## The five workflows
+
+Claude and Codex use the same canonical skills; only invocation syntax differs.
+
+| Task | Claude Code | Codex |
+|---|---|---|
+| Set up | `/promptos` | `$promptos-setup` |
+| Process inbox | `/promptos:process` | `$promptos-process` |
+| Audit skills | `/promptos:skills` | `$promptos-skillsync` |
+| Review stale pages | `/promptos:stalecheck` | `$promptos-stalecheck` |
+| Publish | `/promptos:publish` | `$promptos-publish` |
 
 ### `/promptos`
 
@@ -186,19 +196,30 @@ Each one exists because it failed in production first.
 ```
 
 <details>
-<summary>Plugin system unavailable? Install the skill directly.</summary>
+<summary>Plugin system unavailable? Install the skills directly.</summary>
 
-macOS / Linux:
+Codex (one canonical root; do not also copy them into `~/.codex/skills`):
 ```bash
-rsync -a skills/promptos-curator/ ~/.claude/skills/promptos-curator/
+mkdir -p ~/.agents/skills
+cp -R skills/promptos-* ~/.agents/skills/
 ```
 
-Windows (PowerShell):
+Claude Code:
+```bash
+mkdir -p ~/.claude/skills
+cp -R skills/promptos-* ~/.claude/skills/
+```
+
+Windows PowerShell for Codex:
 ```powershell
-Copy-Item -Recurse -Force skills\promptos-curator "$env:USERPROFILE\.claude\skills\promptos-curator"
+Get-ChildItem skills -Directory -Filter "promptos-*" | ForEach-Object {
+  Copy-Item -Recurse -Force $_.FullName "$env:USERPROFILE\.agents\skills\$($_.Name)"
+}
 ```
 
-Restart Claude Code after copying.
+For Claude Code, use the same command with `.claude\skills` as the destination.
+
+Restart the agent after copying.
 </details>
 
 ## Layout
@@ -223,6 +244,9 @@ skills/promptos-curator/
     ├── deep-breakdown.md         ← video mining: transcript, frames, timed deep links
     ├── mining-prompt.md          ← paste ready "true mine this" prompt
     └── page-templates.md         ← page anatomies, facet hubs, registration rule
+skills/promptos-{setup,process,publish,stalecheck}/
+├── SKILL.md                      ← Codex entry point and canonical workflow owner
+└── references/contract.md       ← workflow used by both Codex and Claude
 ```
 
 ## Why it exists

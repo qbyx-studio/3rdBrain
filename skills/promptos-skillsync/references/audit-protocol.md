@@ -25,6 +25,10 @@ with absolute resolved paths:
 Add any other skill or command root this runtime is known to read. Every later section
 operates only on roots that resolved. If a root is absent, say so once and move on.
 
+Roots are loading surfaces, not runtimes. Record which roots each runtime scans and group them
+before counting availability. If one runtime sees the same skill name through more than one
+root, report it as DUPLICATE with every path.
+
 ## 1. Ground truth on disk
 
 For each discovered skill root, count **directories containing a `SKILL.md`** — not raw
@@ -33,7 +37,8 @@ listing output, which counts unrelated entries. Show the command and its real ou
 Validate every skill directory: `SKILL.md` exists, opens as UTF-8, has YAML frontmatter
 delimited by `---`, and carries a non-empty `name:` and `description:`. Report per root:
 total / valid / invalid. Name every invalid one with its exact failure. Separately flag any
-entry that is a symlink whose target does not resolve.
+entry that is a symlink whose target does not resolve. Hash duplicate names to distinguish
+identical redundant copies from conflicting versions; both require one canonical visible copy.
 
 ## 2. Your live registry
 
@@ -81,9 +86,9 @@ will not invoke is a FAIL.
 
 ## Output
 
-One table, one row per discovered root:
+One table, one row per discovered runtime:
 
-| Root | Skills on disk | Valid | Loaded | Typeable as /name |
+| Runtime | Roots scanned | Unique skills | Duplicates | Loaded | Typeable as /name |
 
-Then VERDICT — PASS only if invalid = 0, B = 0, and all 3 invocations succeeded. Otherwise
+Then VERDICT — PASS only if invalid = 0, duplicates = 0, B = 0, and all 3 invocations succeeded. Otherwise
 FAIL, naming the specific gap and the exact command that fixes it. Nothing beyond that.

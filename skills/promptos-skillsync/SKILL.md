@@ -32,6 +32,9 @@ inferred from an install log.
 
 Before any audit or repair, follow `../promptos-curator/references/framework-freshness.md` once.
 
+Default to the whole catalogue across every discovered runtime. If the user names a subset,
+honor exactly that scope and report what was not checked.
+
 ## Run order
 
 **Phase 0 — Discover.** Never assume a platform. Probe for skill roots and command roots and
@@ -68,6 +71,9 @@ surface the restart affects.
 - **Parity is explicit.** When more than one runtime exists, every skill lands on every one, or
   the report names the runtime it is missing from and why. Silent single-platform installs are
   the most common failure this skill exists to catch.
+- **One visible copy per runtime.** A runtime may scan both a shared root and its native root.
+  Availability in either satisfies parity; installing the same skill into both creates duplicate
+  menu entries and is BROKEN, not extra coverage.
 - **Count skills, not directory entries.** Count directories containing a `SKILL.md`. A raw
   listing counts internal folders and inflates every number downstream.
 - **Third-party code is third-party code.** Installing a skill means running someone else's

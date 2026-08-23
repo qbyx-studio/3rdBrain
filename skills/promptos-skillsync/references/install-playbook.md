@@ -36,18 +36,19 @@ Three traps, all of which fail quietly:
 - **`-l` lists a repo's skills without installing.** Use it first — repos routinely carry far
   more skills than the catalogue page mentions.
 
-## Bring every runtime to parity
+## Bring every runtime to parity without duplicates
 
-Runtimes that were skipped, or whose installer pass no-opped, get the skills mirrored in by
-hand from the shared store. Symlinks are enough; the target only needs a readable `SKILL.md`.
+Install each skill once within each runtime's complete search path. Prefer a shared skills root
+when that runtime scans it; use the runtime-native root only as a fallback. Never mirror the
+same skill into both roots a runtime scans—that produces duplicate picker entries.
 
-Two sources must be mirrored, and the second is the one people miss:
+Two sources still need auditing, and the second is the one people miss:
 
-1. The shared skills store and each runtime's own skills directory.
+1. The chosen canonical root for each runtime.
 2. **Skills that ship inside installed plugins.** These live under the plugin cache, not the
    skills directory, so a runtime without a plugin layer never sees them. Mirror from the
-   *installed* plugin cache only — never from the marketplace listing, which contains every
-   available plugin, not the installed ones.
+   *installed* plugin cache into that runtime's one canonical root only—never from the
+   marketplace listing, which contains every available plugin, not the installed ones.
 
 On name collision, prefix with the plugin name rather than overwriting. Skip any runtime's
 internal, non-skill directories.
