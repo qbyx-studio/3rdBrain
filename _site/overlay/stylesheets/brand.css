@@ -378,13 +378,13 @@
   margin-right: auto;
 }
 
-/* Give the sidebars a little separation from the article. */
+/* Keep the navigation and table of contents visibly separate from the article. */
 .md-sidebar--primary {
-  padding-right: 0.6rem;
+  padding-right: 1rem;
 }
 
 .md-sidebar--secondary {
-  padding-left: 0.6rem;
+  padding-left: 1rem;
 }
 
 @media screen and (max-width: 76.1875em) {
