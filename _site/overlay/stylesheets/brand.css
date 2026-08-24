@@ -361,8 +361,9 @@
 
 .md-content__inner {
   /* A wider documentation canvas uses the space between both sidebars while
-     retaining a readable line length and deliberate breathing room. */
-  max-width: 50rem;
+     retaining a readable line length and a real 1.8rem visual gutter on each
+     side. Sidebar padding alone does not move this article boundary. */
+  max-width: 46.4rem;
   padding-left: 1.2rem;
   padding-right: 1.2rem;
 }

@@ -60,8 +60,10 @@ test("fresh Discover is readable, wide, and free of serious automated a11y findi
     resultBody: parseFloat(getComputedStyle(document.querySelector(".po-result p:not(.po-result__breadcrumb)")).fontSize),
     resultMeta: parseFloat(getComputedStyle(document.querySelector(".po-result__meta")).fontSize),
     canvas: document.querySelector(".md-content__inner").getBoundingClientRect().width,
-    primaryGutter: parseFloat(getComputedStyle(document.querySelector(".md-sidebar--primary")).paddingRight),
-    secondaryGutter: parseFloat(getComputedStyle(document.querySelector(".md-sidebar--secondary")).paddingLeft),
+    primaryGap: document.querySelector(".md-content__inner").getBoundingClientRect().left -
+      document.querySelector(".md-sidebar--primary").getBoundingClientRect().right,
+    secondaryGap: document.querySelector(".md-sidebar--secondary").getBoundingClientRect().left -
+      document.querySelector(".md-content__inner").getBoundingClientRect().right,
   }));
   expect(Math.abs(scale.input - scale.label)).toBeLessThanOrEqual(1);
   expect(scale.title).toBeLessThanOrEqual(28);
@@ -69,10 +71,10 @@ test("fresh Discover is readable, wide, and free of serious automated a11y findi
   expect(scale.resultTitle).toBeLessThanOrEqual(19);
   expect(scale.resultBody).toBeLessThanOrEqual(15);
   expect(scale.resultMeta).toBeLessThanOrEqual(12.5);
-  expect(scale.canvas).toBeGreaterThanOrEqual(1050);
-  expect(scale.canvas).toBeLessThanOrEqual(1200);
-  expect(scale.primaryGutter).toBeGreaterThanOrEqual(28.8);
-  expect(scale.secondaryGutter).toBeGreaterThanOrEqual(28.8);
+  expect(scale.canvas).toBeGreaterThanOrEqual(1000);
+  expect(scale.canvas).toBeLessThanOrEqual(1050);
+  expect(scale.primaryGap).toBeGreaterThanOrEqual(90);
+  expect(scale.secondaryGap).toBeGreaterThanOrEqual(90);
 
   const accessibility = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
