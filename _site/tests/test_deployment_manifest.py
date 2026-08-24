@@ -2,7 +2,16 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from tools.verify_deployment_manifest import expected_paths, find_mismatches
+from tools.verify_deployment_manifest import deployment_credentials, expected_paths, find_mismatches
+
+
+def test_credentials_can_be_read_from_a_windows_dotenv(monkeypatch, tmp_path):
+    monkeypatch.delenv("CLOUDFLARE_API_TOKEN", raising=False)
+    monkeypatch.delenv("CLOUDFLARE_ACCOUNT_ID", raising=False)
+    env_file = tmp_path / ".env"
+    env_file.write_bytes(b"CLOUDFLARE_API_TOKEN=test-token\r\nCLOUDFLARE_ACCOUNT_ID=test-account\r\n")
+
+    assert deployment_credentials(env_file) == ("test-token", "test-account")
 
 
 def test_expected_paths_preserve_exact_case(tmp_path: Path):

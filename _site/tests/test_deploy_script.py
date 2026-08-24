@@ -13,3 +13,11 @@ def test_python_runner_survives_from_build_into_manifest_verification():
 
     assert assignment_match, "PYTHON must be assigned in the deploy shell, not one command"
     assert assignment_match.start() < script.index(verify)
+
+
+def test_windows_deploy_fallback_and_crlf_dotenv_handling_are_present():
+    script = (ROOT / "deploy.sh").read_text(encoding="utf-8")
+
+    assert "command -v powershell.exe" in script
+    assert "./node_modules/.bin/wrangler.cmd" in script
+    assert 'value="${value%$\'\\r\'}"' in script

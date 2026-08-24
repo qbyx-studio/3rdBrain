@@ -24,6 +24,22 @@ def find_mismatches(site: Path, manifest: dict[str, str]) -> tuple[list[str], li
     return sorted(expected - actual), sorted(actual - expected)
 
 
+def deployment_credentials(env_file: Path = Path(".env")) -> tuple[str, str]:
+    """Read credentials from the process or the local, ignored dotenv file."""
+    values = dict(os.environ)
+    if env_file.is_file():
+        for raw_line in env_file.read_text(encoding="utf-8-sig").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            values.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+    return (
+        values.get("CLOUDFLARE_API_TOKEN", ""),
+        values.get("CLOUDFLARE_ACCOUNT_ID", ""),
+    )
+
+
 def api_json(url: str, token: str) -> dict:
     request = urllib.request.Request(
         url,
@@ -55,8 +71,7 @@ def main() -> int:
         print("usage: verify_deployment_manifest.py SITE_DIR PROJECT BRANCH", file=sys.stderr)
         return 2
     site, project, branch = Path(sys.argv[1]), sys.argv[2], sys.argv[3]
-    token = os.environ.get("CLOUDFLARE_API_TOKEN", "")
-    account = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "")
+    token, account = deployment_credentials()
     if not token or not account:
         print("manifest verify: Cloudflare credentials are missing", file=sys.stderr)
         return 2
