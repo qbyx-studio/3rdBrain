@@ -380,11 +380,11 @@
 
 /* Keep the navigation and table of contents visibly separate from the article. */
 .md-sidebar--primary {
-  padding-right: 1rem;
+  padding-right: 1.5rem;
 }
 
 .md-sidebar--secondary {
-  padding-left: 1rem;
+  padding-left: 1.5rem;
 }
 
 @media screen and (max-width: 76.1875em) {

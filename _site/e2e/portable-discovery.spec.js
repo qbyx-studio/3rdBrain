@@ -71,8 +71,8 @@ test("fresh Discover is readable, wide, and free of serious automated a11y findi
   expect(scale.resultMeta).toBeLessThanOrEqual(12.5);
   expect(scale.canvas).toBeGreaterThanOrEqual(1050);
   expect(scale.canvas).toBeLessThanOrEqual(1200);
-  expect(scale.primaryGutter).toBeGreaterThanOrEqual(16);
-  expect(scale.secondaryGutter).toBeGreaterThanOrEqual(16);
+  expect(scale.primaryGutter).toBeGreaterThanOrEqual(24);
+  expect(scale.secondaryGutter).toBeGreaterThanOrEqual(24);
 
   const accessibility = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
