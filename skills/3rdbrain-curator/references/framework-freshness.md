@@ -1,9 +1,11 @@
 # Framework freshness
 
-Once per task, update the installed/public 3rdBrain source when reachable and port newer
-compatible framework improvements into the base. Never replace base-owned content, taxonomy,
-branding, configuration, secrets, or unrelated edits. Verify relevant build/tests and commit
-the framework update separately. If the source is unavailable or a safe merge is not possible,
+Once per task, fetch the current default branch of the authoritative public source,
+`https://github.com/qbyx-studio/3rdBrain`, and compare every framework-owned surface: `commands/`,
+`skills/`, `inbox/`, `_site/` code and tests, plus starter assets. Port each newer compatible
+improvement into the base. Preserve base-owned content, taxonomy, branding, configuration,
+secrets, and unrelated edits. Verify the complete relevant build and tests, then commit the
+framework update separately. If the source is unreachable or a safe adaptation is unavailable,
 report the pending update and continue with the unchanged base.
 
 Do not call the framework fresh merely because this preflight ran. A `FRESH` result requires a
