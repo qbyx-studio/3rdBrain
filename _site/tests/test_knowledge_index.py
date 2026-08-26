@@ -31,10 +31,10 @@ SUMMARY = """# Table of contents
 * [Leads & Outreach](marketing/leads.md)
   * [Revenue Email Agent](agents/email-agent.md)
 
-## GX10 (OS)
+## Local AI (Workstations)
 
-* [Hermes](gx10/hermes.md)
-  * [Hermes Local Worker](agents/hermes-worker.md)
+* [Runtimes](local-ai/runtimes.md)
+  * [Local Worker](agents/local-worker.md)
 """
 
 
@@ -68,9 +68,9 @@ def test_summary_parser_returns_the_full_primary_taxonomy_path():
         "Marketing",
         "Leads & Outreach",
     ]
-    assert pages["agents/hermes-worker.md"]["taxonomy_path"] == [
-        "GX10 (OS)",
-        "Hermes",
+    assert pages["agents/local-worker.md"]["taxonomy_path"] == [
+        "Local AI (Workstations)",
+        "Runtimes",
     ]
 
 
@@ -198,13 +198,13 @@ def test_hybrid_ranking_finds_a_natural_language_job_and_applies_facets():
         },
         {
             "id": "local-worker",
-            "title": "Hermes Local Worker",
+            "title": "Local Worker",
             "description": "Use a local model for high-volume delegated work",
             "jobs": ["use a cheap local worker beneath a stronger hosted agent"],
             "aliases": ["offline executor"],
             "facets": ["Local AI", "Agent"],
-            "taxonomy_path": ["GX10 (OS)", "Hermes"],
-            "search_text": "hermes local worker cheap offline model hosted agent",
+            "taxonomy_path": ["Local AI (Workstations)", "Runtimes"],
+            "search_text": "local worker efficient offline model hosted agent",
         },
     ]
 

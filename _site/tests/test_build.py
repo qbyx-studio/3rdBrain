@@ -282,7 +282,7 @@ def test_every_video_has_a_fallback_link():
 
 def test_assets_with_spaces_and_parentheses_resolve():
     """'_ARTICLE-TEMPLATE (1).docx' was truncated at the first parenthesis."""
-    page = SITE / "projects" / "yvechat" / "articles" / "index.html"
+    page = SITE / "projects" / "sample-app" / "articles" / "index.html"
     if not page.exists():
         pytest.skip("page not in this build")
     hrefs = re.findall(r'href="(/gitbook-assets/[^"]+)"', read(page))

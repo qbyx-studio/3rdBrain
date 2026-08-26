@@ -28,7 +28,7 @@ def test_fresh_starter_generates_a_named_searchable_catalog(tmp_path: Path):
 
     assert result["records"] >= 3
     taxonomy = json.loads((output / "taxonomy.json").read_text(encoding="utf-8"))
-    assert taxonomy["project"]["name"] == "3rdBrain by Qbyx"
+    assert taxonomy["project"]["name"] == "3rdBrain by Qbyx Studio"
     assert (output / "records.json").exists()
     assert (output / "suggestions.json").exists()
 
@@ -37,10 +37,10 @@ def test_existing_base_without_new_config_gets_a_non_destructive_upgrade(tmp_pat
     vault = tmp_path / "ExistingBase"
     vault.mkdir()
     (vault / "README.md").write_text(
-        "# RecipeOS\n\nEverything worth cooking twice.\n", encoding="utf-8"
+        "# Kitchen Notes\n\nEverything worth cooking twice.\n", encoding="utf-8"
     )
     (vault / "SUMMARY.md").write_text(
-        "# Table of contents\n\n* [RecipeOS](README.md)\n", encoding="utf-8"
+        "# Table of contents\n\n* [Kitchen Notes](README.md)\n", encoding="utf-8"
     )
     output = tmp_path / "assets" / "discovery"
 
@@ -48,7 +48,7 @@ def test_existing_base_without_new_config_gets_a_non_destructive_upgrade(tmp_pat
 
     taxonomy = json.loads((output / "taxonomy.json").read_text(encoding="utf-8"))
     assert result["records"] == 1
-    assert taxonomy["project"]["name"] == "RecipeOS"
+    assert taxonomy["project"]["name"] == "Kitchen Notes"
     assert not (vault / "taxonomy.yml").exists(), "upgrade must not rewrite user content"
     assert not (vault / "search-cases.yml").exists(), "upgrade must not rewrite user content"
 
