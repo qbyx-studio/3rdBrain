@@ -3,11 +3,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 COMMAND_SKILLS = {
-    "promptos.md": "promptos-setup",
-    "process.md": "promptos-process",
-    "publish.md": "promptos-publish",
-    "skills.md": "promptos-skillsync",
-    "stalecheck.md": "promptos-stalecheck",
+    "3rdbrain.md": "3rdbrain-setup",
+    "process.md": "3rdbrain-process",
+    "publish.md": "3rdbrain-publish",
+    "skills.md": "3rdbrain-skillsync",
+    "stalecheck.md": "3rdbrain-stalecheck",
 }
 
 
@@ -24,7 +24,7 @@ def test_claude_commands_delegate_to_canonical_cross_runtime_skills():
 
 
 def test_operation_skills_own_their_contracts():
-    for skill_name in set(COMMAND_SKILLS.values()) - {"promptos-skillsync"}:
+    for skill_name in set(COMMAND_SKILLS.values()) - {"3rdbrain-skillsync"}:
         skill_dir = ROOT / "skills" / skill_name
         assert "references/contract.md" in (skill_dir / "SKILL.md").read_text(encoding="utf-8")
         assert (skill_dir / "references" / "contract.md").exists()

@@ -1,4 +1,4 @@
-"""Build and validate PromptOS's structured discovery index.
+"""Build and validate 3rdBrain's structured discovery index.
 
 The content remains ordinary Markdown. This module derives a deterministic,
 private search catalog from SUMMARY navigation, page frontmatter, Use-it-when
@@ -52,7 +52,7 @@ GENERIC_CLUSTER_FACETS = {
 }
 STOP_WORDS = {
     "a", "an", "and", "are", "for", "from", "how", "i", "in", "into", "is",
-    "it", "my", "no", "of", "on", "or", "promptos", "such", "that", "the",
+    "it", "my", "no", "of", "on", "or", "3rdbrain", "such", "that", "the",
     "this", "to", "under", "with", "without", "item",
 }
 DEFAULT_REGISTRY: dict[str, Any] = {
@@ -607,7 +607,7 @@ def _facet_groups(root: Path) -> dict[str, str]:
     except ImportError:
         return {}
 
-    # Older PromptOS bases keep a static label -> "Group/Label" mapping. Keep
+    # Older 3rdBrain bases keep a static label -> "Group/Label" mapping. Keep
     # their domain language (Protein/Method/Role, for example) instead of
     # flattening every facet into the generic Capability group.
     load_groups = getattr(facets_to_tags, "load_groups", None)
@@ -740,7 +740,7 @@ def build_discovery_assets(root: Path, output: Path) -> dict[str, Any]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("root", type=Path, help="staged PromptOS content root")
+    parser.add_argument("root", type=Path, help="staged 3rdBrain content root")
     parser.add_argument(
         "--output",
         type=Path,

@@ -6,7 +6,7 @@ Journeys were derived from the reported production 404s:
 
 - A reader can expand a label-only subgroup without being sent to an invented page.
 - Every clickable sidebar entry resolves to HTML included in the published bundle.
-- A fresh PromptOS base receives the same rules and blocking check.
+- A fresh 3rdBrain base receives the same rules and blocking check.
 
 ## Evidence
 

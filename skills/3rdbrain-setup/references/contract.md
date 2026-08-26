@@ -1,12 +1,12 @@
 ---
-description: Set up PromptOS on this computer. Builds your knowledge base locally, connects a materials inbox, opens it in your browser. No accounts needed.
+description: Set up 3rdBrain on this computer. Builds your knowledge base locally, connects a materials inbox, opens it in your browser. No accounts needed.
 ---
 
-# PromptOS first-run setup contract
+# 3rdBrain first-run setup contract
 
-Before setup, load `promptos-curator` and follow its `references/framework-freshness.md`.
+Before setup, load `3rdbrain-curator` and follow its `references/framework-freshness.md`.
 
-You are setting up **PromptOS** for this user. Load the `promptos-curator` skill; it holds
+You are setting up **3rdBrain** for this user. Load the `3rdbrain-curator` skill; it holds
 the pipeline. This command builds the base
 and connects the inbox. Process nothing yet.
 
@@ -18,10 +18,10 @@ in plain words, and translate any error into plain words too.
 
 Default and recommendation: **a folder on their disk, rendered by MkDocs**. Setup finishes
 with zero accounts, zero tokens, zero cost, and nothing leaving the machine. Publishing is a
-separate, later choice covered by `/promptos:publish`.
+separate, later choice covered by `/3rdbrain:publish`.
 
 Ask one question: **where should the base live?** Offer a sensible default such as
-`~/PromptOS` or `C:\PromptOS`. Then do the work:
+`~/3rdBrain` or `C:\3rdBrain`. Then do the work:
 
 1. **Check the tools.** Python 3.10 or newer, and git. If either is missing, install it, or
    give the user the one link they need and wait. Say why it is needed in one sentence.
@@ -39,7 +39,7 @@ Ask one question: **where should the base live?** Offer a sensible default such 
    rather than reporting a failure. They should be looking at their own base before this
    command ends.
 
-Read the `promptos-curator` skill's `references/site-build.md` for the build, transforms,
+Read the `3rdbrain-curator` skill's `references/site-build.md` for the build, transforms,
 and design system.
 
 Offer alternatives only if the user asks: GitBook with two way git sync, Notion, Obsidian.
@@ -77,8 +77,8 @@ Report back in plain words:
 
 - Where the base lives, and the address to read it.
 - Whether the inbox is connected, and how many accounts are approved.
-- That they can forward links any time and run **`/promptos:process`** to file them.
-- That **`/promptos:publish`** puts it online later, whenever they want it on a phone.
+- That they can forward links any time and run **`/3rdbrain:process`** to file them.
+- That **`/3rdbrain:publish`** puts it online later, whenever they want it on a phone.
 
 Say plainly: everything is on their computer, nothing is shared, and every token they pasted
 can be revoked.

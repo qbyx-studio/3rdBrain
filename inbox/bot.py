@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PromptOS Inbox; Telegram collector daemon.
+"""3rdBrain Inbox; Telegram collector daemon.
 
 Captures everything an approved account sends into inbox.json. The Telegram Bot
 API cannot read history, and it keeps unfetched updates for roughly 24 hours, so
@@ -49,7 +49,7 @@ def log(msg):
 
 cfg_boot = load(CONFIG, {})
 TOKEN = cfg_boot.get("token", "")
-BASE_NAME = cfg_boot.get("base_name", "PromptOS")
+BASE_NAME = cfg_boot.get("base_name", "3rdBrain")
 API = "https://api.telegram.org/bot" + TOKEN + "/"
 
 if not TOKEN:
@@ -140,7 +140,7 @@ def maybe_auto_process(cfg):
     base_dir = cfg.get("base_dir") or BASE_DIR
     agent = cfg.get("agent_path", "claude")
     prompt = cfg.get(
-        "auto_prompt", "Run /promptos:process and follow it exactly."
+        "auto_prompt", "Run /3rdbrain:process and follow it exactly."
     )
     out = open(os.path.join(BASE_DIR, "auto_run.log"), "a", encoding="utf-8")
     out.write("\n===== run %s =====\n" % time.strftime("%Y-%m-%d %H:%M:%S"))
@@ -178,7 +178,7 @@ def extract_message_text(msg):
 
 
 def has_trigger(text):
-    """Use the configured base name, so forks do not inherit PromptOS wording."""
+    """Use the configured base name, so forks do not inherit 3rdBrain wording."""
     return BASE_NAME.casefold() in text.casefold()
 
 

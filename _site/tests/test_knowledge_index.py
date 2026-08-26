@@ -168,7 +168,7 @@ aliases: [inbox agent, reply drafter]
 
 
 def test_home_record_links_out_of_the_discovery_directory():
-    record = build_record("README.md", "# PromptOS 2\n", ["Home"], REGISTRY)
+    record = build_record("README.md", "# 3rdBrain 2\n", ["Home"], REGISTRY)
 
     assert record["id"] == "home"
     assert record["location"] == "../"

@@ -1,6 +1,6 @@
 {
   "token": "PASTE_YOUR_BOTFATHER_TOKEN_HERE",
-  "base_name": "PromptOS",
+  "base_name": "3rdBrain",
   "owners": [],
   "enroll_remaining": 1,
   "offset": 0,
@@ -8,5 +8,5 @@
   "auto_hour": 0,
   "base_dir": "",
   "agent_path": "claude",
-  "auto_prompt": "Run /promptos:process and follow it exactly."
+  "auto_prompt": "Run /3rdbrain:process and follow it exactly."
 }

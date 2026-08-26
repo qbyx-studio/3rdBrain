@@ -1,5 +1,5 @@
 ---
-name: promptos-curator
+name: 3rdbrain-curator
 description: >
   Turn a stream of saved materials (YouTube videos/shorts, GitHub repos, Instagram reels,
   articles, tweets, notes, screenshots; any link or content) into a beautifully organized,
@@ -11,7 +11,7 @@ description: >
   Also use it when the user has a pile of bookmarks/notes and asks what to do with them.
 ---
 
-# PromptOS Curator; Materials → Organized Knowledge Base
+# 3rdBrain Curator; Materials → Organized Knowledge Base
 
 You are running a **curation pipeline**: materials flow in from an inbox, you research and
 verify each one, break it down to the right depth, and file it into a categorized,
@@ -56,12 +56,12 @@ to get each item and how to revoke it.
 
 For inbox and hosting specifics, read `references/platform-setup.md`.
 
-**Three commands.** First-run setup is **`/promptos`** (build the base locally, connect the
-materials inbox). Routine runs are **`/promptos:process`** (framework freshness → self-heal →
+**Three commands.** First-run setup is **`/3rdbrain`** (build the base locally, connect the
+materials inbox). Routine runs are **`/3rdbrain:process`** (framework freshness → self-heal →
 pull → deep-mine → file → wire → confirm; full contract in `commands/process.md`).
 The freshness check ports newer compatible public framework improvements without overwriting
 the base's content or configuration. Going online is
-**`/promptos:publish`**, opt in and reversible.
+**`/3rdbrain:publish`**, opt in and reversible.
 
 **Every credential is revokable, nothing you paste is permanent:** the Telegram bot token
 via @BotFather `/revoke` (issues a fresh token and kills the old one); any Cloudflare API
@@ -235,7 +235,8 @@ across those sections; it does not own the children in the sidebar.
 - **One primary location, many facets.** Every curated content page has exactly one primary
   topical location in the sidebar and may carry every cross-cutting facet that truly applies.
   Every page created by the curator declares its complete sidebar ancestry as a
-  `taxonomy_path` list in frontmatter. The build validates every level, not only the section.
+  `primary_section` plus a complete `taxonomy_path` list in frontmatter. The build validates
+  the declared top-level section and every navigation level.
 - **Two-layer model**: tool pages (what it is) vs workflow pages (how a task gets done
   with several of them). Both are first-class and both are indexed.
 - **Full prompt files are atomic.** A prompt meant to be copy-pasted as one piece lives
@@ -246,8 +247,9 @@ across those sections; it does not own the children in the sidebar.
 Every page follows one shape so the user's eyes always know where to look
 (templates with examples in `references/page-templates.md`):
 
-1. Frontmatter `description:` (one line; shows in previews/search), `page_type:`, useful
-   `aliases:`, and `taxonomy_path:` (every sidebar level from section through subgroup)
+1. Frontmatter `description:` (one line; shows in previews/search), `primary_section:`,
+   `page_type:`, useful `aliases:`, and `taxonomy_path:` (every sidebar level from section
+   through subgroup)
 2. `# Title`
 3. **Type label** blockquote: 🧩 skill/plugin · 📦 open-source repo · 🤖 model ·
    📝 prompt · ⚙️ SaaS tool/MCP · ℹ️ info/reference · 🛡️ security. State relationships
@@ -297,7 +299,7 @@ after the frontmatter block, or line 1 when a page has no frontmatter.
 <sub>🗓️ Added YYYY-MM-DD</sub>
 ```
 
-New pages get today's date. It is the age signal `/promptos:stalecheck` reads, so a missing
+New pages get today's date. It is the age signal `/3rdbrain:stalecheck` reads, so a missing
 stamp means the page ages by its first commit date instead, which is close but coarser.
 
 To backfill a base that predates the convention, take each page's first-add date from git:
@@ -335,10 +337,10 @@ and the user reasonably concluded it didn't exist):
 
 ### Backward-compatible adoption
 
-Legacy pages without declarations remain valid, and legacy `primary_section` declarations
-continue to be read. Every newly extracted page must use the complete `taxonomy_path`.
-Backfill older pages incrementally when touched: record their full purpose-based ancestry and
-move or confirm the `SUMMARY.md` entry in the same change.
+Legacy pages without declarations remain valid. Every newly extracted page must declare
+`primary_section` and the complete `taxonomy_path`. Backfill older pages incrementally when
+touched: record their purpose-based top-level section and full ancestry, then move or confirm
+the `SUMMARY.md` entry in the same change.
 
 ## 6. Quality bar & verification
 

@@ -1,5 +1,5 @@
 ---
-description: Search PromptOS by task, category, capability, access and platform — with visible match explanations
+description: Search 3rdBrain by task, category, capability, access and platform — with visible match explanations
 search:
   exclude: true
 ---
@@ -10,7 +10,7 @@ Find material the way you remember it: describe the job, then narrow by capabili
 category, access or platform. Exact names and natural-language intent are ranked together.
 { .po-discovery-intro }
 
-<div id="promptos-discovery" class="po-discovery" aria-busy="true">
+<div id="3rdbrain-discovery" class="po-discovery" aria-busy="true">
   <div class="po-discovery__search-shell">
     <label class="po-discovery__label" for="po-discovery-query">What are you trying to do?</label>
     <div class="po-discovery__input-wrap">

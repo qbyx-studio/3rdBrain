@@ -1,10 +1,10 @@
 const { test, expect } = require("@playwright/test");
 const AxeBuilder = require("@axe-core/playwright").default;
 
-test("fresh PromptOS uses one engine in the header and full Discover page", async ({ page }) => {
+test("fresh 3rdBrain uses one engine in the header and full Discover page", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".md-nav--primary a.md-nav__link").first()).toContainText(
-    "Discover PromptOS by Qbyx"
+    "Discover 3rdBrain by Qbyx Studio"
   );
 
   await page.locator(".md-search__input").fill("Tool Index");
@@ -12,7 +12,7 @@ test("fresh PromptOS uses one engine in the header and full Discover page", asyn
   await page.getByRole("link", { name: /view all in discover/i }).click();
 
   await expect(page).toHaveURL(/\/discover\/?\?q=Tool\+Index/);
-  await expect(page.getByRole("heading", { name: "Discover PromptOS by Qbyx" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Discover 3rdBrain by Qbyx Studio" })).toBeVisible();
   await expect(page.getByRole("searchbox", { name: "Search this knowledge base" })).toHaveValue(
     "Tool Index"
   );

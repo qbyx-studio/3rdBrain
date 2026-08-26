@@ -21,7 +21,7 @@ class BotEditTests(unittest.TestCase):
             json.dumps({"token": "test-token", "base_name": "MyBase"}),
             encoding="utf-8",
         )
-        spec = importlib.util.spec_from_file_location("promptos_inbox_bot_test", bot_path)
+        spec = importlib.util.spec_from_file_location("3rdbrain_inbox_bot_test", bot_path)
         self.bot = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(self.bot)
         self.bot.save(self.bot.INBOX, [])

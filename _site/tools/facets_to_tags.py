@@ -1,4 +1,4 @@
-"""Migrate PromptOS 2 facet footers into frontmatter tags.
+"""Migrate 3rdBrain 2 facet footers into frontmatter tags.
 
 The vault already encodes its taxonomy on every page as a footer line:
 

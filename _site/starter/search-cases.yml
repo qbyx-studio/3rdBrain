@@ -1,5 +1,5 @@
 cases:
-  - query: PromptOS by Qbyx
+  - query: 3rdBrain by Qbyx Studio
     expected_top_5: [home]
   - query: Tool Index
     expected_top_5: [tool-index]

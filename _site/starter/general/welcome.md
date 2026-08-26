@@ -12,11 +12,11 @@ description: A starter page so the base builds on day one
 | You want to… | This delivers |
 | --- | --- |
 | See what a filed page looks like | This page, which you can delete |
-| Add your first material | Forward a link, then run `/promptos:process` |
+| Add your first material | Forward a link, then run `/3rdbrain:process` |
 
 **Get it:**
 
-{% embed url="https://github.com/QbyxStudio/PromptOS" %}
+{% embed url="https://github.com/qbyx-studio/3rdBrain" %}
 
 {% hint style="info" %}
 Every page follows this shape: a type label, a "Use it when" table, a short summary,

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PromptOS Inbox; send per-account confirmations after a filing run.
+"""3rdBrain Inbox; send per-account confirmations after a filing run.
 
 The standing final step of every processing run. Each account that submitted
 something gets a summary of what was filed and where.
@@ -25,7 +25,7 @@ MAX_LINES = 25
 cfg = json.load(open(CONFIG, encoding="utf-8"))
 TOKEN = cfg["token"]
 OWNERS = cfg.get("owners", [])
-BASE_NAME = cfg.get("base_name", "PromptOS")
+BASE_NAME = cfg.get("base_name", "3rdBrain")
 
 raw = json.load(open(INBOX, encoding="utf-8"))
 items = raw if isinstance(raw, list) else raw.get("items", raw.get("messages", []))

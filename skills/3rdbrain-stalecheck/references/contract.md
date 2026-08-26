@@ -1,10 +1,10 @@
 ---
-description: Run the PromptOS staleness check (report-only) and present the review queue. Never edits, banners or deletes anything.
+description: Run the 3rdBrain staleness check (report-only) and present the review queue. Never edits, banners or deletes anything.
 ---
 
-# PromptOS staleness-check contract
+# 3rdBrain staleness-check contract
 
-Before checking, load `promptos-curator` and follow its
+Before checking, load `3rdbrain-curator` and follow its
 `references/framework-freshness.md`.
 
 Run the staleness engine against the base and present the result. This is **report-only**: it

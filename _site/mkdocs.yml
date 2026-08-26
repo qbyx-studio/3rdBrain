@@ -1,6 +1,6 @@
-site_name: PromptOS by Qbyx
+site_name: 3rdBrain by Qbyx Studio
 site_description: Prompts, Claude Skills, repos & workflows — organized to be found fast
-site_url: https://main.promptos.pages.dev   # set by /promptos:publish
+site_url: https://main.3rdbrain.pages.dev   # set by /3rdbrain:publish
 
 exclude_docs: |
   AGENTS.md

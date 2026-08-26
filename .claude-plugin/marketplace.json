@@ -1,15 +1,15 @@
 {
-  "name": "promptos",
-  "description": "Saved links, made findable. Cross-runtime skills for Claude Code and Codex that file everything you save into an organized, indexed, searchable knowledge base on your own computer.",
+  "name": "3rdbrain",
+  "description": "Save anything. Find the right thing when work starts. Cross-runtime skills turn saved material into an organized, indexed, searchable knowledge base on your computer.",
   "owner": {
-    "name": "Qbyx",
-    "url": "https://github.com/QbyxStudio"
+    "name": "Qbyx Studio",
+    "url": "https://github.com/qbyx-studio"
   },
   "plugins": [
     {
-      "name": "promptos",
+      "name": "3rdbrain",
       "source": "./",
-      "description": "Forward links from your phone; an AI researches each one, writes it a page, and files it. Set up with /promptos (builds the base on your computer, no accounts needed); run with /promptos:process (deep-mines videos with timestamps and screenshots, files into topical categories with searchable indexes, confirms to submitters); keep your machine in sync with /promptos:skills; review what has aged with /promptos:stalecheck (report only); put it online when you want with /promptos:publish."
+      "description": "Turn links, videos, repositories, prompts, articles, screenshots, and notes into a searchable working library. Use /3rdbrain for setup, /3rdbrain:process for curation, /3rdbrain:skills for runtime parity, /3rdbrain:stalecheck for age review, and /3rdbrain:publish for Cloudflare Pages."
     }
   ]
 }

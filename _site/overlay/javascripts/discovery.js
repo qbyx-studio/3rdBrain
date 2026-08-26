@@ -3,7 +3,7 @@
 
   const STOP_WORDS = new Set([
     "a", "an", "and", "are", "for", "from", "how", "i", "in", "into", "is",
-    "it", "my", "no", "of", "on", "or", "promptos", "such", "that", "the",
+    "it", "my", "no", "of", "on", "or", "3rdbrain", "such", "that", "the",
     "this", "to", "under", "with", "without", "item"
   ]);
   const state = {
@@ -148,7 +148,7 @@
 
   function logSearch(resultCount) {
     if (!state.query.trim()) return;
-    const key = "promptos-search-events";
+    const key = "3rdbrain-search-events";
     const events = JSON.parse(localStorage.getItem(key) || "[]");
     events.push({ query: state.query, resultCount, at: new Date().toISOString() });
     localStorage.setItem(key, JSON.stringify(events.slice(-250)));
@@ -244,12 +244,12 @@
   function wireGlobalSearch() {
     const input = document.querySelector(".md-search__input");
     const inner = document.querySelector(".md-search__inner");
-    if (!input || !inner || input.dataset.promptosUnified === "true") return;
-    input.dataset.promptosUnified = "true";
+    if (!input || !inner || input.dataset.thirdbrainUnified === "true") return;
+    input.dataset.thirdbrainUnified = "true";
     document.body.classList.add("po-unified-search");
     const panel = document.createElement("section");
     panel.className = "po-quick-search";
-    panel.setAttribute("aria-label", "PromptOS quick search results");
+    panel.setAttribute("aria-label", "3rdBrain quick search results");
     panel.hidden = true;
     inner.appendChild(panel);
 
@@ -386,9 +386,9 @@
       } else if (suggestion) acceptSuggestion(suggestion.dataset.suggestion);
       else if (example) acceptSuggestion(example.dataset.query);
       else if (result) {
-        const events = JSON.parse(localStorage.getItem("promptos-search-clicks") || "[]");
+        const events = JSON.parse(localStorage.getItem("3rdbrain-search-clicks") || "[]");
         events.push({ query: state.query, result: result.dataset.resultId, at: new Date().toISOString() });
-        localStorage.setItem("promptos-search-clicks", JSON.stringify(events.slice(-250)));
+        localStorage.setItem("3rdbrain-search-clicks", JSON.stringify(events.slice(-250)));
       }
     });
     document.getElementById("po-discovery-clear").addEventListener("click", () => {
@@ -398,10 +398,10 @@
       render();
     });
     document.getElementById("po-discovery-export").addEventListener("click", () => {
-      const data = localStorage.getItem("promptos-search-events") || "[]";
+      const data = localStorage.getItem("3rdbrain-search-events") || "[]";
       const link = Object.assign(document.createElement("a"), {
         href: URL.createObjectURL(new Blob([data], { type: "application/json" })),
-        download: "promptos-search-gaps.json"
+        download: "3rdbrain-search-gaps.json"
       });
       link.click();
       URL.revokeObjectURL(link.href);
@@ -432,7 +432,7 @@
   }
 
   async function initialize() {
-    const root = document.getElementById("promptos-discovery");
+    const root = document.getElementById("3rdbrain-discovery");
     const progress = document.querySelector(".md-progress[role='progressbar']");
     if (progress && !progress.getAttribute("aria-label")) {
       progress.setAttribute("aria-label", "Page loading progress");

@@ -15,7 +15,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-PROJECT="${PROJECT:-promptos}"
+PROJECT="${PROJECT:-3rdbrain}"
 # Anything other than the project's production branch publishes as a preview
 # deployment, which is the only kind Cloudflare Access can protect.
 BRANCH="${BRANCH:-main}"

@@ -1,4 +1,4 @@
-# PromptOS Inbox
+# 3rdBrain Inbox
 
 A Telegram bot that catches whatever you send it, from any device, and holds it until your
 agent files it.
@@ -79,12 +79,12 @@ For the simpler Startup-folder option, open `shell:startup` and place a `.cmd` f
 powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\path\to\inbox\watchdog.ps1"
 ```
 
-**macOS.** Create `~/Library/LaunchAgents/com.promptos.inbox.plist` with a `ProgramArguments`
+**macOS.** Create `~/Library/LaunchAgents/com.3rdbrain.inbox.plist` with a `ProgramArguments`
 array of your python path and the script path, `RunAtLoad` set to true, then
 `launchctl load` it.
 
-**Linux.** A user systemd unit at `~/.config/systemd/user/promptos-inbox.service` with
-`Restart=always`, then `systemctl --user enable --now promptos-inbox`.
+**Linux.** A user systemd unit at `~/.config/systemd/user/3rdbrain-inbox.service` with
+`Restart=always`, then `systemctl --user enable --now 3rdbrain-inbox`.
 
 ## Commands in the chat
 

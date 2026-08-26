@@ -1,273 +1,253 @@
-# PromptOS by Qbyx
+# 3rdBrain by Qbyx Studio
 
-**Saved links, made findable.**
+**Save anything. Find the right thing when work starts.**
 
-[![PromptOS launch video preview, click to watch with sound](docs/assets/preview.gif)](https://qbyxstudio.github.io/PromptOS/)
+[![3rdBrain launch video preview](docs/assets/preview.gif)](https://qbyx-studio.github.io/3rdBrain/)
 
-> **▶ [Watch the launch video (with sound)](https://qbyxstudio.github.io/PromptOS/)**, made with [`/gloat`](https://github.com/QbyxStudio/gloat), of course.
+> [Watch the launch video with sound](https://qbyx-studio.github.io/3rdBrain/). The video was recorded when 3rdBrain carried the former PromptOS name. The workflow remains current. Command names shown in the video reflect the former naming.
 
-You save a link because it matters. Six weeks later you need it, and it sits buried under
-four thousand other messages. The link still exists. Finding it costs more than
-rediscovering the tool from scratch.
+3rdBrain turns links, videos, repositories, prompts, articles, screenshots, and notes into a
+searchable working library on your computer. Send material from your phone. An AI reads the
+source, verifies it, creates useful pages, and files each page by purpose.
 
-PromptOS closes that gap. You forward links from your phone. An AI researches each one,
-writes it a proper page, and files it into a library built around one question:
-**what do I use for this?**
+The result answers one practical question: **what can I use for this?**
 
-Findable is the whole product. Everything below serves it.
+## The home for saved knowledge
 
-## Built for the hoarders
+3rdBrain is built for people who save valuable material faster than they can study it. Each
+item moves through a complete path:
 
-This is for people who collect AI tools, prompts, repos, and long tutorial videos faster
-than they can read them. If your bookmarks, your chat history, and three note apps each
-hold pieces of the same mess, you are the user.
+1. Capture it in a durable inbox.
+2. Read the latest message, including later edits.
+3. Mine the full source, including video transcripts, screenshots, and timestamps.
+4. Create one useful page per distinct tool, workflow, prompt, or idea.
+5. File each page by what it helps the reader do.
+6. Cross-link related pages and update every index.
+7. Confirm what was filed.
 
-## Runs on your computer
+Your files remain ordinary Markdown. Git records every change. Manual edits stay authoritative.
 
-Setup finishes on your own machine. No accounts. No tokens. No card. No cloud.
+## Find knowledge in two ways
 
-```bash
-/promptos
-```
+The header search gives fast results from every page. **Discover 3rdBrain** provides a full
+search workspace with ranked results and facet filters.
 
-That builds your knowledge base locally and opens it in your browser. Your notes stay on
-your disk, private by construction.
+Search covers:
 
-When you want it on your phone, one more command publishes it. That step is opt in, it
-warns you clearly, and it asks who is allowed in. See [Publishing](#publishing-optional).
+- Page titles and headings
+- Descriptions and aliases
+- Jobs from each "Use it when" table
+- Topical sections and complete taxonomy paths
+- Facets such as workflow, video, agent, platform, and access model
+- Searchable page content
 
-## What actually happens
+Exact title and phrase matches receive the strongest weight. Related terms, aliases, taxonomy,
+facets, and body matches broaden recall. A niche query such as `opportunities` returns pages
+whose indexed fields contain or meaningfully map to that term. 3rdBrain searches the knowledge
+base you built. Its reach grows with the material, descriptions, aliases, and search cases in
+that base.
 
-| You | PromptOS |
-|---|---|
-| Forward a link from any device | Captures it into a durable local queue |
-| Say "process" | Researches each item, finds the verified canonical link, classifies it |
-| Send a dense 30 minute tutorial | Mines transcript and screenshots, builds a hub plus one page per demoed element, each with a timestamped deep link |
-| Ask "what do I use for X?" months later | The Tool Index answers in one table |
-| Edit a page by hand | Your edit wins; the AI works around it |
-| Want your chat tidy | `/cleanup` deletes only what has already been filed, only when you say so |
-| Ask "is every skill in my base actually installed?" | `/promptos:skills` checks every agent on the machine, installs what is missing, and verifies it landed |
-| Wonder which pages have gone stale | `/promptos:stalecheck` prints a review queue by age and class, and changes nothing |
-| Send a link, then a note about how to file it | The note is read first, and it overrides the default page shape |
-| Send a thought with no link at all | It is filed as a note or idea page. Text-only items are first class |
+## What 3rdBrain does
 
-Every page opens with the date it was added, `🗓️ Added 2026-08-17`, which doubles as the age
-signal `/promptos:stalecheck` reads. After that every page follows one shape: a type label (🧩 skill · 📦 repo · 🤖 model · ⚙️ SaaS ·
-📝 prompt), a "Use it when" table, a short summary, the verified link, and the original
-source embedded. Facts pulled from videos carry timestamps, so any claim is checkable in
-seconds.
+| You do this | 3rdBrain delivers this |
+| --- | --- |
+| Forward a link from any device | A durable pending item in the local inbox |
+| Edit the message or caption later | The latest edit becomes authoritative |
+| Process a long tutorial | A source hub, timed element map, and focused child pages |
+| Save several workflows from one vendor | Each workflow receives its own purpose-based location |
+| Ask what to use for a job | Ranked search results and a scenario-based Tool Index |
+| Edit a filed inbox message | The existing page reopens for refresh and receives a new confirmation |
+| Edit a page by hand | The next agent run preserves and works around that edit |
+| Run a framework workflow | A freshness check ports compatible public improvements with a verification receipt |
+| Review aging knowledge | A report of overdue, upcoming, and potentially superseded pages |
+| Publish the library | A Cloudflare Pages site with an email allowlist or an open link |
 
-## The five workflows
+Telegram sends an edited item as `edited_message`. The collector handles both `message` and
+`edited_message`, matches them by chat and message ID, and keeps repeated updates idempotent.
 
-Claude and Codex use the same canonical skills; only invocation syntax differs.
+## Purpose owns the sidebar
 
-| Task | Claude Code | Codex |
-|---|---|---|
-| Set up | `/promptos` | `$promptos-setup` |
-| Process inbox | `/promptos:process` | `$promptos-process` |
-| Audit skills | `/promptos:skills` | `$promptos-skillsync` |
-| Review stale pages | `/promptos:stalecheck` | `$promptos-stalecheck` |
-| Publish | `/promptos:publish` | `$promptos-publish` |
+A source, creator, product, or vendor hub acts as a lens and cross-linking page. Every extracted
+page keeps its own topical location.
 
-### `/promptos`
+For example, one source can produce pages in Marketing, Engineering, Research, and Local AI.
+The source hub links across those sections. Each new page declares `primary_section` and its
+complete `taxonomy_path`. Build checks compare those declarations with the staged sidebar.
 
-First run. Builds the base on your computer, sets up your inbox, opens the site. Ask it
-questions in plain words; it does the terminal work for you.
+One page has one primary topical location and may carry many facets.
 
-### `/promptos:process`
+## Six skills, five direct actions
 
-The standing contract. Run it whenever you want your queue filed.
+Claude Code and Codex share the same canonical skill files.
+
+| Purpose | Claude Code | Codex |
+| --- | --- | --- |
+| First setup | `/3rdbrain` | `$3rdbrain-setup` |
+| Process saved material | `/3rdbrain:process` | `$3rdbrain-process` |
+| Audit machine skills | `/3rdbrain:skills` | `$3rdbrain-skillsync` |
+| Review aging pages | `/3rdbrain:stalecheck` | `$3rdbrain-stalecheck` |
+| Publish the site | `/3rdbrain:publish` | `$3rdbrain-publish` |
+
+The sixth skill, `3rdbrain-curator`, is the shared curation engine. The five direct actions load
+it automatically whenever they need classification, page templates, deep breakdowns, site
+rules, or framework freshness.
+
+### First setup
 
 ```text
-you    → forward 5 links to your bot from your phone
-you    → /promptos:process
-skill  → self-heals the inbox, deep-mines each item, files, cross-links, indexes
-bot    → "✅ Processed 5 items. Send /cleanup to tidy up."
+/3rdbrain
 ```
 
-Steer it in plain language:
+Setup creates a local Markdown knowledge base, initializes Git history, builds the reading
+site, and optionally connects a Telegram inbox.
+
+### Process saved material
 
 ```text
-process my queue
-this one is dense, break it down fully           ← forces the deep treatment
-break down by timing so I can jump around        ← timestamped element pages
-add this to the base: <link>                     ← single item, queue optional
-what do I use for lead scraping?                 ← searches your own base
+/3rdbrain:process
 ```
 
-### `/promptos:skills`
+Processing checks framework freshness, repairs inbox capture, reads every pending item, mines
+the sources, files pages, updates navigation and search data, verifies the build, and confirms
+the result to each submitter.
 
-Your base catalogues skills. This checks whether they are actually installed on the machine,
-across every agent runtime it finds, then installs and repairs what is missing.
+### Audit machine skills
 
-Installed, loaded and typeable are three separate states. It checks all three, because a
-skill can be valid on disk and still be missing from the menu you type into.
-
-### `/promptos:stalecheck`
-
-Your base ages. A model ranking from six months ago is a liability, and you will not notice
-on your own.
-
-This reads the `🗓️ Added` date on every page and prints a review queue in three parts: what is
-**overdue** against its class, a **watchlist** of what ages next, and heuristic
-**supersede** pairs where a newer version of the same product exists elsewhere in your base.
-
-Roundups and model pages age fastest at 75 days. Tool pages sit near 180. Prompts, workflows
-and techniques last 300 or more, because a recipe stays useful long after a ranking rots.
-
-It is **report only**. It never edits, banners, merges or deletes. It recommends, you decide.
-A stale ranking costs less than a lost recipe.
-
-### `/promptos:publish`
-
-Puts the base online. Covered below.
-
-## Your inbox
-
-Default is a **Telegram bot**, created in about sixty seconds through @BotFather. Forward
-anything to it from any device, at any hour, and it holds the item until you process it.
-The token is revokable at any time with BotFather `/revoke`, and only accounts on your
-allowlist are accepted.
-
-Plain chat paste works too, with zero setup, if you want to start before making a bot.
-
-## Publishing (optional)
-
-`/promptos:publish` hosts your base on Cloudflare Pages, free. Before anything uploads it
-states plainly that your notes are going onto the internet, then asks how you want it
-guarded:
-
-| Choice | Who gets in |
-|---|---|
-| **Email allowlist** | Only the addresses you name, through a sign in screen |
-| **Open link** | Anyone who has the address |
-
-After deploying it tests the site from outside and reports exactly what a stranger sees.
-A published base that quietly leaks is a failure, so that check is part of the command.
-
-## The look
-
-Every base ships with the same design system, tuned over a real library of 330+ pages.
-
-| | |
-|---|---|
-| Ground | Deep night, near black |
-| Accent | One electric colour, used sparingly |
-| Surfaces | Glass panels, hairline borders, soft glow on what matters |
-| Display type | Space Grotesk, tight tracking |
-| Body type | Glacial Indifference, self hosted |
-| Technical type | JetBrains Mono for labels and code |
-| Search | Instant, offline, section level results |
-
-Prompts render as collapsible blocks with a copy button. Videos render as players. Tags
-generate their own browse pages, with counts that stay correct on their own.
-
-Swap the logo, the palette, or the fonts in one file whenever you want.
-
-## What a filled base looks like
-
-```
-your-knowledge-base/
-├── Tool Index            ← "I want to… → reach for A · B · C"
-├── Browse by facet       ← generated: capability, price, platform
-├── Coding/               ← subgroups: Workflow, Quality, Frontend…
-├── Marketing/            ← Leads & Outreach, SEO, Ads…
-├── Videos/               ← Generation, Editing, Code→Video…
-├── Agents & Automation/  ← Inboxes, Scheduling, Multi-Agent…
-└── …categories grow from YOUR materials
+```text
+/3rdbrain:skills
 ```
 
-## Guardrails
+SkillSync discovers agent runtimes on the machine. It checks whether each catalogued skill is
+present, valid, loaded, and invocable. It then installs or repairs gaps and verifies the result.
 
-Each one exists because it failed in production first.
+### Review aging pages
 
-- Every tool lands in its true topical category, never a catch all bucket.
-- Every link is verified before it reaches a page.
-- Full prompt files stay whole on one page.
-- Your manual edits are authoritative, always.
-- Deletion happens on your command alone.
-- A page counts as done once it appears in every index.
+```text
+/3rdbrain:stalecheck
+```
+
+Stalecheck reads page dates and produces a review queue. It reports overdue pages, an upcoming
+watchlist, and possible superseding versions. The report leaves content unchanged.
+
+### Publish
+
+```text
+/3rdbrain:publish
+```
+
+Publishing deploys the built site to Cloudflare Pages after explicit consent. Choose an email
+allowlist or an open link. The workflow checks the live site from outside and records what a
+visitor can access.
+
+## Local by default
+
+The first setup runs on your computer with local files, local Git history, and a local browser
+site. Telegram and Cloudflare are optional connections. Their credentials stay in ignored local
+configuration files and can be revoked at their providers.
+
+## Page quality
+
+Every newly curated page includes:
+
+- A one-line description
+- `primary_section` and complete `taxonomy_path` declarations
+- A visible added date
+- A precise page type
+- A short "Use it when" table
+- Verified canonical links
+- Reciprocal links to related pages
+- Embedded source material
+- Timestamps and screenshots when the source contains them
+
+Long-form sources receive one source hub with a timed element map. Each distinct use case
+receives its own page. Child pages can live in categories across the knowledge base.
+
+## Framework freshness with receipts
+
+Every direct workflow begins with the same freshness contract. The agent compares the installed
+framework with the current public 3rdBrain source, adapts compatible improvements, preserves
+base-owned content and configuration, runs relevant tests, and records a receipt.
+
+A `FRESH` receipt names:
+
+- The source commit
+- Every detected framework difference
+- Each difference's outcome
+- The local update commit
+- Build and test results
+- Live Discover and interface checks when a site is published
+
+Incomplete evidence produces `UNVERIFIED` or `PENDING` with the remaining work stated clearly.
 
 ## Install
 
-```bash
-/plugin marketplace add QbyxStudio/PromptOS
-/plugin install promptos@promptos
+### Claude Code plugin
+
+```text
+/plugin marketplace add qbyx-studio/3rdBrain
+/plugin install 3rdbrain@3rdbrain
 ```
 
-<details>
-<summary>Plugin system unavailable? Install the skills directly.</summary>
+### Direct skill install
 
-Codex (one canonical root; do not also copy them into `~/.codex/skills`):
+Codex uses one canonical shared root:
+
 ```bash
 mkdir -p ~/.agents/skills
-cp -R skills/promptos-* ~/.agents/skills/
+cp -R skills/3rdbrain-* ~/.agents/skills/
 ```
 
 Claude Code:
+
 ```bash
 mkdir -p ~/.claude/skills
-cp -R skills/promptos-* ~/.claude/skills/
+cp -R skills/3rdbrain-* ~/.claude/skills/
 ```
 
 Windows PowerShell for Codex:
+
 ```powershell
-Get-ChildItem skills -Directory -Filter "promptos-*" | ForEach-Object {
+Get-ChildItem skills -Directory -Filter "3rdbrain-*" | ForEach-Object {
   Copy-Item -Recurse -Force $_.FullName "$env:USERPROFILE\.agents\skills\$($_.Name)"
 }
 ```
 
-For Claude Code, use the same command with `.claude\skills` as the destination.
+For Claude Code, use `.claude\skills` as the destination. Restart the agent after copying.
 
-Restart the agent after copying.
-</details>
+## Repository map
 
-## Layout
-
-```
+```text
 commands/
-├── promptos.md                   ← /promptos, first run setup on your computer
-├── process.md                    ← /promptos:process, the standing inbox contract
-├── skills.md                     ← /promptos:skills, catalogue against machine
-├── stalecheck.md                 ← /promptos:stalecheck, age review, report only
-└── publish.md                    ← /promptos:publish, put the base online
-skills/promptos-skillsync/
-├── SKILL.md                      ← runtime discovery, install, verify
-└── references/
-    ├── audit-protocol.md         ← what counts as installed, loaded, typeable
-    └── install-playbook.md       ← per runtime mechanics and installer traps
-skills/promptos-curator/
-├── SKILL.md                      ← the pipeline: intake → depth ladder → filing → indexes
-└── references/
-    ├── site-build.md             ← the MkDocs build, theme, and design system
-    ├── platform-setup.md         ← inbox and hosting options, with exact steps
-    ├── deep-breakdown.md         ← video mining: transcript, frames, timed deep links
-    ├── mining-prompt.md          ← paste ready "true mine this" prompt
-    └── page-templates.md         ← page anatomies, facet hubs, registration rule
-skills/promptos-{setup,process,publish,stalecheck}/
-├── SKILL.md                      ← Codex entry point and canonical workflow owner
-└── references/contract.md       ← workflow used by both Codex and Claude
+  3rdbrain.md
+  process.md
+  skills.md
+  stalecheck.md
+  publish.md
+
+skills/
+  3rdbrain-curator/
+  3rdbrain-setup/
+  3rdbrain-process/
+  3rdbrain-skillsync/
+  3rdbrain-stalecheck/
+  3rdbrain-publish/
+
+inbox/
+  bot.py
+  watchdog.ps1
+  confirm.py
+
+_site/
+  starter/
+  tools/
+  tests/
+  e2e/
 ```
-
-## Why it exists
-
-I FOMO-ed. Hard. Every AI influencer post felt too important to lose, so I flooded my own
-WhatsApp and Telegram with forwarded links. Saved, then never seen again. So I built this
-to solve my own problem.
-
-My base runs 330+ pages today: every tool on its own page, fifteen topical sections,
-generated facet hubs, and deep mined tutorials where every demoed element has its own
-page with screenshots and jump links. When I ask "what do I use for lead scraping", the
-answer is one search away with the verified link sitting right there.
-
-Yours will look like whatever you feed it.
 
 ## Licence
 
-MIT, see [LICENSE](LICENSE). The Qbyx name and logo stay the property of Qbyx Studio;
-swap them for your own if you fork this.
+MIT. See [LICENSE](LICENSE). The Qbyx Studio name and Qbyx logo remain the property of Qbyx Studio.
 
----
-
-Built by [Qbyx](https://github.com/QbyxStudio), sibling of
-[`/gloat`](https://github.com/QbyxStudio/gloat). Skill-crafted with Claude.
+Built by [Sean Cypher](https://github.com/sean-cypher) at
+[Qbyx Studio](https://github.com/qbyx-studio). The launch video was created with
+[`/gloat`](https://github.com/qbyx-studio/gloat).

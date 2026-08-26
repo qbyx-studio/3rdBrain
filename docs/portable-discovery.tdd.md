@@ -2,9 +2,9 @@
 
 ## Source and journeys
 
-Journeys were derived from the approved 2026-08-21 PromptOS search/layout rollout:
+Journeys were derived from the approved 2026-08-21 3rdBrain search/layout rollout:
 
-1. A fresh PromptOS base receives a named Discover page and one shared header/full-page engine.
+1. A fresh 3rdBrain base receives a named Discover page and one shared header/full-page engine.
 2. An existing base without new config builds a safe catalog without rewriting user content.
 3. Exact titles, task-language search, filters and the first-sidebar-action contract remain stable.
 4. The starter is responsive, wider, keyboard reachable and free of serious automated WCAG findings.

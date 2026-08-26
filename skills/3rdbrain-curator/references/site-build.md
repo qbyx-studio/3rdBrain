@@ -1,6 +1,6 @@
 # The site build
 
-How a folder of markdown becomes the PromptOS reading experience. This is the reference
+How a folder of markdown becomes the 3rdBrain reading experience. This is the reference
 implementation, proven on a live base of 330+ pages.
 
 Stack: **MkDocs** with **Material for MkDocs**, built by one script, running entirely on the
@@ -117,7 +117,7 @@ Two fixes for a large base:
 
 Report only, and not part of the build. It reads each page's `🗓️ Added` date and its facet
 class, then prints a review queue: overdue pages, a watchlist of what ages next, and heuristic
-supersede pairs. It writes nothing. `/promptos:stalecheck` is the trigger.
+supersede pairs. It writes nothing. `/3rdbrain:stalecheck` is the trigger.
 
 Pages with no stamp fall back to their first commit date from git, so it works on a base that
 predates the convention.

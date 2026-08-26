@@ -1,7 +1,7 @@
 
 # Table of contents
 
-* [PromptOS by Qbyx](README.md)
+* [3rdBrain by Qbyx Studio](README.md)
 * [Tool Index](tool-index.md)
 
 ## Browse by facet

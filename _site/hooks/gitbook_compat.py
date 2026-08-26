@@ -2,7 +2,7 @@
 
 Converts GitBook's proprietary block syntax to Material equivalents at build
 time. Source markdown on disk is never modified, so the same files stay
-editable in Obsidian and byte-identical to the promptos-2 repo.
+editable in Obsidian and byte-identical to the 3rdbrain-2 repo.
 
 Handled (counts measured across the full 319-page vault):
   {% embed %} block-level        297x  -> responsive YouTube iframe, or link card

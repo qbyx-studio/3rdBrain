@@ -1,7 +1,7 @@
 ---
-description: Run the PromptOS staleness check (report-only) and present the review queue. Never edits, banners or deletes anything.
+description: Run the 3rdBrain staleness check (report-only) and present the review queue. Never edits, banners or deletes anything.
 ---
 
-# /promptos:stalecheck
+# /3rdbrain:stalecheck
 
-Load `skills/promptos-stalecheck/SKILL.md` and follow it completely.
+Load `skills/3rdbrain-stalecheck/SKILL.md` and follow it completely.

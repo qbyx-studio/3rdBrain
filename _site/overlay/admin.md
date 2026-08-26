@@ -24,7 +24,7 @@ Add your partner by following the steps below.
 
 1. Open **[Cloudflare Zero Trust](https://one.dash.cloudflare.com/)** and sign in
    as `you@example.com`.
-2. Go to **Access → Applications → PromptOS**.
+2. Go to **Access → Applications → 3rdBrain**.
 3. Open the **Allow** policy.
 4. Under **Emails**, add their address.
 5. Save. It takes effect on their next sign-in — no rebuild, no deploy.
@@ -54,8 +54,8 @@ site behind it owns nothing.
 
 | Application | Covers | Allowed |
 | --- | --- | --- |
-| **PromptOS** | the whole site | everyone on the allowlist |
-| **PromptOS Admin** | `/admin` only | `you@example.com` only |
+| **3rdBrain** | the whole site | everyone on the allowlist |
+| **3rdBrain Admin** | `/admin` only | `you@example.com` only |
 
 Cloudflare evaluates the more specific path first, so the admin rule wins on
 this page. Setup steps for both are in `DEPLOY.md`.

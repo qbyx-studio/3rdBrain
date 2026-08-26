@@ -1,7 +1,7 @@
 ---
-name: promptos-skillsync
+name: 3rdbrain-skillsync
 description: >
-  Reconcile the skills catalogued in a PromptOS knowledge base against the skills actually
+  Reconcile the skills catalogued in a 3rdBrain knowledge base against the skills actually
   installed on this machine — across every agent runtime present — then install, repair and
   verify whatever is missing or broken. Runtime-agnostic: it discovers which agent platforms
   exist rather than assuming any of them, so it works on Claude Code, Codex, Cursor, Windsurf,
@@ -12,9 +12,9 @@ description: >
   or wants to verify a skill install actually worked rather than trusting an installer's output.
 ---
 
-# PromptOS SkillSync; Catalogue → Installed, Verified, On Every Runtime
+# 3rdBrain SkillSync; Catalogue → Installed, Verified, On Every Runtime
 
-The PromptOS knowledge base records which skills are worth having. This skill makes the
+The 3rdBrain knowledge base records which skills are worth having. This skill makes the
 machine match the record — on every agent runtime installed, not just the one you are
 running inside — and then proves it.
 
@@ -30,7 +30,7 @@ Two failure modes drive the whole design:
 So: every claim is grounded in a command run now, or in your own live registry. Nothing is
 inferred from an install log.
 
-Before any audit or repair, follow `../promptos-curator/references/framework-freshness.md` once.
+Before any audit or repair, follow `../3rdbrain-curator/references/framework-freshness.md` once.
 
 Default to the whole catalogue across every discovered runtime. If the user names a subset,
 honor exactly that scope and report what was not checked.

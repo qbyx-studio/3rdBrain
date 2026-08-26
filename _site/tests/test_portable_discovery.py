@@ -28,7 +28,7 @@ def test_fresh_starter_generates_a_named_searchable_catalog(tmp_path: Path):
 
     assert result["records"] >= 3
     taxonomy = json.loads((output / "taxonomy.json").read_text(encoding="utf-8"))
-    assert taxonomy["project"]["name"] == "PromptOS by Qbyx"
+    assert taxonomy["project"]["name"] == "3rdBrain by Qbyx"
     assert (output / "records.json").exists()
     assert (output / "suggestions.json").exists()
 
@@ -53,7 +53,7 @@ def test_existing_base_without_new_config_gets_a_non_destructive_upgrade(tmp_pat
     assert not (vault / "search-cases.yml").exists(), "upgrade must not rewrite user content"
 
 
-def test_discover_renders_domain_facet_groups_without_fixed_promptos_vocabulary():
+def test_discover_renders_domain_facet_groups_without_fixed_3rdbrain_vocabulary():
     script = (ROOT / "overlay" / "javascripts" / "discovery.js").read_text(encoding="utf-8")
     assert '["Capability", "Access", "Platform", "Type"]' not in script
     assert "Object.entries(facetGroups)" in script

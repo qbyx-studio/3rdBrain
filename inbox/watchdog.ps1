@@ -1,4 +1,4 @@
-# PromptOS Inbox watchdog: keep exactly one collector running.
+# 3rdBrain Inbox watchdog: keep exactly one collector running.
 # Schedule this script at logon and every few minutes. It needs no admin access.
 
 $ErrorActionPreference = "Stop"

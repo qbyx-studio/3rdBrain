@@ -1,7 +1,7 @@
 ---
-description: Process the PromptOS inbox — self-heal, pull, deep-mine every material, file + wire, confirm to submitters, clean up.
+description: Process the 3rdBrain inbox — self-heal, pull, deep-mine every material, file + wire, confirm to submitters, clean up.
 ---
 
-# /promptos:process
+# /3rdbrain:process
 
-Load `skills/promptos-process/SKILL.md` and follow it completely.
+Load `skills/3rdbrain-process/SKILL.md` and follow it completely.

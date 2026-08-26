@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PromptOS staleness check — REPORT ONLY.
+"""3rdBrain staleness check — REPORT ONLY.
 
 Reads each content page's "Added" date, its facet class, and (optionally) checks
 links, then prints a review QUEUE. It never edits or deletes anything. A future
@@ -141,7 +141,7 @@ def main():
     def w(s=''):
         L.append(s)
 
-    w('# PromptOS staleness report  (report-only, no edits made)')
+    w('# 3rdBrain staleness report  (report-only, no edits made)')
     w('run date: %s   |   content pages scanned: %d' % (TODAY, len(rows)))
     w('')
     w('## 1. OVERDUE  (age > class threshold)  - %d' % len(overdue))

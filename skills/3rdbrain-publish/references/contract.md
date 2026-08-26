@@ -1,10 +1,10 @@
 ---
-description: Put your PromptOS base online, free, with a login wall or an open link. Warns before anything uploads and verifies the result from outside.
+description: Put your 3rdBrain base online, free, with a login wall or an open link. Warns before anything uploads and verifies the result from outside.
 ---
 
-# PromptOS publishing contract
+# 3rdBrain publishing contract
 
-Before publishing, load `promptos-curator` and follow its
+Before publishing, load `3rdbrain-curator` and follow its
 `references/framework-freshness.md`.
 
 The base already runs on the user's computer. This command puts it on the internet so they
@@ -44,7 +44,7 @@ their machine.
 
 ## 2. Project name
 
-Ask what the address should be. Default `promptos`. The published address becomes
+Ask what the address should be. Default `3rdbrain`. The published address becomes
 `https://main.<name>.pages.dev`.
 
 Names are global to Cloudflare, so be ready for a clash and ask for a second choice.

@@ -1,7 +1,7 @@
 ---
-description: Put your PromptOS base online, free, with a login wall or an open link. Warns before anything uploads and verifies the result from outside.
+description: Put your 3rdBrain base online, free, with a login wall or an open link. Warns before anything uploads and verifies the result from outside.
 ---
 
-# /promptos:publish
+# /3rdbrain:publish
 
-Load `skills/promptos-publish/SKILL.md` and follow it completely.
+Load `skills/3rdbrain-publish/SKILL.md` and follow it completely.
