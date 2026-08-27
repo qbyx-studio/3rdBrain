@@ -74,6 +74,31 @@ def test_summary_parser_returns_the_full_primary_taxonomy_path():
     ]
 
 
+def test_summary_parser_treats_plain_list_items_as_organizing_groups():
+    pages = parse_summary(
+        """# Table of contents
+
+## Agents & Automation
+
+* [Agent Teams & Simulation](agents/teams.md)
+  * AI Platform (vendor lens)
+    * [Overview](agents/vendor/README.md)
+    * [Use Case](marketing/use-case.md)
+"""
+    )
+
+    assert pages["agents/vendor/README.md"]["taxonomy_path"] == [
+        "Agents & Automation",
+        "Agent Teams & Simulation",
+        "AI Platform (vendor lens)",
+    ]
+    assert pages["marketing/use-case.md"]["taxonomy_path"] == [
+        "Agents & Automation",
+        "Agent Teams & Simulation",
+        "AI Platform (vendor lens)",
+    ]
+
+
 def test_declared_path_validator_rejects_a_wrong_subgroup(tmp_path: Path):
     page = tmp_path / "agents" / "email-agent.md"
     page.parent.mkdir()
@@ -112,6 +137,44 @@ taxonomy_path: [Marketing]
     assert validate_declared_paths(tmp_path, parse_summary(SUMMARY)) == [
         "orphan.md: declares a taxonomy path but is missing from navigation"
     ]
+
+
+def test_declared_path_validator_does_not_skip_every_page_when_root_is_dot_build(
+    tmp_path: Path,
+):
+    root = tmp_path / ".build"
+    page = root / "agents" / "email-agent.md"
+    page.parent.mkdir(parents=True)
+    page.write_text(
+        "---\ntaxonomy_path: [Marketing]\n---\n# Email Agent\n",
+        encoding="utf-8",
+    )
+    navigation = {
+        "agents/email-agent.md": {
+            "taxonomy_path": ["Agents & Automation", "Email"],
+        }
+    }
+
+    assert validate_declared_paths(root, navigation) == [
+        "agents/email-agent.md: declared ['Marketing'], "
+        "placed under ['Agents & Automation', 'Email']"
+    ]
+
+
+def test_primary_section_only_checks_the_top_level_category(tmp_path: Path):
+    page = tmp_path / "agents" / "email-agent.md"
+    page.parent.mkdir()
+    page.write_text(
+        "---\nprimary_section: Agents & Automation\n---\n# Email Agent\n",
+        encoding="utf-8",
+    )
+    navigation = {
+        "agents/email-agent.md": {
+            "taxonomy_path": ["Agents & Automation", "Email"],
+        }
+    }
+
+    assert validate_declared_paths(tmp_path, navigation) == []
 
 
 def test_registry_expands_preferred_alternative_hidden_and_related_terms():
@@ -279,6 +342,41 @@ def test_breakdown_manifest_requires_unique_elements_existing_pages_and_two_way_
     errors = validate_breakdown_manifest(manifest, tmp_path)
     assert "duplicate element id 'email'" in errors
     assert "duplicate start time '10:23'" in errors
+
+
+def test_breakdown_manifest_rejects_a_taxonomy_path_that_differs_from_sidebar(
+    tmp_path: Path,
+):
+    (tmp_path / "hub.md").write_text("[Email](email.md)\n", encoding="utf-8")
+    (tmp_path / "email.md").write_text("[Source hub](hub.md)\n", encoding="utf-8")
+    (tmp_path / "SUMMARY.md").write_text(
+        """# Table of contents
+
+## Marketing
+
+* [Hub](hub.md)
+* [Email](email.md)
+""",
+        encoding="utf-8",
+    )
+    manifest = {
+        "source_id": "youtube:test",
+        "hub": "hub.md",
+        "elements": [
+            {
+                "id": "email",
+                "start": "10:23",
+                "page": "email.md",
+                "page_type": "workflow",
+                "taxonomy_path": ["Agents & Automation", "Vendor Hub"],
+            }
+        ],
+    }
+
+    assert validate_breakdown_manifest(manifest, tmp_path) == [
+        "email: manifest taxonomy ['Agents & Automation', 'Vendor Hub'], "
+        "placed under ['Marketing']"
+    ]
 
 
 def test_search_evaluation_reports_recall_and_reciprocal_rank():

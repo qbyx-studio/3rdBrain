@@ -25,6 +25,7 @@ HEADING_RE = re.compile(r"^##\s+(?P<title>.+?)\s*$")
 BULLET_RE = re.compile(
     r"^(?P<indent>\s*)\*\s+\[(?P<title>[^]]+)\]\((?P<path>[^)]+?\.md(?:#[^)]+)?)\)"
 )
+PLAIN_BULLET_RE = re.compile(r"^(?P<indent>\s*)\*\s+(?!\[)(?P<title>.+?)\s*$")
 FRONTMATTER_RE = re.compile(r"^---\r?\n(?P<body>[\s\S]*?)\r?\n---\r?\n")
 H1_RE = re.compile(r"^#\s+(.+?)\s*$", re.MULTILINE)
 FACETS_RE = re.compile(r"^\*\*Facets:\*\*(?P<body>.*)$", re.MULTILINE)
@@ -108,20 +109,27 @@ def parse_summary(text: str) -> dict[str, dict[str, Any]]:
             continue
 
         bullet = BULLET_RE.match(line)
-        if not bullet:
+        plain_group = PLAIN_BULLET_RE.match(line) if not bullet else None
+        if not bullet and not plain_group:
             continue
 
-        depth = len(bullet.group("indent")) // 2
+        item = bullet or plain_group
+        assert item is not None
+        depth = len(item.group("indent")) // 2
         while ancestors and ancestors[-1][0] >= depth:
             ancestors.pop()
+        title = item.group("title").strip()
+        if plain_group:
+            ancestors.append((depth, title))
+            continue
         taxonomy_path = [section] + [title for _level, title in ancestors]
         path = normalize_path(bullet.group("path"))
         pages[path] = {
-            "title": bullet.group("title").strip(),
+            "title": title,
             "taxonomy_path": taxonomy_path,
             "depth": depth,
         }
-        ancestors.append((depth, bullet.group("title").strip()))
+        ancestors.append((depth, title))
 
     return pages
 
@@ -143,16 +151,23 @@ def validate_declared_paths(
 ) -> list[str]:
     errors: list[str] = []
     for page in sorted(root.rglob("*.md")):
-        if any(part in {".git", ".build", "site", "node_modules"} for part in page.parts):
+        relative_path = page.relative_to(root)
+        if any(
+            part in {".git", ".build", "site", "node_modules"}
+            for part in relative_path.parts
+        ):
             continue
-        declared = _declared_path(parse_frontmatter(page.read_text(encoding="utf-8")))
+        frontmatter = parse_frontmatter(page.read_text(encoding="utf-8"))
+        declared = _declared_path(frontmatter)
         if not declared:
             continue
-        relative = page.relative_to(root).as_posix()
+        relative = relative_path.as_posix()
         actual = navigation.get(relative, {}).get("taxonomy_path")
         if actual is None:
             errors.append(f"{relative}: declares a taxonomy path but is missing from navigation")
-        elif declared != actual[: len(declared)] or len(declared) != len(actual):
+        elif frontmatter.get("taxonomy_path") and declared != actual:
+            errors.append(f"{relative}: declared {declared!r}, placed under {actual!r}")
+        elif not frontmatter.get("taxonomy_path") and declared != actual[:1]:
             errors.append(f"{relative}: declared {declared!r}, placed under {actual!r}")
     return errors
 
@@ -538,6 +553,10 @@ def audit_navigation_shape(
 
 def validate_breakdown_manifest(manifest: dict[str, Any], root: Path) -> list[str]:
     errors: list[str] = []
+    summary = root / "SUMMARY.md"
+    navigation = (
+        parse_summary(summary.read_text(encoding="utf-8")) if summary.exists() else {}
+    )
     hub_value = manifest.get("hub")
     hub_path = root / normalize_path(str(hub_value or ""))
     if not hub_value or not hub_path.exists():
@@ -563,8 +582,15 @@ def validate_breakdown_manifest(manifest: dict[str, Any], root: Path) -> list[st
         if not value or not path.exists():
             errors.append(f"{identifier}: page '{value}' does not exist")
             continue
-        if not element.get("taxonomy_path"):
+        declared_taxonomy = element.get("taxonomy_path")
+        if not declared_taxonomy:
             errors.append(f"{identifier}: taxonomy_path is required")
+        actual_taxonomy = navigation.get(normalize_path(value), {}).get("taxonomy_path")
+        if actual_taxonomy is not None and declared_taxonomy != actual_taxonomy:
+            errors.append(
+                f"{identifier}: manifest taxonomy {declared_taxonomy!r}, "
+                f"placed under {actual_taxonomy!r}"
+            )
         if normalize_path(value) not in hub_text and Path(normalize_path(value)).name not in hub_text:
             errors.append(f"{identifier}: hub does not link to '{value}'")
         child = path.read_text(encoding="utf-8")

@@ -76,7 +76,7 @@ from pathlib import Path
 
 vault = Path(sys.argv[1]).resolve()
 here = Path.cwd().resolve()
-skip = {".git", ".github", ".venv", ".build", "site", "__pycache__", "node_modules"}
+skip = {".git", ".github", ".scratch", ".venv", ".build", "site", "__pycache__", "node_modules"}
 if here.parent == vault or here.is_relative_to(vault):
     skip.add(here.name)          # never copy the build folder into itself
 

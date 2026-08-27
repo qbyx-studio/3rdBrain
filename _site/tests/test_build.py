@@ -140,6 +140,13 @@ def test_admin_page_is_last_in_nav():
     assert "admin.md" in nav[-1], f"admin should be last, got: {nav[-1]!r}"
 
 
+def test_staging_excludes_private_scratch_directories():
+    """Temporary extraction and test files must never enter site staging."""
+    script = read(ROOT / "build.sh")
+    skip_line = next(line for line in script.splitlines() if line.startswith("skip ="))
+    assert '".scratch"' in skip_line
+
+
 def test_every_sidebar_page_link_has_a_published_html_target():
     """Labels may expand, but every clickable sidebar item must resolve."""
     from tools.summary_to_nav import find_missing_published_targets
