@@ -177,6 +177,35 @@ def test_primary_section_only_checks_the_top_level_category(tmp_path: Path):
     assert validate_declared_paths(tmp_path, navigation) == []
 
 
+def test_derived_page_cannot_hide_under_a_label_only_source_group(tmp_path: Path):
+    page = tmp_path / "agents" / "vendor" / "email-agent.md"
+    page.parent.mkdir(parents=True)
+    page.write_text(
+        """---
+page_type: workflow
+taxonomy_path: [Agents & Automation, Agent Teams, Vendor Platform]
+---
+# Email Agent
+""",
+        encoding="utf-8",
+    )
+    navigation = parse_summary(
+        """# Table of contents
+
+## Agents & Automation
+
+* [Agent Teams](agents/teams.md)
+  * Vendor Platform
+    * [Email Agent](agents/vendor/email-agent.md)
+"""
+    )
+
+    assert validate_declared_paths(tmp_path, navigation) == [
+        "agents/vendor/email-agent.md: derived workflow is nested under "
+        "label-only organizing group 'Vendor Platform'; file it by purpose"
+    ]
+
+
 def test_registry_expands_preferred_alternative_hidden_and_related_terms():
     expanded = expand_query("triage my inbox", REGISTRY)
 

@@ -99,7 +99,7 @@ def parse_summary(text: str) -> dict[str, dict[str, Any]]:
     """Map every navigated Markdown page to its full parent taxonomy path."""
     pages: dict[str, dict[str, Any]] = {}
     section = "Home"
-    ancestors: list[tuple[int, str]] = []
+    ancestors: list[tuple[int, str, bool]] = []
 
     for line in text.splitlines():
         heading = HEADING_RE.match(line)
@@ -120,16 +120,19 @@ def parse_summary(text: str) -> dict[str, dict[str, Any]]:
             ancestors.pop()
         title = item.group("title").strip()
         if plain_group:
-            ancestors.append((depth, title))
+            ancestors.append((depth, title, True))
             continue
-        taxonomy_path = [section] + [title for _level, title in ancestors]
+        taxonomy_path = [section] + [title for _level, title, _plain in ancestors]
         path = normalize_path(bullet.group("path"))
         pages[path] = {
             "title": title,
             "taxonomy_path": taxonomy_path,
+            "label_only_ancestors": [
+                title for _level, title, plain in ancestors if plain
+            ],
             "depth": depth,
         }
-        ancestors.append((depth, title))
+        ancestors.append((depth, title, False))
 
     return pages
 
@@ -162,13 +165,25 @@ def validate_declared_paths(
         if not declared:
             continue
         relative = relative_path.as_posix()
-        actual = navigation.get(relative, {}).get("taxonomy_path")
+        nav = navigation.get(relative, {})
+        actual = nav.get("taxonomy_path")
         if actual is None:
             errors.append(f"{relative}: declares a taxonomy path but is missing from navigation")
         elif frontmatter.get("taxonomy_path") and declared != actual:
             errors.append(f"{relative}: declared {declared!r}, placed under {actual!r}")
         elif not frontmatter.get("taxonomy_path") and declared != actual[:1]:
             errors.append(f"{relative}: declared {declared!r}, placed under {actual!r}")
+        elif str(frontmatter.get("page_type", "")).strip().lower() in {
+            "agent",
+            "prompt",
+            "recipe",
+            "workflow",
+        } and nav.get("label_only_ancestors"):
+            group = nav["label_only_ancestors"][-1]
+            errors.append(
+                f"{relative}: derived {frontmatter['page_type']} is nested under "
+                f"label-only organizing group {group!r}; file it by purpose"
+            )
     return errors
 
 
