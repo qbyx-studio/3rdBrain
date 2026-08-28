@@ -356,7 +356,10 @@
    ------------------------------------------------------------------------- */
 
 .md-grid {
-  max-width: 80rem;
+  /* 80rem produced a 147.4px visible gutter at the approved desktop
+     viewport. Four more rem widen the grid to the viewport edge; the final
+     0.22px per side is supplied by sidebar padding below for a true 30%. */
+  max-width: 84rem;
 }
 
 .md-content__inner {
@@ -381,11 +384,11 @@
 
 /* Keep the navigation and table of contents visibly separate from the article. */
 .md-sidebar--primary {
-  padding-right: 1.8rem;
+  padding-right: 1.81rem;
 }
 
 .md-sidebar--secondary {
-  padding-left: 1.8rem;
+  padding-left: 1.81rem;
 }
 
 @media screen and (max-width: 76.1875em) {

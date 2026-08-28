@@ -61,8 +61,8 @@ test("fresh Discover is readable, wide, and free of serious automated a11y findi
     resultMeta: parseFloat(getComputedStyle(document.querySelector(".po-result__meta")).fontSize),
     canvas: document.querySelector(".md-content__inner").getBoundingClientRect().width,
     primaryGap: document.querySelector(".md-content__inner").getBoundingClientRect().left -
-      document.querySelector(".md-sidebar--primary").getBoundingClientRect().right,
-    secondaryGap: document.querySelector(".md-sidebar--secondary").getBoundingClientRect().left -
+      document.querySelector(".md-sidebar--primary .md-sidebar__inner").getBoundingClientRect().right,
+    secondaryGap: document.querySelector(".md-sidebar--secondary .md-sidebar__inner").getBoundingClientRect().left -
       document.querySelector(".md-content__inner").getBoundingClientRect().right,
   }));
   expect(Math.abs(scale.input - scale.label)).toBeLessThanOrEqual(1);
@@ -73,8 +73,12 @@ test("fresh Discover is readable, wide, and free of serious automated a11y findi
   expect(scale.resultMeta).toBeLessThanOrEqual(12.5);
   expect(scale.canvas).toBeGreaterThanOrEqual(1000);
   expect(scale.canvas).toBeLessThanOrEqual(1050);
-  expect(scale.primaryGap).toBeGreaterThanOrEqual(90);
-  expect(scale.secondaryGap).toBeGreaterThanOrEqual(90);
+  // Approved desktop gutter: 147.4px baseline increased by 30% on both sides.
+  expect(scale.primaryGap).toBeGreaterThanOrEqual(191.5);
+  expect(scale.primaryGap).toBeLessThanOrEqual(192);
+  expect(scale.secondaryGap).toBeGreaterThanOrEqual(191.5);
+  expect(scale.secondaryGap).toBeLessThanOrEqual(192);
+  expect(Math.abs(scale.primaryGap - scale.secondaryGap)).toBeLessThanOrEqual(1);
 
   const accessibility = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
