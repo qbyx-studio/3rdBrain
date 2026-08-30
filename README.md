@@ -6,9 +6,9 @@
 
 > [Watch the launch video with sound](https://qbyx-studio.github.io/3rdBrain/). The video was recorded when 3rdBrain carried the former PromptOS name. The workflow remains current. Command names shown in the video reflect the former naming.
 
-3rdBrain turns links, videos, repositories, prompts, articles, screenshots, and notes into a
-searchable working library on your computer. Send material from your phone. An AI reads the
-source, verifies it, creates useful pages, and files each page by purpose.
+3rdBrain turns links, videos, repositories, social threads, documents, prompts, screenshots,
+and notes into a searchable working library on your computer. Send material from your phone.
+An AI reads the source, verifies it, creates useful pages, and files each page by purpose.
 
 The result answers one practical question: **what can I use for this?**
 
@@ -111,18 +111,23 @@ Processing checks framework freshness, repairs inbox capture, reads every pendin
 the sources, files pages, updates navigation and search data, verifies the build, and confirms
 the result to each submitter.
 
-For videos, 3rdBrain reads the complete timed transcript first. Screen-heavy and long-form
-sources can use optional enhanced analysis through
-[`watch-video`](https://github.com/TomGranot/watch-video): one whole-video visual index followed
-by denser inspection only around demonstrations, prompts, settings and results. The standard
-yt-dlp plus FFmpeg route remains available without the optional skill. Video Use is a separate
-option for people who want an agent to edit raw footage into a finished video.
+3rdBrain chooses a format-aware, token-efficient evidence route. It maps each source first,
+retrieves the smallest complete evidence set, checks coverage, and expands only when a claim
+or source region remains unresolved.
 
-For public articles and documentation, 3rdBrain can use the optional Agent Reach web route.
-It prefers clean Markdown extraction through Jina Reader, checks that the complete source was
-captured, and falls back to direct or browser-assisted reading when a page needs it. Social
-posts and comment threads stay on their own platform routes instead of being mistaken for part
-of an article.
+- Videos begin with the complete timed transcript. Visual inspection concentrates on moments
+  where prompts, settings, demonstrations and results appear.
+- Articles use clean text extraction with beginning, middle and ending checks, plus browser
+  fallback for dynamic pages.
+- Repositories begin with structure, manifests and documentation. Relevant implementation and
+  tests verify claims before filing.
+- Social material preserves the original post, author follow-ups, reply branches, edits and
+  inaccessible gaps.
+- PDFs, EPUBs and Office documents begin with native text and document structure. Rendering is
+  selective, and OCR is reserved for scanned or incomplete pages.
+
+Optional internal helpers may improve acquisition speed or evidence quality. A fresh 3rdBrain
+installation keeps portable baseline routes and does not require those helpers.
 
 ### Audit machine skills
 

@@ -29,6 +29,18 @@ For any website or article source, read `references/web-analysis.md` before acqu
 routes clean public-page extraction, completeness checks and browser fallback without treating
 social posts or comments as ordinary article text.
 
+For any repository or source-code material, read `references/repository-analysis.md`. It maps
+the project first, retrieves only evidence-bearing files, and verifies product claims against
+implementation or tests without executing untrusted code.
+
+For social posts, discussions or comments, read `references/social-analysis.md`. It preserves
+the original post, author follow-ups, reply structure, edits and access gaps through compact
+platform-specific acquisition.
+
+For PDFs, EPUBs and Office documents, read `references/document-analysis.md`. It uses native
+text and structure first, selective rendering for visual evidence, and OCR only where native
+extraction is incomplete.
+
 ## 0. First run; establish the pipeline (skip if already configured)
 
 Never assume platforms or credentials. Check what exists; ask for what's missing.
@@ -133,9 +145,11 @@ For each queued item:
    `previous_filed_as` to update the existing page, then mark and confirm the refreshed item
    through the normal close-the-loop step. Never create a second page for the edit.
 
-2. **Identify AND mine.** Fetch the title/metadata, and for ANY video (shorts included)
-   follow `references/video-analysis.md`, pull the transcript (auto-subtitles) and read it
-   before filing. A title is clickbait,
+2. **Identify AND mine.** Fetch the title/metadata and route the source by format. For ANY
+   video (shorts included), follow `references/video-analysis.md`, pull the transcript
+   (auto-subtitles) and read it before filing. Repositories follow
+   `references/repository-analysis.md`; social threads follow `references/social-analysis.md`;
+   PDFs, EPUBs and Office files follow `references/document-analysis.md`. A title is clickbait,
    never content; filing from a title alone produces link-dumps and wrong categories
    (a "money printer" short turned out to be a video-generation repo). The transcript of
    a short costs seconds and yields the tool names, steps and claims the page exists for.

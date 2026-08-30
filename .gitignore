@@ -1,4 +1,6 @@
 gloat-output*/
+AGENTS.md
+CLAUDE.md
 __pycache__/
 *.pyc
 inbox/config.json

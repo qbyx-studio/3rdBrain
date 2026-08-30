@@ -49,7 +49,9 @@ Work from the actual content; never from the title, thumbnail, or your memory.
 
 **Article:** follow `web-analysis.md`, fetch the complete text and capture section anchors
 instead of timestamps. Route social posts and comment threads separately.
-**Repo:** README + docs; permalink to files/lines instead of timestamps.
+**Social thread:** follow `social-analysis.md`; preserve post, replies and branch locators.
+**Repo:** follow `repository-analysis.md`; use immutable file/line permalinks instead of timestamps.
+**Document:** follow `document-analysis.md`; use page, chapter, slide or sheet locators.
 
 ## 2. Mine the content
 

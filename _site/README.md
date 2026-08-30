@@ -1,8 +1,13 @@
 # The site build
 
-This folder turns the markdown beside it into the 3rdBrain reading experience.
+Inside a generated knowledge base, this folder turns the Markdown beside it into the 3rdBrain
+reading experience.
 
     cd _site && VAULT=.. bash build.sh
+
+Inside the public framework repository, validate the bundled clean-install fixture instead:
+
+    cd _site && VAULT=starter bash build.sh
 
 Then serve it:
 
