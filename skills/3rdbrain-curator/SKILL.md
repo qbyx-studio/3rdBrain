@@ -25,6 +25,10 @@ For any video source, read `references/video-analysis.md` before acquisition. It
 ordinary transcript mining, enhanced visual analysis, and raw-footage editing to the right
 workflow without making optional tools a requirement.
 
+For any website or article source, read `references/web-analysis.md` before acquisition. It
+routes clean public-page extraction, completeness checks and browser fallback without treating
+social posts or comments as ordinary article text.
+
 ## 0. First run; establish the pipeline (skip if already configured)
 
 Never assume platforms or credentials. Check what exists; ask for what's missing.
@@ -135,7 +139,8 @@ For each queued item:
    never content; filing from a title alone produces link-dumps and wrong categories
    (a "money printer" short turned out to be a video-generation repo). The transcript of
    a short costs seconds and yields the tool names, steps and claims the page exists for.
-3. **Research.** Find the canonical link for whatever the item points at (the actual repo,
+3. **Research.** For websites and articles, follow `references/web-analysis.md`. Find the
+   canonical link for whatever the item points at (the actual repo,
    product page, docs). **Only include links you verified exist.** The mined content
    (transcript/text) names the tools; search from those names, never from the title.
    "Watch for details" is a FAILURE STATE, permitted only after mining was attempted and

@@ -118,6 +118,12 @@ by denser inspection only around demonstrations, prompts, settings and results. 
 yt-dlp plus FFmpeg route remains available without the optional skill. Video Use is a separate
 option for people who want an agent to edit raw footage into a finished video.
 
+For public articles and documentation, 3rdBrain can use the optional Agent Reach web route.
+It prefers clean Markdown extraction through Jina Reader, checks that the complete source was
+captured, and falls back to direct or browser-assisted reading when a page needs it. Social
+posts and comment threads stay on their own platform routes instead of being mistaken for part
+of an article.
+
 ### Audit machine skills
 
 ```text

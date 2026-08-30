@@ -47,7 +47,8 @@ Work from the actual content; never from the title, thumbnail, or your memory.
 - Parse the VTT into a clean timed transcript: strip tags, dedupe rolling caption lines,
   merge into ~15-second blocks prefixed `[m:ss]`. Read the whole thing before structuring.
 
-**Article/thread:** fetch full text; capture section anchors instead of timestamps.
+**Article:** follow `web-analysis.md`, fetch the complete text and capture section anchors
+instead of timestamps. Route social posts and comment threads separately.
 **Repo:** README + docs; permalink to files/lines instead of timestamps.
 
 ## 2. Mine the content

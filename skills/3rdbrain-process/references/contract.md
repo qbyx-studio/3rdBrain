@@ -5,8 +5,9 @@ description: Process the 3rdBrain inbox — self-heal, pull, deep-mine every mat
 # 3rdBrain processing contract
 
 Load the `3rdbrain-curator` skill, including its `references/video-analysis.md`,
-`references/deep-breakdown.md` and `references/page-templates.md`, and execute the contract
-below. This is the standing definition of "process 3rdbrain".
+`references/web-analysis.md`, `references/deep-breakdown.md` and
+`references/page-templates.md`, and execute the contract below. This is the standing
+definition of "process 3rdbrain".
 
 ```text
 PROCESS 3RDBRAIN with the following rules
@@ -40,7 +41,9 @@ For EACH material (work from the CONTENT, never the title/thumbnail):
 1. ACQUIRE: for video, follow references/video-analysis.md. Pull the full timed platform
    transcript and read it, then use enhanced coarse-to-fine visual analysis when available
    for screen-heavy or L2/L3 material. Keep one modest analysis copy; use full-resolution
-   individual frames when on-screen text must be transcribed. Article/repo → full text / README.
+   individual frames when on-screen text must be transcribed. For websites and articles,
+   follow references/web-analysis.md and verify complete extraction. Repo → full README and
+   relevant source files.
 
 2. EXTRACT VERBATIM: every on-screen or spoken prompt/command/config → its own fenced
    block, tagged with its timestamp. Read garbled captions off the frame. Never merge,
