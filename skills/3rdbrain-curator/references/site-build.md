@@ -247,9 +247,15 @@ Each test exists because the thing it checks broke in production.
 | Discover is the first action and shares the header engine | Two search boxes disagreed with each other |
 | Link cards render anchors | 130 cards showed raw markdown |
 | Players send a referrer | Every video showed an error box |
+| Touched-page taxonomy, hub backlinks and source embeds | Deterministic first-pass errors accumulated until the full-vault audit |
 | The content is never written to | A transform edited the user's files in place |
 
 Split them: build integrity blocks a publish, content quality reports and continues.
+
+During curation, run `tools/validate_touched_pages.py` after every new or changed page. It checks
+the smallest current batch against `SUMMARY.md`, any related breakdown manifest and the source
+embed convention. This fast gate complements the final full build. It never replaces it. Plain
+video source links are build-integrity failures because they deterministically remove the player.
 
 `primary_section` remains a legacy-compatible declaration. Pages created by the curator from
 this release onward use the complete `taxonomy_path`; the integrity test checks every declared

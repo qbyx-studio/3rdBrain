@@ -195,6 +195,11 @@ Every direct workflow begins with the same freshness contract. The agent compare
 framework with the current public 3rdBrain source, adapts compatible improvements, preserves
 base-owned content and configuration, runs relevant tests, and records a receipt.
 
+The compulsory check has a verified fast path. When the authoritative source commit, public
+framework fingerprint and locally adapted framework fingerprint match the last `FRESH` receipt,
+processing continues immediately. A framework change invalidates that receipt and triggers full
+reconciliation. Ordinary knowledge-base edits do not invalidate it.
+
 A `FRESH` receipt names:
 
 - The source commit
@@ -205,6 +210,10 @@ A `FRESH` receipt names:
 - Live Discover and interface checks when a site is published
 
 Incomplete evidence produces `UNVERIFIED` or `PENDING` with the remaining work stated clearly.
+
+New or changed pages also pass a fast first-pass gate before the final build. It catches taxonomy
+placement errors, missing source-hub backlinks and video source links that would render without a
+player. The complete vault audit still runs before commit or deployment.
 
 ## Install
 

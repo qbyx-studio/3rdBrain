@@ -110,6 +110,11 @@ Create `breakdowns/<source-id>.yml` with one uniquely identified/timestamped ele
 including its `page`, `page_type`, and `taxonomy_path`. The build verifies every child exists
 and that hub and child link to each other.
 
+As soon as each child is written, run the touched-page gate with the child, hub and manifest.
+Do not continue to the next child until its declared taxonomy, both hub directions and video
+source embed pass. This keeps a large breakdown from accumulating the same structural mistake
+across every child. The final full build remains mandatory.
+
 ## 5. Extract standalone tools (L3)
 
 Every distinct tool demoed inside a workflow gets its own tool page in its own topical

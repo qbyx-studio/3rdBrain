@@ -31,6 +31,8 @@ BUILD = ROOT / ".build"
 
 sys.path.insert(0, str(ROOT / "hooks"))
 import embed_hosts  # noqa: E402
+sys.path.insert(0, str(ROOT / "tools"))
+from content_integrity import video_source_offenders  # noqa: E402
 
 # A heading that names a source, in whatever wording a base settled on.
 SOURCE_HEADING = re.compile(
@@ -60,28 +62,9 @@ def content_pages() -> list[Path]:
 
 def offending_pages() -> list[tuple[str, str]]:
     """Pages whose source section links a video without an embed block."""
-    found = []
-    for path in content_pages():
-        text = path.read_text(encoding="utf-8", errors="replace")
-        for head in SOURCE_HEADING.finditer(text):
-            rest = text[head.end() :]
-            end = NEXT_HEADING.search(rest)
-            section = rest[: end.start()] if end else rest[:600]
-
-            if "{% embed" in section:
-                continue  # already an embed, nothing to fix
-
-            for url in MARKDOWN_LINK.findall(section):
-                if embed_hosts.looks_like_video(url):
-                    found.append((path.relative_to(BUILD).as_posix(), url.strip()))
-                    break
-            else:
-                continue
-            break
-    return found
+    return video_source_offenders(BUILD)
 
 
-@pytest.mark.content
 def test_source_links_are_embed_blocks():
     if not BUILD.exists():
         pytest.skip("no staged build to inspect")
