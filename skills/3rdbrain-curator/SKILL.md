@@ -41,6 +41,18 @@ For PDFs, EPUBs and Office documents, read `references/document-analysis.md`. It
 text and structure first, selective rendering for visual evidence, and OCR only where native
 extraction is incomplete.
 
+For screenshots, image posts, photographed slides, scans, diagrams or handwriting, read
+`references/image-analysis.md`. It maps image sets first, combines OCR with selective
+full-resolution visual inspection, and records uncertainty instead of guessing.
+
+For podcasts, audio, voice notes, RSS or Atom feeds, read `references/audio-analysis.md`. It
+prefers existing timed transcripts and compact feed maps, then transcribes or opens selected
+entries only when needed.
+
+For login-gated or interactive sources, read `references/interactive-analysis.md` after the
+ordinary source route leaves a verified gap. It uses the smallest read-only interaction in an
+existing user-controlled session and never handles raw credentials or bypasses access controls.
+
 ## 0. First run; establish the pipeline (skip if already configured)
 
 Never assume platforms or credentials. Check what exists; ask for what's missing.
@@ -149,7 +161,10 @@ For each queued item:
    video (shorts included), follow `references/video-analysis.md`, pull the transcript
    (auto-subtitles) and read it before filing. Repositories follow
    `references/repository-analysis.md`; social threads follow `references/social-analysis.md`;
-   PDFs, EPUBs and Office files follow `references/document-analysis.md`. A title is clickbait,
+   PDFs, EPUBs and Office files follow `references/document-analysis.md`; screenshots, image
+   posts and photographed notes follow `references/image-analysis.md`; audio, podcasts and feeds
+   follow `references/audio-analysis.md`; login-gated or interactive gaps follow
+   `references/interactive-analysis.md`. A title is clickbait,
    never content; filing from a title alone produces link-dumps and wrong categories
    (a "money printer" short turned out to be a video-generation repo). The transcript of
    a short costs seconds and yields the tool names, steps and claims the page exists for.

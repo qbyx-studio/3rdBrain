@@ -125,6 +125,15 @@ or source region remains unresolved.
   inaccessible gaps.
 - PDFs, EPUBs and Office documents begin with native text and document structure. Rendering is
   selective, and OCR is reserved for scanned or incomplete pages.
+- Screenshots, image posts, photographed lecture slides and scans begin with an ordered visual
+  map. OCR targets text-bearing regions, while full-resolution inspection resolves diagrams,
+  formulas, handwriting and uncertain text.
+- Podcasts and audio begin with chapters, show notes and any existing timed transcript. Long
+  recordings are mapped and retrieved in focused spans; RSS feeds are indexed before entries or
+  enclosures are opened.
+- Interactive or login-gated sources begin with structured page text. The agent uses the smallest
+  authorized read-only interaction, works through an existing user-controlled session, and
+  reports inaccessible states explicitly.
 
 Optional internal helpers may improve acquisition speed or evidence quality. A fresh 3rdBrain
 installation keeps portable baseline routes and does not require those helpers.

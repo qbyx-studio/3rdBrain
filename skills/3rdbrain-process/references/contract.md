@@ -7,6 +7,8 @@ description: Process the 3rdBrain inbox — self-heal, pull, deep-mine every mat
 Load the `3rdbrain-curator` skill, including its `references/video-analysis.md`,
 `references/web-analysis.md`, `references/repository-analysis.md`,
 `references/social-analysis.md`, `references/document-analysis.md`,
+`references/image-analysis.md`, `references/audio-analysis.md`,
+`references/interactive-analysis.md`,
 `references/deep-breakdown.md` and `references/page-templates.md`, and execute the contract below. This is the standing
 definition of "process 3rdbrain".
 
@@ -48,7 +50,11 @@ For EACH material (work from the CONTENT, never the title/thumbnail):
    implementation and test files. For social posts and comments, follow
    references/social-analysis.md and preserve the accessible conversation structure. For PDFs,
    EPUBs and Office files, follow references/document-analysis.md and map the document before
-   selective text, visual or OCR extraction.
+   selective text, visual or OCR extraction. For screenshots, image posts, photographed slides,
+   scans or handwriting, follow references/image-analysis.md and reconcile every image and
+   text-bearing region. For podcasts, audio, RSS or Atom, follow references/audio-analysis.md
+   and verify transcript or feed coverage. When useful evidence is login-gated or interactive,
+   follow references/interactive-analysis.md and use the smallest authorized read-only action.
 
 2. EXTRACT VERBATIM: every on-screen or spoken prompt/command/config → its own fenced
    block, tagged with its timestamp. Read garbled captions off the frame. Never merge,
