@@ -21,6 +21,10 @@ that future search.
 
 Before any setup or curation work, follow `references/framework-freshness.md` once.
 
+For any video source, read `references/video-analysis.md` before acquisition. It routes
+ordinary transcript mining, enhanced visual analysis, and raw-footage editing to the right
+workflow without making optional tools a requirement.
+
 ## 0. First run; establish the pipeline (skip if already configured)
 
 Never assume platforms or credentials. Check what exists; ask for what's missing.
@@ -126,7 +130,8 @@ For each queued item:
    through the normal close-the-loop step. Never create a second page for the edit.
 
 2. **Identify AND mine.** Fetch the title/metadata, and for ANY video (shorts included)
-   pull the transcript (auto-subtitles) and read it before filing. A title is clickbait,
+   follow `references/video-analysis.md`, pull the transcript (auto-subtitles) and read it
+   before filing. A title is clickbait,
    never content; filing from a title alone produces link-dumps and wrong categories
    (a "money printer" short turned out to be a video-generation repo). The transcript of
    a short costs seconds and yields the tool names, steps and claims the page exists for.

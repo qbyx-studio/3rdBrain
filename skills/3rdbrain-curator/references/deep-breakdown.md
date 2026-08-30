@@ -35,6 +35,8 @@ failure this protocol exists to prevent, even when nothing on it is factually wr
 Work from the actual content; never from the title, thumbnail, or your memory.
 
 **Video (YouTube etc.):**
+- Follow `video-analysis.md`. Use its transcript-first, coarse-to-fine visual route when the
+  optional enhanced analyzer is available, and its portable fallback when it is not.
 - `yt-dlp` at modest resolution (480p is plenty for frames):
   `yt-dlp -f "bv*[height<=480]+ba/b[height<=480]" --write-auto-sub --sub-lang en --sub-format vtt -o "src.%(ext)s" <URL>`
   (Corporate AV/proxies can break TLS for Python; `--no-check-certificates` is an
@@ -70,7 +72,9 @@ The examples prove it; the principle is what makes the page useful beyond this o
 helps, add a ready-to-reuse meta-prompt built from the principle, clearly marked as the distilled
 template (separate from the verbatim examples, never a substitute for them).
 
-**Screenshots:** extract 1–3 frames per element at the most informative moments:
+**Screenshots:** use the visual index from `video-analysis.md` to locate the informative
+windows, then keep 1–3 decisive frames per element. With the portable fallback, extract them
+directly:
 `ffmpeg -ss <seconds> -i src.ext -frames:v 1 -q:v 5 out.jpg`
 Spot-check a couple visually (not black/transition frames). Commit into the base's asset
 convention (`.assets/<topic>/`, or `.gitbook/assets/<topic>/` on a GitBook base). Frames showing a full prompt on screen are

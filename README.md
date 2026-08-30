@@ -111,6 +111,13 @@ Processing checks framework freshness, repairs inbox capture, reads every pendin
 the sources, files pages, updates navigation and search data, verifies the build, and confirms
 the result to each submitter.
 
+For videos, 3rdBrain reads the complete timed transcript first. Screen-heavy and long-form
+sources can use optional enhanced analysis through
+[`watch-video`](https://github.com/TomGranot/watch-video): one whole-video visual index followed
+by denser inspection only around demonstrations, prompts, settings and results. The standard
+yt-dlp plus FFmpeg route remains available without the optional skill. Video Use is a separate
+option for people who want an agent to edit raw footage into a finished video.
+
 ### Audit machine skills
 
 ```text

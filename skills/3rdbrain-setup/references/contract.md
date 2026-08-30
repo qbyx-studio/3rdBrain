@@ -45,7 +45,26 @@ and design system.
 Offer alternatives only if the user asks: GitBook with two way git sync, Notion, Obsidian.
 Each of those adds an account, so let the local default stand unless they want otherwise.
 
-## 2. Materials inbox
+## 2. Optional enhanced video analysis
+
+After the local base works, ask users who expect to save videos whether they want enhanced
+visual analysis. Explain it in one sentence: it indexes the whole video with timestamped
+contact sheets, then inspects demonstrations and on-screen text more closely.
+
+If they say yes:
+
+1. Install the canonical [`watch-video`](https://github.com/TomGranot/watch-video) skill for
+   the detected local agents. Prefer one shared installation linked into Claude Code and Codex
+   when both exist.
+2. Run its `scripts/setup_runtime.py`, then its `scripts/run.py smoke-test`.
+3. Record enhanced video analysis as available only when the smoke test passes.
+
+The adapter is optional. It uses Python, FFmpeg, Pillow and yt-dlp, with no transcription API
+key. If installation or verification fails, explain the missing dependency and keep the normal
+yt-dlp plus FFmpeg route working. Video Use is offered separately only when a user explicitly
+wants to edit raw footage into a finished video.
+
+## 3. Materials inbox
 
 Default and recommendation: **a Telegram bot**. It is the piece that makes the whole thing
 worth using, because saving happens on a phone, hours before any processing.
@@ -71,12 +90,13 @@ Then install the collector from `inbox/`:
 
 Never write the token into any file that git tracks.
 
-## 3. Confirm ready
+## 4. Confirm ready
 
 Report back in plain words:
 
 - Where the base lives, and the address to read it.
 - Whether the inbox is connected, and how many accounts are approved.
+- Whether enhanced video analysis is available, skipped, or pending a named dependency.
 - That they can forward links any time and run **`/3rdbrain:process`** to file them.
 - That **`/3rdbrain:publish`** puts it online later, whenever they want it on a phone.
 
