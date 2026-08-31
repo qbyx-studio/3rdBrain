@@ -89,3 +89,14 @@ test("fresh Discover is readable, wide, and free of serious automated a11y findi
     )
   ).toEqual([]);
 });
+
+test("optional local meaning model reranks a remembered-intent query", async ({ page }) => {
+  test.skip(process.env.SEMANTIC_E2E !== "1", "downloads the browser model only in the semantic release gate");
+  test.setTimeout(120_000);
+  await page.goto("/discover/");
+  await page.getByRole("searchbox", { name: "Search this knowledge base" }).fill(
+    "the page where every useful utility is collected"
+  );
+  await expect(page.locator("[data-testid='match-reason']").filter({ hasText: "Meaning match" }).first())
+    .toBeVisible({ timeout: 110_000 });
+});

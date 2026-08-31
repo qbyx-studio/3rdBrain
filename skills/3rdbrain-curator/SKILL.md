@@ -370,9 +370,11 @@ and the user reasonably concluded it didn't exist):
    sidebar under a top-level **"Browse by facet"** group. Prefer facet hubs (one source of
    truth, listed under every facet) over physically duplicating page content, which diverges.
 5. **Unified search**; the header quick search and full `Discover <project name>` page use
-   the same generated catalog, aliases, controlled vocabulary and ranking. Add ordinary
-   phrases readers will type to `aliases`; add representative jobs to `search-cases.yml`.
-   A batch is incomplete if the committed Recall@5/MRR floors regress.
+   the same generated catalog, aliases, controlled vocabulary and hybrid ranking. Exact
+   results appear immediately. A zero-LLM browser model reranks by meaning when available,
+   while the lexical safety channel preserves proven matches. Add ordinary phrases readers
+   will type to `aliases`; add representative jobs to `search-cases.yml`. A batch is incomplete
+   if the committed Recall@5/MRR floors regress.
 
 ### Backward-compatible adoption
 

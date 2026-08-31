@@ -113,6 +113,26 @@ Two fixes for a large base:
 - **Generated hub pages leave the index.** Pages that are lists of links match almost every
   query and bury the real answer.
 
+### Local meaning search
+
+`overlay/javascripts/discovery.js` returns the lexical result set immediately. Its background
+worker builds an Orama hybrid index and uses a compact local MiniLM embedding model to rerank
+natural-language memories. The first five results reserve three positions for hybrid meaning
+matches and two for the proven lexical ranking. Exact-title results stay protected.
+
+The browser downloads the model once and caches it. Queries and page text remain in the browser,
+and no LLM call is made. Worker failure leaves the lexical engine fully usable. Rebuild the
+committed worker after changing its source:
+
+```bash
+cd _site
+npm install
+npm run build:discovery
+```
+
+The semantic release gate must pass vague-memory cases and the existing detailed search suite.
+Run it three times and reject any candidate that lowers Recall@5 on either suite.
+
 ### `tools/stalecheck.py`
 
 Report only, and not part of the build. It reads each page's `🗓️ Added` date and its facet

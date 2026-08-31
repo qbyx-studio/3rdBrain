@@ -16,6 +16,8 @@ def test_public_package_ships_the_complete_discovery_front_door():
     assert (ROOT / "overlay" / "discover.md").exists()
     assert (ROOT / "overlay" / "NAV-TOP.md").exists()
     assert (ROOT / "overlay" / "javascripts" / "discovery.js").exists()
+    assert (ROOT / "overlay" / "javascripts" / "discovery-semantic.worker.js").exists()
+    assert (ROOT / "src" / "discovery-semantic.worker.js").exists()
     assert (ROOT / "overlay" / "stylesheets" / "discovery.css").exists()
 
 
@@ -57,3 +59,15 @@ def test_discover_renders_domain_facet_groups_without_fixed_3rdbrain_vocabulary(
     script = (ROOT / "overlay" / "javascripts" / "discovery.js").read_text(encoding="utf-8")
     assert '["Capability", "Access", "Platform", "Type"]' not in script
     assert "Object.entries(facetGroups)" in script
+
+
+def test_meaning_search_keeps_the_proven_lexical_safety_channel():
+    script = (ROOT / "overlay" / "javascripts" / "discovery.js").read_text(encoding="utf-8")
+    worker = (ROOT / "src" / "discovery-semantic.worker.js").read_text(encoding="utf-8")
+
+    assert "...semantic.slice(0, 3)" in script
+    assert "...lexical.slice(0, 2)" in script
+    assert "Local meaning search is unavailable. Exact search remains active." in script
+    assert 'mode: "hybrid"' in worker
+    assert 'MODEL = "Xenova/all-MiniLM-L6-v2"' in worker
+    assert "env.useBrowserCache = true" in worker

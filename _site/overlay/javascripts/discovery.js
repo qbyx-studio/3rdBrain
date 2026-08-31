@@ -9,9 +9,13 @@
   const state = {
     records: [], taxonomy: {}, suggestions: [], query: "", suggestionIndex: -1,
     visibleLimit: 20, quickIndex: -1,
+    semanticRankings: new Map(), semanticPending: new Set(), semanticStatus: "idle",
     filters: { facets: new Set(), categories: new Set(), page_types: new Set() }
   };
   let assetsPromise;
+  let semanticWorker;
+  let semanticRequestId = 0;
+  let semanticTimer;
 
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
@@ -64,7 +68,7 @@
     return [...scores.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   }
 
-  function rank(query, applyFilters = true) {
+  function lexicalRank(query, applyFilters = true) {
     const pool = state.records.filter((record) => !applyFilters || passesFilters(record));
     const queryTokens = tokens(query);
     if (!queryTokens.length) return pool.map((record) => ({ ...record, matchReason: "Browse all" }));
@@ -144,6 +148,73 @@
       matchReason: lexicalIds.has(id) && intentIds.has(id) ? "Exact wording + related intent"
         : lexicalIds.has(id) ? "Exact wording" : "Related intent"
     }));
+  }
+
+  function semanticKey(query) {
+    return query.trim().toLowerCase();
+  }
+
+  function rank(query, applyFilters = true) {
+    const lexical = lexicalRank(query, applyFilters);
+    const semanticIds = state.semanticRankings.get(semanticKey(query));
+    if (!semanticIds?.length) return lexical;
+    const byId = new Map(lexical.map((record) => [record.id, record]));
+    const semantic = semanticIds.filter((id) => byId.has(id));
+    const exact = lexical.filter((record) => record.title.trim().toLowerCase() === semanticKey(query));
+    const merged = [...new Set([
+      ...exact.map((record) => record.id),
+      ...semantic.slice(0, 3),
+      ...lexical.slice(0, 2).map((record) => record.id),
+      ...semantic,
+      ...lexical.map((record) => record.id)
+    ])];
+    const semanticSet = new Set(semantic);
+    return merged.map((id) => ({
+      ...byId.get(id),
+      matchReason: semanticSet.has(id) ? "Meaning match" : byId.get(id).matchReason
+    }));
+  }
+
+  function ensureSemanticWorker() {
+    if (semanticWorker || state.semanticStatus === "unavailable" || !("Worker" in window)) return semanticWorker;
+    try {
+      semanticWorker = new Worker("/javascripts/discovery-semantic.worker.js");
+      semanticWorker.addEventListener("message", (event) => {
+        const message = event.data || {};
+        if (message.type === "status") {
+          state.semanticStatus = message.status;
+        } else if (message.type === "results") {
+          const key = semanticKey(message.query || "");
+          state.semanticRankings.set(key, message.ids || []);
+          state.semanticPending.delete(key);
+          document.dispatchEvent(new CustomEvent("3rdbrain:semantic-results", { detail: { query: key } }));
+          if (document.getElementById("3rdbrain-discovery") && key === semanticKey(state.query)) render(false);
+        } else if (message.type === "error") {
+          state.semanticPending.clear();
+          state.semanticStatus = "unavailable";
+          console.warn("Local meaning search is unavailable. Exact search remains active.", message.message);
+          semanticWorker.terminate();
+          semanticWorker = undefined;
+        }
+      });
+      semanticWorker.postMessage({ type: "initialize", records: state.records });
+    } catch (error) {
+      state.semanticStatus = "unavailable";
+      console.warn("Local meaning search is unavailable. Exact search remains active.", error);
+    }
+    return semanticWorker;
+  }
+
+  function requestSemantic(query) {
+    const key = semanticKey(query);
+    if (key.length < 3 || state.semanticRankings.has(key) || state.semanticPending.has(key)) return;
+    clearTimeout(semanticTimer);
+    semanticTimer = setTimeout(() => {
+      const worker = ensureSemanticWorker();
+      if (!worker) return;
+      state.semanticPending.add(key);
+      worker.postMessage({ type: "search", requestId: ++semanticRequestId, query });
+    }, 350);
   }
 
   function logSearch(resultCount) {
@@ -266,6 +337,7 @@
         `<a class="po-quick-search__all" href="${escapeHtml(discoveryUrl(query))}">View all in Discover</a>`;
       panel.hidden = false;
       state.quickIndex = -1;
+      requestSemantic(query);
     };
     input.addEventListener("input", renderQuick);
     input.addEventListener("focus", renderQuick);
@@ -287,10 +359,13 @@
     panel.addEventListener("click", (event) => {
       if (event.target.closest(".po-quick-result, .po-quick-search__all")) resetGlobalSearch();
     });
+    document.addEventListener("3rdbrain:semantic-results", (event) => {
+      if (event.detail?.query === semanticKey(input.value)) renderQuick();
+    });
     inner.querySelector("form")?.addEventListener("reset", () => setTimeout(close));
   }
 
-  function render() {
+  function render(log = true) {
     const base = rank(state.query, false);
     const results = rank(state.query, true);
     renderFilters(base.length ? base : state.records);
@@ -309,7 +384,8 @@
     document.getElementById("po-discovery-status").textContent =
       `${results.length} result${results.length === 1 ? "" : "s"}` +
       (results.length > state.visibleLimit ? ` · showing ${state.visibleLimit}` : "");
-    logSearch(results.length);
+    if (log) logSearch(results.length);
+    requestSemantic(state.query);
   }
 
   function renderSuggestions(value) {

@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "build:discovery": "esbuild src/discovery-semantic.worker.js --bundle --format=iife --platform=browser --minify --outfile=overlay/javascripts/discovery-semantic.worker.js",
     "test:e2e": "playwright test"
   },
   "dependencies": {
@@ -7,7 +8,8 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
-    "@playwright/test": "^1.62.1"
+    "@orama/orama": "^3.1.18",
+    "@playwright/test": "^1.62.1",
+    "esbuild": "^0.28.1"
   }
 }
-

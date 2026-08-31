@@ -7,7 +7,8 @@ search:
 # Discover <span id="po-project-name">your knowledge base</span> { .po-discovery-title }
 
 Find material the way you remember it: describe the job, then narrow by capability,
-category, access or platform. Exact names and natural-language intent are ranked together.
+category, access or platform. Exact names and natural-language meaning are ranked together
+inside your browser, with zero LLM calls.
 { .po-discovery-intro }
 
 <div id="3rdbrain-discovery" class="po-discovery" aria-busy="true">

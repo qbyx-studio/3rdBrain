@@ -30,7 +30,7 @@ Your files remain ordinary Markdown. Git records every change. Manual edits stay
 ## Find knowledge in two ways
 
 The header search gives fast results from every page. **Discover 3rdBrain** provides a full
-search workspace with ranked results and facet filters.
+search workspace with ranked results, meaning search, and facet filters.
 
 Search covers:
 
@@ -41,11 +41,15 @@ Search covers:
 - Facets such as workflow, video, agent, platform, and access model
 - Searchable page content
 
-Exact title and phrase matches receive the strongest weight. Related terms, aliases, taxonomy,
-facets, and body matches broaden recall. A niche query such as `opportunities` returns pages
-whose indexed fields contain or meaningfully map to that term. 3rdBrain searches the knowledge
-base you built. Its reach grows with the material, descriptions, aliases, and search cases in
-that base.
+Exact wording appears immediately. A compact local embedding model then reranks by meaning,
+with three meaning-first positions and two lexical safety positions in the first five results.
+This helps incomplete memories such as `the thing for website templates` reach useful pages
+while preserving strong exact and intent matches from the proven lexical engine.
+
+Discovery uses zero LLM calls. The first meaning search downloads and caches a compact browser
+model of about 23 MB. Queries and knowledge-base text stay in the browser. If the model cannot
+load, the lexical engine continues automatically. 3rdBrain searches the knowledge base you
+built. Its reach grows with the material, descriptions, aliases, and search cases in that base.
 
 ## What 3rdBrain does
 

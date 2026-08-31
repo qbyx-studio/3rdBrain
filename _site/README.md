@@ -25,6 +25,7 @@ change the theme or understand the pipeline.
 | `tools/` | Transforms and checks: tags, navigation, taxonomy, search tuning, link audits |
 | `tools/stalecheck.py` | Age review, report only. Run by `/3rdbrain:stalecheck` |
 | `overlay/` | Theme, fonts, logo, and the generated hub pages |
+| `src/discovery-semantic.worker.js` | Source for zero-LLM local meaning search |
 | `tests/` | Regression checks, run on every build |
 | `deploy.sh` | Used by `/3rdbrain:publish` |
 
@@ -37,3 +38,7 @@ from silently becoming the primary category for unrelated extracted workflows. L
 without the field remain valid.
 
 Full detail lives in `skills/3rdbrain-curator/references/site-build.md`.
+
+After changing the meaning-search worker, run `npm run build:discovery` and commit both its
+source and the generated browser bundle. Published sites can use the bundled file without a
+Node.js build step.
