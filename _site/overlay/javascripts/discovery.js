@@ -24,6 +24,32 @@
   const tokens = (value) => (String(value).toLowerCase().match(/[a-z0-9]+(?:[.+#][a-z0-9]+)?/g) || [])
     .filter((token) => !STOP_WORDS.has(token));
 
+  function sourceKey(value) {
+    let parsed;
+    try { parsed = new URL(String(value).trim()); } catch (_error) { return ""; }
+    if (!/^https?:$/.test(parsed.protocol)) return "";
+    const host = parsed.hostname.toLowerCase().replace(/^(www\.|m\.)/, "");
+    let decodedPath = parsed.pathname;
+    try { decodedPath = decodeURIComponent(parsed.pathname); } catch (_error) { /* keep encoded path */ }
+    const path = decodedPath.replace(/\/$/, "") || "/";
+    if (host === "youtu.be") {
+      const videoId = path.replace(/^\//, "").split("/")[0];
+      return videoId ? `youtube:${videoId}` : "";
+    }
+    if (["youtube.com", "music.youtube.com"].includes(host)) {
+      const parts = path.replace(/^\//, "").split("/");
+      if (["embed", "shorts", "live"].includes(parts[0]) && parts[1]) return `youtube:${parts[1]}`;
+      if (path === "/watch" && parsed.searchParams.get("v")) return `youtube:${parsed.searchParams.get("v")}`;
+    }
+    const ignored = new Set(["feature", "fbclid", "gclid", "is", "si", "share"]);
+    const query = [...parsed.searchParams.entries()]
+      .filter(([key]) => !ignored.has(key.toLowerCase()) && !key.toLowerCase().startsWith("utm_"))
+      .sort(([leftKey, leftValue], [rightKey, rightValue]) =>
+        leftKey.localeCompare(rightKey) || leftValue.localeCompare(rightValue));
+    const suffix = query.length ? `?${new URLSearchParams(query)}` : "";
+    return `${host}${path}${suffix}`;
+  }
+
   function expandedTerms(query) {
     const normalized = query.trim().toLowerCase();
     const queryTokens = new Set(tokens(query));
@@ -79,15 +105,20 @@
       return [token, Math.log((pool.length + 1) / (frequency + 1)) + 1];
     }));
     const ngrams = new Set();
+    const querySourceKey = sourceKey(query);
     for (let size = 2; size <= Math.min(4, queryTokens.length); size += 1) {
       for (let start = 0; start <= queryTokens.length - size; start += 1) {
         ngrams.add(queryTokens.slice(start, start + size).join(" "));
       }
     }
+    const exactSources = [];
     const exactTitles = [];
     const lexical = [];
     const intent = [];
     pool.forEach((record) => {
+      if (querySourceKey && (record.source_urls || []).some((value) => sourceKey(value) === querySourceKey)) {
+        exactSources.push(record.id);
+      }
       const title = record.title.toLowerCase();
       const description = (record.description || "").toLowerCase();
       const searchable = (record.search_text || "").toLowerCase();
@@ -143,9 +174,13 @@
     const lexicalIds = new Set(lexical.map(([id]) => id));
     const intentIds = new Set(intent.map(([id]) => id));
     const byId = new Map(pool.map((record) => [record.id, record]));
-    return rrf([exactTitles.map(([id]) => id), lexical.map(([id]) => id), intent.map(([id]) => id)]).map(([id]) => ({
+    const fused = rrf([exactTitles.map(([id]) => id), lexical.map(([id]) => id), intent.map(([id]) => id)]);
+    const ordered = [...new Set([...exactSources, ...fused.map(([id]) => id)])];
+    const sourceIds = new Set(exactSources);
+    return ordered.map((id) => ({
       ...byId.get(id),
-      matchReason: lexicalIds.has(id) && intentIds.has(id) ? "Exact wording + related intent"
+      matchReason: sourceIds.has(id) ? "Exact source"
+        : lexicalIds.has(id) && intentIds.has(id) ? "Exact wording + related intent"
         : lexicalIds.has(id) ? "Exact wording" : "Related intent"
     }));
   }
@@ -160,7 +195,8 @@
     if (!semanticIds?.length) return lexical;
     const byId = new Map(lexical.map((record) => [record.id, record]));
     const semantic = semanticIds.filter((id) => byId.has(id));
-    const exact = lexical.filter((record) => record.title.trim().toLowerCase() === semanticKey(query));
+    const exact = lexical.filter((record) =>
+      record.matchReason === "Exact source" || record.title.trim().toLowerCase() === semanticKey(query));
     const merged = [...new Set([
       ...exact.map((record) => record.id),
       ...semantic.slice(0, 3),
@@ -171,7 +207,8 @@
     const semanticSet = new Set(semantic);
     return merged.map((id) => ({
       ...byId.get(id),
-      matchReason: semanticSet.has(id) ? "Meaning match" : byId.get(id).matchReason
+      matchReason: semanticSet.has(id) && byId.get(id).matchReason !== "Exact source"
+        ? "Meaning match" : byId.get(id).matchReason
     }));
   }
 
@@ -207,7 +244,7 @@
 
   function requestSemantic(query) {
     const key = semanticKey(query);
-    if (key.length < 3 || state.semanticRankings.has(key) || state.semanticPending.has(key)) return;
+    if (key.length < 3 || sourceKey(query) || state.semanticRankings.has(key) || state.semanticPending.has(key)) return;
     clearTimeout(semanticTimer);
     semanticTimer = setTimeout(() => {
       const worker = ensureSemanticWorker();

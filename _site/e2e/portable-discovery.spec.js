@@ -47,6 +47,15 @@ test("opening a quick result clears and closes header search on the destination"
   await expect(page.locator(".po-quick-search")).toBeHidden();
 });
 
+test("an exact captured source URL finds its filed page first", async ({ page }) => {
+  await page.goto("/");
+  await page.locator(".md-search__input").fill("https://github.com/qbyx-studio/3rdBrain");
+
+  const first = page.locator("[data-testid='quick-result']").first();
+  await expect(first).toContainText("Welcome");
+  await expect(first).toContainText("Exact source");
+});
+
 test("fresh Discover is readable, wide, and free of serious automated a11y findings", async ({ page }) => {
   await page.setViewportSize({ width: 1848, height: 1000 });
   await page.goto("/discover/");

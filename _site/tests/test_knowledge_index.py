@@ -18,6 +18,7 @@ from tools.knowledge_index import (
     parse_summary,
     rank_records,
     reciprocal_rank_fusion,
+    source_url_key,
     validate_breakdown_manifest,
     validate_declared_paths,
     validate_registry,
@@ -257,6 +258,70 @@ aliases: [inbox agent, reply drafter]
         "Reply without granting send authority",
     ]
     assert "inbox agent" in record["aliases"]
+
+
+def test_build_record_preserves_external_source_urls():
+    markdown = """# Captured Video
+
+{% embed url="https://youtube.com/shorts/AbC123xYz90?si=share-token" %}
+
+[Documentation](https://example.com/guides/discovery)
+"""
+
+    record = build_record("video/captured.md", markdown, ["Video"], REGISTRY)
+
+    assert record["source_urls"] == [
+        "https://youtube.com/shorts/AbC123xYz90?si=share-token",
+        "https://example.com/guides/discovery",
+    ]
+
+
+@pytest.mark.parametrize(
+    ("value", "expected"),
+    [
+        ("https://youtube.com/shorts/AbC123xYz90?si=abc", "youtube:AbC123xYz90"),
+        ("https://youtu.be/AbC123xYz90?si=abc", "youtube:AbC123xYz90"),
+        ("https://www.youtube.com/watch?v=AbC123xYz90", "youtube:AbC123xYz90"),
+    ],
+)
+def test_source_url_key_matches_common_youtube_variants(value: str, expected: str):
+    assert source_url_key(value) == expected
+
+
+def test_exact_source_url_ranks_its_page_first_despite_share_parameters():
+    records = [
+        {
+            "id": "captured",
+            "title": "Captured Video",
+            "description": "A filed source page",
+            "jobs": [],
+            "aliases": [],
+            "facets": ["Video"],
+            "taxonomy_path": ["Video"],
+            "source_urls": ["https://youtube.com/shorts/AbC123xYz90?si=captured"],
+            "search_text": "captured video filed source page",
+        },
+        {
+            "id": "other",
+            "title": "Video Tool",
+            "description": "Repurpose video clips",
+            "jobs": [],
+            "aliases": [],
+            "facets": ["Video"],
+            "taxonomy_path": ["Video"],
+            "source_urls": [],
+            "search_text": "youtube shorts video clips",
+        },
+    ]
+
+    ranked = rank_records(
+        records,
+        "https://youtu.be/AbC123xYz90?si=different",
+        REGISTRY,
+    )
+
+    assert ranked[0]["id"] == "captured"
+    assert ranked[0]["_match_reason"] == "Exact source"
 
 
 def test_home_record_links_out_of_the_discovery_directory():

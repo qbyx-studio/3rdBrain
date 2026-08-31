@@ -40,11 +40,13 @@ Search covers:
 - Topical sections and complete taxonomy paths
 - Facets such as workflow, video, agent, platform, and access model
 - Searchable page content
+- Captured source URLs, including equivalent YouTube share, Shorts, and watch links
 
 Exact wording appears immediately. A compact local embedding model then reranks by meaning,
 with three meaning-first positions and two lexical safety positions in the first five results.
 This helps incomplete memories such as `the thing for website templates` reach useful pages
-while preserving strong exact and intent matches from the proven lexical engine.
+while preserving strong exact and intent matches from the proven lexical engine. Pasting a
+captured source URL places its filed page first and skips meaning-model startup.
 
 Discovery uses zero LLM calls. The first meaning search downloads and caches a compact browser
 model of about 23 MB. Queries and knowledge-base text stay in the browser. If the model cannot

@@ -16,7 +16,7 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Iterable
-from urllib.parse import unquote
+from urllib.parse import parse_qsl, unquote, urlencode, urlsplit
 
 import yaml
 
@@ -30,6 +30,8 @@ FRONTMATTER_RE = re.compile(r"^---\r?\n(?P<body>[\s\S]*?)\r?\n---\r?\n")
 H1_RE = re.compile(r"^#\s+(.+?)\s*$", re.MULTILINE)
 FACETS_RE = re.compile(r"^\*\*Facets:\*\*(?P<body>.*)$", re.MULTILINE)
 LINK_LABEL_RE = re.compile(r"\[([^]]+)\]\([^)]+\)")
+EXTERNAL_URL_RE = re.compile(r"https?://[^\s<>\"']+")
+TRACKING_QUERY_KEYS = {"feature", "fbclid", "gclid", "is", "si", "share"}
 TYPE_LABELS = {
     "🗺": "source hub",
     "🧩": "skill",
@@ -223,6 +225,46 @@ def tokenize(value: str) -> list[str]:
     ]
 
 
+def extract_source_urls(markdown: str) -> list[str]:
+    """Preserve external source identifiers before Markdown rendering strips them."""
+    urls: list[str] = []
+    for match in EXTERNAL_URL_RE.finditer(markdown):
+        value = match.group(0).rstrip(".,;:!?)]}")
+        if value and value not in urls:
+            urls.append(value)
+    return urls
+
+
+def source_url_key(value: str) -> str:
+    """Return a stable source identity while ignoring common share parameters."""
+    try:
+        parsed = urlsplit(value.strip())
+    except ValueError:
+        return ""
+    if parsed.scheme.lower() not in {"http", "https"} or not parsed.hostname:
+        return ""
+    host = parsed.hostname.lower().removeprefix("www.").removeprefix("m.")
+    path = unquote(parsed.path).rstrip("/") or "/"
+    if host == "youtu.be":
+        video_id = path.strip("/").split("/", 1)[0]
+        return f"youtube:{video_id}" if video_id else ""
+    if host in {"youtube.com", "music.youtube.com"}:
+        parts = path.strip("/").split("/")
+        if len(parts) >= 2 and parts[0] in {"embed", "shorts", "live"}:
+            return f"youtube:{parts[1]}"
+        if path == "/watch":
+            video_id = dict(parse_qsl(parsed.query)).get("v", "")
+            return f"youtube:{video_id}" if video_id else ""
+    query = urlencode(
+        sorted(
+            (key, item)
+            for key, item in parse_qsl(parsed.query, keep_blank_values=True)
+            if key.lower() not in TRACKING_QUERY_KEYS and not key.lower().startswith("utm_")
+        )
+    )
+    return f"{host}{path}{f'?{query}' if query else ''}"
+
+
 def expand_query(query: str, registry: dict[str, Any]) -> set[str]:
     query_normal = _normal_label(query)
     query_tokens = set(tokenize(query))
@@ -345,9 +387,10 @@ def build_record(
     aliases = list(dict.fromkeys([str(item) for item in aliases] + _registry_aliases(taxonomy_path, facets, registry)))
     description = str(frontmatter.get("description") or "").strip()
     plain = _plain_text(markdown)
+    source_urls = extract_source_urls(markdown)
     identifier = page_id(path)
     search_text = " ".join(
-        [title, description, *jobs, *aliases, *facets, *taxonomy_path, plain[:8000]]
+        [title, description, *jobs, *aliases, *facets, *taxonomy_path, *source_urls, plain[:8000]]
     ).strip()
     return {
         "id": identifier,
@@ -362,6 +405,7 @@ def build_record(
         "jobs": jobs,
         "aliases": aliases,
         "source_hubs": frontmatter.get("source_hubs") or [],
+        "source_urls": source_urls,
         "search_text": search_text,
     }
 
@@ -415,10 +459,17 @@ def rank_records(
         for start in range(0, len(query_tokens) - size + 1)
     }
 
+    query_source_key = source_url_key(query)
+    exact_sources: list[str] = []
     exact_titles: list[tuple[str, float]] = []
     lexical: list[tuple[str, float]] = []
     intent: list[tuple[str, float]] = []
     for record in pool:
+        if query_source_key and any(
+            source_url_key(value) == query_source_key
+            for value in record.get("source_urls", [])
+        ):
+            exact_sources.append(record["id"])
         title = record.get("title", "").lower()
         description = record.get("description", "").lower()
         searchable = record.get("search_text", "").lower()
@@ -480,11 +531,14 @@ def rank_records(
     )
     by_id = {record["id"]: record for record in pool}
     ranked: list[dict[str, Any]] = []
-    for identifier, score in fused:
+    fused_scores = dict(fused)
+    ordered_ids = exact_sources + [identifier for identifier, _score in fused if identifier not in exact_sources]
+    for identifier in ordered_ids:
         record = dict(by_id[identifier])
-        record["_score"] = score
+        record["_score"] = fused_scores.get(identifier, 1.0)
         record["_match_reason"] = (
-            "Exact wording + intent" if identifier in {item[0] for item in lexical} and identifier in {item[0] for item in intent}
+            "Exact source" if identifier in exact_sources
+            else "Exact wording + intent" if identifier in {item[0] for item in lexical} and identifier in {item[0] for item in intent}
             else "Exact wording" if identifier in {item[0] for item in lexical}
             else "Related intent"
         )
