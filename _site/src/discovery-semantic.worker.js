@@ -36,6 +36,14 @@ async function embed(extractor, text) {
   return Array.from(output.data);
 }
 
+async function embedBatch(extractor, texts) {
+  const output = await extractor(texts, { pooling: "mean", normalize: true });
+  const dimensions = output.dims.at(-1);
+  return texts.map((_, index) => Array.from(
+    output.data.slice(index * dimensions, (index + 1) * dimensions),
+  ));
+}
+
 async function buildEngine() {
   self.postMessage({ type: "status", status: "loading-model" });
   const { env, pipeline } = await import(TRANSFORMERS_MODULE);
@@ -56,9 +64,10 @@ async function buildEngine() {
   });
   const documents = [];
   self.postMessage({ type: "status", status: "indexing", total: records.length });
-  for (let index = 0; index < records.length; index += 1) {
-    const record = records[index];
-    documents.push({
+  for (let index = 0; index < records.length; index += 8) {
+    const batch = records.slice(index, index + 8);
+    const embeddings = await embedBatch(extractor, batch.map(retrievalText));
+    batch.forEach((record, offset) => documents.push({
       id: record.id,
       title: record.title || "",
       description: record.description || "",
@@ -66,10 +75,11 @@ async function buildEngine() {
       aliases: (record.aliases || []).join(" "),
       taxonomy: [...(record.taxonomy_path || []), ...(record.facets || [])].join(" "),
       body: record.search_text || "",
-      embedding: await embed(extractor, retrievalText(record)),
-    });
-    if ((index + 1) % 50 === 0) {
-      self.postMessage({ type: "status", status: "indexing", completed: index + 1, total: records.length });
+      embedding: embeddings[offset],
+    }));
+    const completed = Math.min(index + batch.length, records.length);
+    if (completed % 48 === 0 || completed === records.length) {
+      self.postMessage({ type: "status", status: "indexing", completed, total: records.length });
     }
   }
   await insertMultiple(database, documents);
