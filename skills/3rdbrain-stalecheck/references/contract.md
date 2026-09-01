@@ -4,8 +4,8 @@ description: Run the 3rdBrain staleness check (report-only) and present the revi
 
 # 3rdBrain staleness-check contract
 
-Before checking, load `3rdbrain-curator` and follow its
-`references/framework-freshness.md`.
+Before checking, follow `../../3rdbrain-curator/references/framework-freshness.md` directly. Do
+not load acquisition, classification, page-template or site-build guidance.
 
 Run the staleness engine against the base and present the result. This is **report-only**: it
 reads each page's `🗓️ Added` date, its facet class and version signals, then prints a review

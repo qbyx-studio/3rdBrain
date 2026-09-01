@@ -3,6 +3,9 @@
 Use this for public websites, articles and documentation. The goal is complete, low-noise source
 text with enough metadata and structure to support accurate curation.
 
+For long or repeated extracted text, follow `evidence-efficiency.md`. Use the section-preserving
+evidence pack and validated ledger so research and page writing do not reload the full article.
+
 ## Choose the route
 
 | Source | Route |

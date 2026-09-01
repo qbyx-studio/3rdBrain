@@ -4,6 +4,9 @@ Use this route when useful content appears only after tabs, filters, pagination,
 scrolling or an authenticated session. Start with the ordinary website or platform route and
 escalate here only when static acquisition leaves a verified gap.
 
+For a large authorized text export, follow `evidence-efficiency.md` after recording the page state,
+account view and stable locators. The evidence pack never stores credentials or session tokens.
+
 ## Authorization boundary
 
 - Use an existing user-controlled signed-in session only when the task requires that access.

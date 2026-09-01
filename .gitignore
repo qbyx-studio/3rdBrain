@@ -14,3 +14,4 @@ _site/node_modules/
 _site/deploy.log
 _site/.pytest_cache/
 .framework-freshness.json
+.3rdbrain-cache/

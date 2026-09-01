@@ -4,8 +4,9 @@ description: Put your 3rdBrain base online, free, with a login wall or an open l
 
 # 3rdBrain publishing contract
 
-Before publishing, load `3rdbrain-curator` and follow its
-`references/framework-freshness.md`.
+Before publishing, follow `../../3rdbrain-curator/references/framework-freshness.md` directly.
+Load `../../3rdbrain-curator/references/site-build.md` only if a build fails or requires diagnosis.
+Do not load acquisition, classification or page-template guidance.
 
 The base already runs on the user's computer. This command puts it on the internet so they
 can read it from a phone or share it with one other person.

@@ -3,6 +3,10 @@
 Use this for every video material. The goal is evidence-efficient understanding: transcript
 first, broad visual orientation second, dense visual inspection only where the content needs it.
 
+For a long transcript, follow `evidence-efficiency.md`. Use full mode for a complete breakdown so
+every timed chunk is reviewed once. After mining, draft all video pages from the validated ledger
+instead of reloading the transcript for every child page.
+
 ## Choose the route
 
 | Material and depth | Route |

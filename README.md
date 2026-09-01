@@ -121,6 +121,15 @@ the result to each submitter.
 retrieves the smallest complete evidence set, checks coverage, and expands only when a claim
 or source region remains unresolved.
 
+Long sources are divided into bounded chunks that keep timestamps, page numbers, headings and
+other locators. Complete deep mining reviews every chunk once and creates a verified evidence
+ledger. Every page from that source reuses the ledger. Repeat runs can reuse the local content-hash
+evidence cache after source freshness is checked.
+
+This token-saving layer uses the Python standard library. It needs no extra account, API key,
+server or model. Each run can produce a receipt with cache use, source coverage and estimated input.
+Provider-reported usage is recorded when the calling LLM product supplies it.
+
 - Videos begin with the complete timed transcript. Visual inspection concentrates on moments
   where prompts, settings, demonstrations and results appear.
 - Articles use clean text extraction with beginning, middle and ending checks, plus browser

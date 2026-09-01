@@ -3,6 +3,9 @@
 Use this route for podcasts, voice notes, interviews, recordings, audio enclosures and RSS or
 Atom feeds. Treat show notes, transcripts and feed descriptions as separate evidence layers.
 
+For long transcripts or feed exports, follow `evidence-efficiency.md`. Use full mode for complete
+episode mining and keep timestamps, episode GUIDs and enclosure identities as locators.
+
 ## Audio and podcast route
 
 1. **Map first.** Capture the canonical source, title, speakers when supplied, duration,

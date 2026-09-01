@@ -4,11 +4,10 @@ description: Set up 3rdBrain on this computer. Builds your knowledge base locall
 
 # 3rdBrain first-run setup contract
 
-Before setup, load `3rdbrain-curator` and follow its `references/framework-freshness.md`.
-
-You are setting up **3rdBrain** for this user. Load the `3rdbrain-curator` skill; it holds
-the pipeline. This command builds the base
-and connects the inbox. Process nothing yet.
+Before setup, follow `../../3rdbrain-curator/references/framework-freshness.md` directly. Read
+`../../3rdbrain-curator/references/platform-setup.md` and
+`../../3rdbrain-curator/references/site-build.md`. Do not load curation or material-analysis
+guidance. This command builds the base and connects the inbox. Process nothing yet.
 
 **Assume the user has never opened a terminal.** You run every command. They answer
 questions, paste a token when asked, and click a link at the end. Explain what you are doing
@@ -39,8 +38,7 @@ Ask one question: **where should the base live?** Offer a sensible default such 
    rather than reporting a failure. They should be looking at their own base before this
    command ends.
 
-Read the `3rdbrain-curator` skill's `references/site-build.md` for the build, transforms,
-and design system.
+Use the site-build reference named above for the build, transforms and design system.
 
 Offer alternatives only if the user asks: GitBook with two way git sync, Notion, Obsidian.
 Each of those adds an account, so let the local default stand unless they want otherwise.

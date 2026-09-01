@@ -8,6 +8,11 @@ Read this when a material earns the deep treatment: long/dense workflow content
 (tutorial videos, multi-demo streams, long articles with many sub-procedures), or the
 user explicitly asks to "break it down".
 
+Prepare long text through `evidence-efficiency.md` in full mode. Read every bounded batch once,
+create and validate one complete evidence ledger, then build the hub and all children from that
+ledger. This controls context size and prevents one transcript read per page. It does not remove
+any source chunk from deep mining.
+
 The goal: someone who never watched the source can execute any demoed element from your
 pages; and someone who did watch can jump to any moment in seconds.
 
