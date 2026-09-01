@@ -6,6 +6,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 BASELINE_ROUTINE_TOKENS = 23_085
+sys.path.insert(0, str(ROOT / "_site"))
+
+from tools.framework_freshness import framework_manifest
 
 
 def read(relative: str) -> str:
@@ -125,3 +128,14 @@ def test_public_readme_promises_zero_setup_without_claiming_measured_billing():
     assert "no extra account, API key, server or model" in compact
     assert "estimated input" in compact.lower()
     assert "provider-reported usage" in compact.lower()
+
+
+def test_framework_freshness_tracks_the_token_saving_runtime_and_contracts():
+    manifest = framework_manifest(ROOT)
+
+    for path in (
+        "_site/tools/evidence_runtime.py",
+        "skills/3rdbrain-curator/references/curation-core.md",
+        "skills/3rdbrain-curator/references/evidence-efficiency.md",
+    ):
+        assert path in manifest
