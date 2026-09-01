@@ -121,7 +121,7 @@ def test_public_readme_promises_zero_setup_without_claiming_measured_billing():
     readme = read("README.md")
     compact = " ".join(readme.split())
 
-    assert "evidence cache" in readme.lower()
+    assert "evidence cache" in compact.lower()
     assert "no extra account, API key, server or model" in compact
-    assert "estimated input" in readme.lower()
-    assert "provider-reported usage" in readme.lower()
+    assert "estimated input" in compact.lower()
+    assert "provider-reported usage" in compact.lower()
