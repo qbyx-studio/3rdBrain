@@ -1,6 +1,6 @@
 ---
 name: 3rdbrain-connect
-description: Create, view, verify, renew, or revoke individual read-only connections to a published 3rdBrain knowledge base. Use when a person, app, or AI agent needs searchable access without browser login or write access.
+description: Create, view, verify, or revoke individual read-only connections to a published 3rdBrain knowledge base. Use when a person, app, or AI agent needs searchable access without browser login or write access.
 ---
 
 # 3rdBrain Connect
