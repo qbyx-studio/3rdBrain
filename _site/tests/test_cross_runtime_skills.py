@@ -4,6 +4,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 COMMAND_SKILLS = {
     "3rdbrain.md": "3rdbrain-setup",
+    "connect.md": "3rdbrain-connect",
     "process.md": "3rdbrain-process",
     "publish.md": "3rdbrain-publish",
     "skills.md": "3rdbrain-skillsync",

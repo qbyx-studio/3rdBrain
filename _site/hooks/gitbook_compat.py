@@ -145,8 +145,20 @@ def _prompt(m: re.Match[str]) -> str:
     desc = _DESC_RE.search(m.group("attrs") or "")
     title = desc.group(1).replace('"', "'") if desc else "Prompt"
     # '???+' renders collapsible-but-open: the prompt stays visible, and long
-    # ones can be folded away. Fenced code inside keeps Material's copy button.
-    return f'???+ note "📝 {title}"\n\n{_indent(m.group("body"))}\n'
+    # ones can be folded away. Give its first fence a non-empty title because
+    # current Pygments rejects the None filename produced by an untitled fence
+    # nested inside a collapsible block.
+    body = re.sub(
+        r"^(`{3,}|~{3,})([^\n]*)",
+        lambda fence: (
+            fence.group(0)
+            if " title=" in fence.group(0)
+            else f'{fence.group(1)}{(fence.group(2) or "").strip() or "text"} title="{title}"'
+        ),
+        m.group("body"),
+        count=1,
+    )
+    return f'???+ note "📝 {title}"\n\n{_indent(body)}\n'
 
 
 def _hint(m: re.Match[str]) -> str:

@@ -9,7 +9,7 @@
     {
       "name": "3rdbrain",
       "source": "./",
-      "description": "Turn links, videos, repositories, prompts, articles, screenshots, and notes into a searchable working library. Use /3rdbrain for setup, /3rdbrain:process for curation, /3rdbrain:skills for runtime parity, /3rdbrain:stalecheck for age review, and /3rdbrain:publish for Cloudflare Pages."
+      "description": "Turn links, videos, repositories, prompts, articles, screenshots, and notes into a searchable working library. Use /3rdbrain for setup, /3rdbrain:process for curation, /3rdbrain:connect for read-only agent connections, /3rdbrain:skills for runtime parity, /3rdbrain:stalecheck for age review, and /3rdbrain:publish for Cloudflare Pages."
     }
   ]
 }

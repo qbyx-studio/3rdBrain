@@ -93,6 +93,10 @@ STAGE
 # Discover page. Missing config is handled as a non-destructive legacy upgrade.
 "$PYTHON" tools/knowledge_index.py .build
 
+# Static, path-protected resources for read-only agent connections. The published API
+# contains the same indexed pages as the site and exposes no write handler.
+"$PYTHON" tools/agent_api.py .build
+
 # Derived, not authored: tags come from each page's **Facets:** footer, so no
 # page has to be hand-tagged and the vault keeps its existing convention.
 "$PYTHON" tools/facets_to_tags.py .build | tail -1

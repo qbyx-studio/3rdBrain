@@ -82,7 +82,7 @@ complete `taxonomy_path`. Build checks compare those declarations with the stage
 
 One page has one primary topical location and may carry many facets.
 
-## Six skills, five direct actions
+## Seven skills, six direct actions
 
 Claude Code and Codex share the same canonical skill files.
 
@@ -90,11 +90,12 @@ Claude Code and Codex share the same canonical skill files.
 | --- | --- | --- |
 | First setup | `/3rdbrain` | `$3rdbrain-setup` |
 | Process saved material | `/3rdbrain:process` | `$3rdbrain-process` |
+| Manage read-only connections | `/3rdbrain:connect` | `$3rdbrain-connect` |
 | Audit machine skills | `/3rdbrain:skills` | `$3rdbrain-skillsync` |
 | Review aging pages | `/3rdbrain:stalecheck` | `$3rdbrain-stalecheck` |
 | Publish the site | `/3rdbrain:publish` | `$3rdbrain-publish` |
 
-The sixth skill, `3rdbrain-curator`, is the shared curation engine. The five direct actions load
+The seventh skill, `3rdbrain-curator`, is the shared curation engine. The six direct actions load
 it automatically whenever they need classification, page templates, deep breakdowns, site
 rules, or framework freshness.
 
@@ -152,6 +153,22 @@ Provider-reported usage is recorded when the calling LLM product supplies it.
 
 Optional internal helpers may improve acquisition speed or evidence quality. A fresh 3rdBrain
 installation keeps portable baseline routes and does not require those helpers.
+
+### Connect another agent
+
+```text
+/3rdbrain:connect
+```
+
+Connect asks whether to create, view, or revoke a connection. Each connection has its own name
+and optional expiry. It gives a person, app, or AI agent searchable read-only access through a
+protected `/api/v1/` address. The connection can read the search catalogue, taxonomy, and full
+Markdown for indexed pages. It cannot change content, process the inbox, publish the site, or
+reach the repository.
+
+Cloudflare Access stores and validates the credentials. The Client Secret appears once at
+creation and belongs in the receiving agent's secret settings. Revoking one connection leaves
+every other connection and normal browser login unchanged.
 
 ### Audit machine skills
 
@@ -271,6 +288,7 @@ For Claude Code, use `.claude\skills` as the destination. Restart the agent afte
 commands/
   3rdbrain.md
   process.md
+  connect.md
   skills.md
   stalecheck.md
   publish.md
@@ -279,6 +297,7 @@ skills/
   3rdbrain-curator/
   3rdbrain-setup/
   3rdbrain-process/
+  3rdbrain-connect/
   3rdbrain-skillsync/
   3rdbrain-stalecheck/
   3rdbrain-publish/
