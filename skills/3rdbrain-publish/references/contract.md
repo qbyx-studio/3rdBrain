@@ -34,14 +34,20 @@ Do not choose for them. Do not treat silence as consent to publish openly.
 
 ## 1. Credentials
 
-One token, from the user's own Cloudflare account:
+Publishing needs a deployment token from the user's own Cloudflare account:
 
 - **Cloudflare API token**: dash.cloudflare.com → My Profile → API Tokens → Create Token →
   template **Edit Cloudflare Workers**. Revoke on that same page at any time.
 - **Account ID**: the long value in their dashboard URL.
 
 Store both in the site folder's `.env`, which is gitignored. State that the file stays on
-their machine.
+their machine. Have the user enter secrets locally; never request them in chat.
+
+For an email allowlist, collect the approved emails and read
+`../../3rdbrain-connect/references/cloudflare-setup.md` now. Prepare the Access-management
+credential during this same owner-authorized setup visit. The deployment-token template alone
+does not prepare Connect. Explain the temporary-key trial before proceeding.
+For public publishing, skip key setup entirely.
 
 ## 2. Project name
 
@@ -63,7 +69,13 @@ sends every deploy to `main`, which is treated as a preview and therefore can be
 
 Verify afterwards that `https://<name>.pages.dev` (without `main.`) returns nothing.
 
-## 4. Deploy
+## 4. Protect before uploading private content, then deploy
+
+For an allowlist, complete section 5 on the empty project first and verify that anonymous
+requests meet the Access gate. If Cloudflare requires a first deployment to expose the preview
+settings, deploy a harmless placeholder containing no vault content, enable protection, and
+verify it before uploading the real build. A failed permission or protection check stops private
+publishing. Keep the local site available.
 
 ```bash
 wrangler pages deploy site --project-name <name> --branch main --commit-dirty=true
@@ -85,6 +97,11 @@ dashboard. Walk the user through it, one click per line:
 
 Sign in uses a one time PIN by default, which needs no further setup. Google sign in is
 available if they want one click.
+
+After the protected API is deployed, complete the live `prepare` trial from
+`../../3rdbrain-connect/references/cloudflare-setup.md`. Report browser protection and Connect
+readiness separately. Existing sites use that same procedure to upgrade access setup, preserving
+their hostname and email policies. Never recreate an existing Pages project for this upgrade.
 
 ## 6. Verify from outside, always
 
@@ -117,3 +134,7 @@ Output goes to `deploy.log`. Removing it is one line: `rm .git/hooks/post-commit
 Give them: the address, who can reach it, what a stranger sees right now, and whether
 automatic updates are on. Remind them the token is revokable and the local base keeps
 working whatever happens online.
+
+For protected sites, also report Connect `READY` or the exact pending step. For public sites,
+give the public `/api/v1/manifest.json` address as an optional agent entry point: a website link
+also works, and no key or Connect invocation is required. Leave public access unchanged.

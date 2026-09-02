@@ -19,6 +19,10 @@ Default and recommendation: **a folder on their disk, rendered by MkDocs**. Setu
 with zero accounts, zero tokens, zero cost, and nothing leaving the machine. Publishing is a
 separate, later choice covered by `/3rdbrain:publish`.
 
+If the user explicitly requests online access during first setup, complete the local base then
+route to the publish contract with its privacy consent. Email-restricted publishing prepares
+Connect during the same Cloudflare setup. Local-only and public-site users skip agent-key setup.
+
 Ask one question: **where should the base live?** Offer a sensible default such as
 `~/3rdBrain` or `C:\3rdBrain`. Then do the work:
 
@@ -100,6 +104,10 @@ Report back in plain words:
 
 Say plainly: everything is on their computer, nothing is shared, and every token they pasted
 can be revoked.
+
+If they explicitly continued into publishing, report its actual public/protected state instead
+of claiming nothing is shared. For an allowlist, include the verified Connect readiness or its
+pending authorization step.
 
 ## Hard rules
 

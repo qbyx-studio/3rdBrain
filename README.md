@@ -160,7 +160,7 @@ installation keeps portable baseline routes and does not require those helpers.
 /3rdbrain:connect
 ```
 
-Connect asks whether to create, view, or revoke a connection. Each connection has its own name
+For a private published API, Connect asks whether to create, view, or revoke a connection. Each connection has its own name
 and optional expiry. It gives a person, app, or AI agent searchable read-only access through a
 protected `/api/v1/` address. The connection can read the search catalogue, taxonomy, and full
 Markdown for indexed pages. It cannot change content, process the inbox, publish the site, or
@@ -169,6 +169,15 @@ reach the repository.
 Cloudflare Access stores and validates the credentials. The Client Secret appears once at
 creation and belongs in the receiving agent's secret settings. Revoking one connection leaves
 every other connection and normal browser login unchanged.
+
+Email-restricted publishing prepares Connect during the same Cloudflare authorization visit.
+The owner grants Access-management permissions once; a temporary create/read/revoke trial must
+pass before setup reports Connect ready. Existing protected bases can run Connect to check and
+complete this setup. The skill asks for the name and expiry together with the access explanation.
+
+Public content can be shared with an agent using its website link. Connect can optionally return
+the public `/api/v1/manifest.json` address and reading instructions. It leaves public access
+unchanged and creates no key. Local-only bases need publishing before remote agents can connect.
 
 ### Audit machine skills
 

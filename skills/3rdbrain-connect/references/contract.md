@@ -5,7 +5,20 @@ commands.
 
 ## Start
 
-Ask what they want to do:
+After the compulsory freshness check, run this read-only preflight before asking for a name:
+
+```text
+python skills/3rdbrain-connect/scripts/connect.py doctor --base "<base>"
+```
+
+- `PUBLIC`: return the public API address and its reading instructions. A key and this skill
+  are optional for public content. Leave all Cloudflare settings unchanged and skip the key menu.
+- `SETUP_REQUIRED`: read `cloudflare-setup.md` and guide the owner through the missing setup.
+  Keep their request so it can resume afterwards. Stop at a permission failure.
+- `UNVERIFIED`: explain the publishing/network issue; do not infer privacy or change access.
+- `PREFLIGHT_OK`: read permissions work; this alone does not prove key creation works.
+
+For a protected API, ask what they want to do unless their request already specifies it:
 
 1. Create a read-only connection
 2. View existing connections
@@ -20,25 +33,31 @@ The management token needs these narrow Cloudflare permissions:
 - Access: Service Tokens Write
 - Access: Apps and Policies Write
 
-If either permission is missing, stop before mutation. Explain the two permissions and ask the
-user to save a suitable token as `THIRDBRAIN_CONNECT_API_TOKEN` in `_site/.env`. Never display,
+If either permission is missing, stop further mutations and follow `cloudflare-setup.md`.
+Ask the user to save a suitable token as `THIRDBRAIN_CONNECT_API_TOKEN` in `_site/.env`. Never display,
 commit, copy into a prompt, or record that management token.
 
 ## Create
 
-Ask only for:
+Ask for missing details together with the access explanation:
 
 - A connection name, such as the person, app, or agent receiving access
 - Expiry: 30 days, 90 days, one year, a custom duration, or no expiry
 
 Read the published address from `_site/mkdocs.yml`. Ask for it only when it is absent or still a
-placeholder. Confirm the name, expiry, and site before creating anything.
+placeholder. Example: "What name and expiry? This grants read-only access to the whole published
+API of <site>." A clear reply such as "Agent, 90 days" authorizes creation. Do not ask for a
+second confirmation. If all details are already supplied and scope is understood, proceed.
+Clarify only an ambiguous site, recipient, expiry or access scope.
 
 Run:
 
 ```text
 python skills/3rdbrain-connect/scripts/connect.py create --name "<name>" --duration "<duration>" --base "<base>"
 ```
+
+If Cloudflare rejects creation, stop and follow `cloudflare-setup.md`. A successful read preflight
+does not establish write permission. Do not repeat mutations with the same rejected credential.
 
 The helper creates or reuses a path-specific Cloudflare Access application for `/api/*`, creates
 one service credential, attaches one Service Auth policy, and checks the live manifest. The
@@ -84,7 +103,10 @@ credential.
 - The API is read-only because it contains static `GET` resources and its Access application has
   no write route. The service credential itself is an authentication credential, not a content
   permission system.
-- A public 3rdBrain site remains public. The `/api/*` connection path still requires its service
-  credential after the first connection is configured.
+- A public API remains public. Never create an Access application just because Connect was
+  invoked. A public website may have a separately protected API; inspect the API itself.
+- Existing email policies, approved users and browser sessions are outside a routine key request.
+- An unchanged verified framework uses the freshness fast path. Connection actions do not
+  independently require a full site build. Reconciliation still requires its normal checks.
 - Never create a connection for an unpublished local-only base. Explain that a network address is
   required and offer the publish workflow separately.
