@@ -14,7 +14,8 @@ python skills/3rdbrain-connect/scripts/connect.py doctor --base "<base>"
 - `PUBLIC`: return the public API address and its reading instructions. A key and this skill
   are optional for public content. Leave all Cloudflare settings unchanged and skip the key menu.
 - `SETUP_REQUIRED`: read `cloudflare-setup.md` and guide the owner through the missing setup.
-  Keep their request so it can resume afterwards. Stop at a permission failure.
+  Begin its next guided step immediately, keeping the pending request. Stop failed mutations,
+  not assistance: a permission failure is a cue to guide setup, not to hand off a checklist.
 - `UNVERIFIED`: explain the publishing/network issue; do not infer privacy or change access.
 - `PREFLIGHT_OK`: read permissions work; this alone does not prove key creation works.
 
@@ -34,8 +35,8 @@ The management token needs these narrow Cloudflare permissions:
 - Access: Apps and Policies Write
 
 If either permission is missing, stop further mutations and follow `cloudflare-setup.md`.
-Ask the user to save a suitable token as `THIRDBRAIN_CONNECT_API_TOKEN` in `_site/.env`. Never display,
-commit, copy into a prompt, or record that management token.
+Guide local credential storage there; do not assume the user knows tokens or `.env` files.
+Never display, commit, copy into a prompt, or record that management token.
 
 ## Create
 
@@ -58,6 +59,7 @@ python skills/3rdbrain-connect/scripts/connect.py create --name "<name>" --durat
 
 If Cloudflare rejects creation, stop and follow `cloudflare-setup.md`. A successful read preflight
 does not establish write permission. Do not repeat mutations with the same rejected credential.
+Start the guided recovery in your response and retain the supplied name, expiry and site.
 
 The helper creates or reuses a path-specific Cloudflare Access application for `/api/*`, creates
 one service credential, attaches one Service Auth policy, and checks the live manifest. The

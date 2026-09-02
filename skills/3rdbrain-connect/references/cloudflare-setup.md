@@ -4,6 +4,38 @@ Use during email-restricted publishing or to upgrade an existing protected base.
 procedure serves both. Keep the existing hostname, email allowlist and working browser login.
 Local-only setup and public publishing skip this procedure.
 
+## Guide the person, one step at a time
+
+Assume no Cloudflare or file-editing knowledge. Keep the pending action, site, name and expiry
+in the conversation without secrets. Start at the first unfinished step; skip confirmed steps.
+Give one short, actionable instruction, then wait only when the person must act. Offer the full
+checklist only if requested. Never end with only "set this variable and tell me when done."
+
+1. **Sign in.** Start with: "Your Cloudflare setup needs one extra permission step. I'll walk
+   you through it, then continue your pending connection. Open [Cloudflare API Tokens](https://dash.cloudflare.com/profile/api-tokens)
+   and sign in. Tell me when you see the API Tokens page."
+   With available, authorized browser tools, open the page and assist with navigation. Let the
+   user handle login and MFA. Without browser tools, the link and guided steps still work.
+2. **Create the management token.** Guide **Create Token > Create Custom Token**. Suggest the
+   label "3rdBrain connection management". Walk through the two permission rows below, then
+   select only the account hosting this base under Account Resources. Help identify the account
+   using its configured ID without exposing secrets. If labels differ, ask what the user sees
+   or request a screenshot with all secrets hidden. Do not guess a permission selection.
+3. **Review and authorize.** Explain that this credential manages agent connections and stays
+   on the owner's machine. Obtain any still-needed authorization for setup and its temporary
+   test. Guide the review/create screen. Never request token-creation privileges for the agent.
+4. **Save locally.** Resolve the actual base path and verify `_site/.env` is ignored by Git.
+   Provide its clickable local path or open it in an authorized local editor. Explain: "This
+   is the private settings file. Add a new line starting with
+   `THIRDBRAIN_CONNECT_API_TOKEN=`, then paste the new token immediately after the equals sign
+   and save. Keep the existing lines. Tell me when saved; keep the token out of chat."
+   Help create the file safely if absent and supply the account ID separately when needed.
+   Never capture the screen while a secret is visible or print file contents to check it.
+5. **Verify and resume.** After "saved", run the preflight and authorized temporary trial below.
+   On `READY`, resume the pending request in the same task using its existing details and consent.
+   Ask only for genuinely missing details. If the check still fails, explain the specific failure
+   and guide the next corrective step. If the user pauses, retain a secret-free pending summary.
+
 ## One owner authorization
 
 Explain during protected publishing: "We will protect your site for the approved emails and
@@ -33,7 +65,8 @@ creation privileges or changing unrelated permissions.
 ## Preflight and live proof
 
 Run `scripts/connect.py doctor --base "<base>"`. `SETUP_REQUIRED` means stop and explain the
-missing permission or account configuration. Successful read calls only prove read access.
+missing permission or account configuration, then continue the guided steps above. Successful
+read calls only prove read access.
 If the owner chose private publishing but the probe returns `PUBLIC`, stop: privacy protection
 is incomplete. Fix and verify the gate before proceeding. Do not report private setup ready.
 
