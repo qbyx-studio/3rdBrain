@@ -80,14 +80,11 @@ test("fresh Discover is readable, wide, and free of serious automated a11y findi
   expect(scale.resultTitle).toBeLessThanOrEqual(19);
   expect(scale.resultBody).toBeLessThanOrEqual(15);
   expect(scale.resultMeta).toBeLessThanOrEqual(12.5);
-  expect(scale.canvas).toBeGreaterThanOrEqual(1000);
-  expect(scale.canvas).toBeLessThanOrEqual(1050);
-  // Approved desktop gutter: 147.4px baseline increased by 30% on both sides.
-  expect(scale.primaryGap).toBeGreaterThanOrEqual(191.5);
-  expect(scale.primaryGap).toBeLessThanOrEqual(192);
-  expect(scale.secondaryGap).toBeGreaterThanOrEqual(191.5);
-  expect(scale.secondaryGap).toBeLessThanOrEqual(192);
-  expect(Math.abs(scale.primaryGap - scale.secondaryGap)).toBeLessThanOrEqual(1);
+  // The article is 80% of the previous 46.4rem measure on desktop.
+  expect(scale.canvas).toBeGreaterThanOrEqual(810);
+  expect(scale.canvas).toBeLessThanOrEqual(825);
+  expect(scale.primaryGap).toBeGreaterThan(220);
+  expect(scale.secondaryGap).toBeGreaterThan(220);
 
   const accessibility = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])

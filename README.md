@@ -30,6 +30,19 @@ Send material to your inbox. Each item travels a fixed path:
 Your library is ordinary Markdown on your own disk. Git records every change. Anything you
 edit by hand stays exactly as you wrote it.
 
+## Material it can read
+
+- Videos from major platforms, with transcripts, frames and timestamps.
+- Websites, articles, social posts, discussions and comments.
+- GitHub repositories and source code.
+- PDFs, EPUBs, office documents, screenshots, image posts and photographed lecture slides.
+- Podcasts and audio, including RSS feeds.
+- Interactive or login-gated sources through a user-approved signed-in browser session.
+
+3rdBrain uses a verified evidence cache so one complete source reading can support every page
+created from it. It needs no extra account, API key, server or model. Before LLM work begins,
+it reports estimated input. It preserves provider-reported usage when that data is available.
+
 ## Finding things again
 
 Type the job. "Prepare email replies without auto-sending." "Cheap local worker under a hosted
@@ -58,6 +71,7 @@ project owns, so the library looks like yours from the first page:
 - Your logo, favicon and fonts, from `_site/overlay/assets/`.
 - Your colour palette and typography, from `_site/overlay/stylesheets/brand.css`.
 - A sidebar organised by purpose, plus the Discover search workspace.
+- A focused reading column, a scan-friendly contents panel, and contained prompt viewers.
 
 `3rdbrain-publish` puts that site on Cloudflare Pages. You choose an email allowlist so only
 named people get in, or an open link. Publishing asks for consent every time and verifies the

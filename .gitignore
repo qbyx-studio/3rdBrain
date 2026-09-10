@@ -10,6 +10,7 @@ _site/.venv/
 _site/site/
 _site/.build/
 _site/.env
+.env
 _site/node_modules/
 _site/deploy.log
 _site/.pytest_cache/

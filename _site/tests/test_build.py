@@ -230,6 +230,16 @@ def test_brand_stylesheet_is_loaded_and_dark_first():
     assert "Space Grotesk" in css
 
 
+def test_reading_layout_has_narrow_measure_readable_toc_and_bounded_prompts():
+    brand = read(SITE / "stylesheets" / "brand.css")
+    compat = read(SITE / "stylesheets" / "gitbook-compat.css")
+    assert "--thirdbrain-content-max: 37.12rem" in brand
+    assert "--thirdbrain-toc-width: 15.5rem" in brand
+    assert ".md-nav--secondary .md-nav__link" in brand
+    assert "max-height: min(32rem, 72vh)" in compat
+    assert "overflow: auto" in compat
+
+
 # --- the vault is never modified ----------------------------------------
 
 def test_build_never_writes_to_the_vault():

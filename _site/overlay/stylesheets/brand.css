@@ -362,11 +362,15 @@
   max-width: 84rem;
 }
 
+:root {
+  --thirdbrain-content-max: 37.12rem;
+  --thirdbrain-toc-width: 15.5rem;
+}
+
 .md-content__inner {
-  /* A wider documentation canvas uses the space between both sidebars while
-     retaining a readable line length and a real 1.8rem visual gutter on each
-     side. Sidebar padding alone does not move this article boundary. */
-  max-width: 46.4rem;
+  /* 37.12rem is 80% of the previous 46.4rem measure. The narrower article
+     adds equal breathing room while preserving the established grid. */
+  max-width: var(--thirdbrain-content-max);
   padding-left: 1.2rem;
   padding-right: 1.2rem;
 }
@@ -388,12 +392,35 @@
 }
 
 .md-sidebar--secondary {
-  padding-left: 1.81rem;
+  box-sizing: border-box;
+  width: var(--thirdbrain-toc-width);
+  padding-left: 2rem;
+  padding-right: 0.7rem;
+}
+
+.md-nav--secondary .md-nav__link {
+  display: block;
+  margin-top: 0.58rem;
+  font-size: 0.67rem;
+  line-height: 1.38;
+}
+
+.md-nav--secondary .md-nav__link > .md-ellipsis {
+  display: block;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 @media screen and (max-width: 76.1875em) {
   .md-content__inner {
     max-width: none;
+  }
+
+  .md-sidebar--secondary {
+    width: 12.1rem;
+    padding-left: 1.2rem;
+    padding-right: 0;
   }
 }
 

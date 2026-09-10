@@ -76,6 +76,27 @@ figcaption {
 }
 
 /* Keep long prompt blocks from dominating the page */
+.md-typeset details.note {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.md-typeset details.note > .highlight {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
 .md-typeset details.note > .highlight pre {
-  max-height: 32rem;
+  box-sizing: border-box;
+  max-width: 100%;
+  max-height: min(32rem, 72vh);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.md-typeset details.note > .highlight pre > code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
 }
