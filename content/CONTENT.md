@@ -21,6 +21,10 @@ optional Creator Brain ingestion. Claims here point to repository evidence or co
   build tools and tests under [`_site/`](../_site/), and collector tests under
   [`inbox/tests/`](../inbox/tests/).
 
+## Capture and Maintenance
+
+Follow [`CAPTURE.md`](CAPTURE.md) when updating this record or preserving milestone evidence.
+
 ## Verified History
 
 | Date | Event | Evidence | Confidence |
@@ -95,10 +99,11 @@ in a separate Creator Brain.
 This repository now demonstrates the Project Content Capture pattern:
 
 1. `content/CONTENT.md` owns the source-backed project history.
-2. The project instruction file routes future agents here before project-story work.
-3. Milestone visuals live in `content/evidence/` or remain linked to an established media owner.
-4. Historical detail stays in this file while the record remains compact.
-5. A future Creator Brain ingestion task may select entries from this record only after explicit
+2. `content/CAPTURE.md` owns the local capture and maintenance rules.
+3. The project instruction file provides a thin route to the factual record.
+4. Milestone visuals live in `content/evidence/` or remain linked to an established media owner.
+5. Historical detail stays in this file while the record remains compact.
+6. A future Creator Brain ingestion task may select entries from this record only after explicit
    creator authorization.
 
 For another project, copy the structure and evidence rules. Replace every fact, date, link, and
@@ -128,3 +133,4 @@ milestone with evidence from that project's own repository.
 | Date | Change | Sources reviewed |
 | --- | --- | --- |
 | 2026-09-10 | Created the canonical project record and captured the current Discover workspace. | Complete 75-commit history, tags, README, marketplace manifest, skills, commands, build tools, tests, TDD records, and launch assets |
+| 2026-09-10 | Added a dedicated capture-maintenance owner and reduced the project instruction to a thin route. | Updated Project Content Capture skill, existing project record, project instructions, and current repository history |
