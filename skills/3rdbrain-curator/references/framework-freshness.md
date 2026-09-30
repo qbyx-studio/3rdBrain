@@ -1,49 +1,26 @@
 # Framework freshness
 
 Run once per task before content work. Fetch the current default branch of the authoritative
-public source, `https://github.com/qbyx-studio/3rdBrain`, then run the portable probe:
+public source, `https://github.com/qbyx-studio/3rdBrain`, then run
+`_site/tools/framework_freshness.py probe` with the current public checkout, this base and the
+ignored `.framework-freshness.json` receipt.
 
-```text
-python _site/tools/framework_freshness.py probe \
-  --source-root <current public checkout> \
-  --local-root <this base> \
-  --receipt <this base>/.framework-freshness.json
-```
+The probe checks the authoritative commit, its framework SHA-256 fingerprint and the locally
+adapted framework fingerprint. A `FRESH` result with no reasons is the compulsory fast path:
+report the cached receipt and continue without repeating reconciliation. Ordinary content edits
+do not invalidate it. Any public or local framework change returns `RECONCILE_REQUIRED`.
 
-The probe compares the authoritative commit, a SHA-256 fingerprint of every framework-owned
-surface, and the fingerprint of the locally adapted framework against the last verified receipt.
-Base content is outside that fingerprint. A content edit therefore keeps a valid cache hit, while
-any public or local framework change invalidates it automatically.
+On a miss, compare `commands/`, `skills/`, `inbox/`, `_site/` code and tests, plus starter assets.
+Port or adapt every compatible improvement while preserving content, taxonomy, branding,
+configuration, secrets and unrelated edits. Verify the complete build and tests, commit the
+framework update separately, then use the tool's `record` command with every difference and its
+`ported`, `adapted` or `not_applicable` disposition plus build/test and published live-check
+evidence. Generate the path set with `compare`, or create and review a disposition draft with
+`draft --output <differences.json>`; `record` rejects missing or extra paths.
+Record only after evidence passes. Corrupt or incomplete receipts are cache misses.
 
-- `FRESH` with no reasons is the fast path. Report the cached receipt and continue. Never repeat
-  a full reconciliation against that exact verified source and local framework state.
-- `RECONCILE_REQUIRED` means fetch and compare every framework-owned surface: `commands/`,
-  `skills/`, `inbox/`, `_site/` code and tests, plus starter assets. Port or adapt each compatible
-  improvement. Preserve base-owned content, taxonomy, branding, configuration, secrets and
-  unrelated edits.
-
-After reconciliation, verify the complete relevant build and tests and commit the framework
-update separately. Record a new receipt only after those checks pass. Supply a JSON list of every
-difference with `path`, `disposition` (`ported`, `adapted`, or `not_applicable`) and reason, plus
-JSON verification evidence containing `build_passed`, `tests_passed`, `published`, and
-`live_checks_passed` when published:
-
-Generate the exact path set with `compare`, or create a reviewable disposition draft with
-`draft --output <differences.json>`. Review that draft before recording it. The `record` command
-refuses `FRESH` when any real source/local difference is missing or an extra path is claimed.
-
-```text
-python _site/tools/framework_freshness.py record \
-  --source-root <current public checkout> \
-  --local-root <this base> \
-  --receipt <this base>/.framework-freshness.json \
-  --differences <differences.json> \
-  --verification <verification.json>
-```
-
-The receipt is machine-local and ignored by git. Corruption or missing evidence becomes a cache
-miss. If the source is unreachable or a safe adaptation is unavailable, report the pending update
-and continue with the unchanged base.
+If the source is unreachable or safe adaptation is unavailable, report the pending update and
+continue with the unchanged base.
 
 Do not call the framework fresh merely because this preflight ran. A `FRESH` result requires a
 receipt naming the source commit, every framework difference and its disposition (ported,
